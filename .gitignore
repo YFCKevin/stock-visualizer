@@ -1,0 +1,66 @@
+# ===============================
+# Maven
+# ===============================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Maven Wrapper
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar  # 可根據需要移除忽略
+
+# 排除所有 build/，但保留 src/main 和 src/test 下的 build/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# 排除所有 target/，但保留 src/main 和 src/test 下的 target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ===============================
+# Eclipse / STS
+# ===============================
+.project
+.classpath
+.factorypath
+.apt_generated
+.settings/
+.springBeans
+.sts4-cache
+
+# ===============================
+# IntelliJ IDEA
+# ===============================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ===============================
+# NetBeans
+# ===============================
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ===============================
+# VS Code
+# ===============================
+.vscode/
+
+# ===============================
+# Custom ignore
+# ===============================
+logback*
+gurula.jks
+stockView.log
+todo.txt
+HELP.md
