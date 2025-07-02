@@ -18,6 +18,32 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:8086/talkyo/login/oauth2/code/google
+            client-id: ${google-client-id}
+            client-secret: ${google-client-secret}
+            scope:
+              - email
+              - profile
+          line:
+            client-id: ${line-client-id}
+            client-secret: ${line-client-secret}
+            redirect-uri: http://localhost:8086/talkyo/callback
+            scope:
+              - openid
+              - profile
+            authorization-grant-type: authorization_code
+        provider:
+          line:
+            authorization-uri: https://access.line.me/oauth2/v2.1/authorize
+            token-uri: https://api.line.me/oauth2/v2.1/token
+            user-info-uri: https://api.line.me/v2/profile
+            user-name-attribute: userId
+
 logging:
   level:
     org:
@@ -30,5 +56,5 @@ logging:
 config:
   globalDomain: http://localhost:8087/stock/
   picSavePath: /Users/chenyifan/Documents/workspace-fan/stockMate/image/
-  picShowPath: http://localhost:8086/stock/image/
+  picShowPath: http://localhost:8087/stock/image/
   jsonPath: /Users/chenyifan/Documents/workspace-fan/stockMate/src/main/resources/static/data/

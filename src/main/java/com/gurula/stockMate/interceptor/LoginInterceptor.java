@@ -1,7 +1,7 @@
 package com.gurula.stockMate.interceptor;
 
 import com.gurula.stockMate.config.ConfigProperties;
-import com.gurula.stockMate.enums.Role;
+import com.gurula.stockMate.oauth.Role;
 import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.member.MemberService;
 import com.gurula.stockMate.oauth.JwtTool;
@@ -71,7 +71,6 @@ public class LoginInterceptor implements HandlerInterceptor{
                     }
                     return false;
                 });
-//        return true;
     }
 
 

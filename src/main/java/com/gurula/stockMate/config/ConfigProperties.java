@@ -1,7 +1,10 @@
 package com.gurula.stockMate.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConfigProperties {
     @Value("${spring.data.mongodb.uri}")
     private String mongodbUri;

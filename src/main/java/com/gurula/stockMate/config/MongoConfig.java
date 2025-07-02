@@ -19,7 +19,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "stockMate";
+        return "stock";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongoClient(), "stockMate");
+        return new MongoTemplate(mongoClient(), "stock");
     }
 
 }
