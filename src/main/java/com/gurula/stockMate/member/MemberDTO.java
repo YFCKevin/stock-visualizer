@@ -1,14 +1,10 @@
 package com.gurula.stockMate.member;
 
 import com.gurula.stockMate.oauth.Role;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "member")
-public class Member {
-    @Id
+public class MemberDTO {
     private String id;
     private String userId;  //line使用
     private String pictureUrl;  //line大頭貼
@@ -20,6 +16,23 @@ public class Member {
     private List<String> favorites; // 版面收藏
     private long createAt;
     private String suspendAt;
+
+    public MemberDTO() {
+    }
+
+    public MemberDTO(String id, String userId, String pictureUrl, String coverName, String name, String email, Role role, Provider provider, List<String> favorites, long createAt, String suspendAt) {
+        this.id = id;
+        this.userId = userId;
+        this.pictureUrl = pictureUrl;
+        this.coverName = coverName;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.favorites = favorites;
+        this.createAt = createAt;
+        this.suspendAt = suspendAt;
+    }
 
     public String getId() {
         return id;
@@ -77,6 +90,22 @@ public class Member {
         this.role = role;
     }
 
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public List<String> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<String> favorites) {
+        this.favorites = favorites;
+    }
+
     public long getCreateAt() {
         return createAt;
     }
@@ -91,21 +120,5 @@ public class Member {
 
     public void setSuspendAt(String suspendAt) {
         this.suspendAt = suspendAt;
-    }
-
-    public List<String> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<String> favorites) {
-        this.favorites = favorites;
-    }
-
-    public Provider getProvider() {
-        return provider;
-    }
-
-    public void setProvider(Provider provider) {
-        this.provider = provider;
     }
 }
