@@ -1,4 +1,4 @@
-package com.gurula.stockMate.enums;
+package com.gurula.stockMate.oauth;
 
 public enum Role {
     ADMIN(1,"管理員"),

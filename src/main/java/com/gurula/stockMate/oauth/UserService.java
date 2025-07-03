@@ -1,14 +1,10 @@
 package com.gurula.stockMate.oauth;
 
-import com.gurula.stockMate.enums.Role;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberService;
 import com.gurula.stockMate.member.Provider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 
 @Service

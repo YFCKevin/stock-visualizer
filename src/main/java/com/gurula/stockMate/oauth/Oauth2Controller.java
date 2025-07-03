@@ -1,6 +1,5 @@
 package com.gurula.stockMate.oauth;
 
-import com.gurula.stockMate.enums.Role;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberService;
 import com.gurula.stockMate.config.ConfigProperties;
