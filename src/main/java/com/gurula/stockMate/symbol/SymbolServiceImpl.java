@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SymbolServiceImpl implements SymbolService{
@@ -41,5 +42,10 @@ public class SymbolServiceImpl implements SymbolService{
         } catch (Exception e) {
             return Result.err("儲存失敗：" + e.getMessage());
         }
+    }
+
+    @Override
+    public Optional<Symbol> findById(String symbolId) {
+        return symbolRepository.findById(symbolId);
     }
 }

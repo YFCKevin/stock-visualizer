@@ -21,4 +21,8 @@ public interface LayoutService {
     Result<Layout, String> findById(String id);
 
     Result<Layout, String> constructNewLayout(String memberId, String symbolName, String interval);
+
+    Result<Layout, String> findByIdAndMemberId(String layoutId, String memberId);
+
+    Result<Layout, String> findLatestBySymbol(String symbolName, String memberId);
 }

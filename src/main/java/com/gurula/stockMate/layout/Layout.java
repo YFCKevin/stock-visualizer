@@ -97,6 +97,8 @@ public class Layout {
 
     public LayoutDTO toDto() {
         LayoutDTO dto = new LayoutDTO();
+        dto.setId(this.id);
+        dto.setSymbolId(this.symbolId);
         dto.setMemberId(this.memberId);
         dto.setDesc(this.desc);
         dto.setName(this.name);

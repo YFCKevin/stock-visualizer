@@ -1,5 +1,6 @@
 package com.gurula.stockMate.layout;
 
+import cn.hutool.core.lang.Opt;
 import com.gurula.stockMate.ohlc.IntervalType;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.layout.dto.LayoutDTO;
@@ -17,7 +18,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -185,6 +188,32 @@ public class LayoutServiceImpl implements LayoutService{
             return Result.ok(saved);
         } catch (Exception e) {
             return Result.err("儲存失敗：" + e.getMessage());
+        }
+    }
+
+    @Override
+    public Result<Layout, String> findByIdAndMemberId(String layoutId, String memberId) {
+        Optional<Layout> opt = layoutRepository.findByIdAndMemberId(layoutId, memberId);
+        if (opt.isEmpty()) {
+            // 可能是 id 錯誤，或 memberId 對不上
+            return Result.err("找不到對應的 Layout 資料");
+        } else {
+            return Result.ok(opt.get());
+        }
+    }
+
+    @Override
+    public Result<Layout, String> findLatestBySymbol(String symbolName, String memberId) {
+        final Symbol symbol = symbolRepository.findBySymbol(symbolName).get();
+        List<Layout> layouts = layoutRepository.findBySymbolId(symbol.getId());
+        if (layouts.isEmpty()) {    // 建立新的 Layout
+            return this.constructNewLayout(memberId, symbolName, "1d");
+        } else {    // 取最新的 Layout
+            Optional<Layout> latestLayout = layouts.stream()
+                    .max(Comparator.comparingLong(layout ->
+                            layout.getUpdateAt() > 0 ? layout.getUpdateAt() : layout.getCreateAt()
+                    ));
+            return Result.ok(latestLayout.get());
         }
     }
 }
