@@ -1,4 +1,4 @@
-package com.gurula.stockMate.symbol.dto;
+package com.gurula.stockMate.symbol;
 
 import com.gurula.stockMate.symbol.SymbolType;
 import com.gurula.stockMate.symbol.Symbol;

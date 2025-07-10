@@ -1,24 +1,86 @@
 package com.gurula.stockMate.symbol;
 
 import com.gurula.stockMate.exception.Result;
-import com.gurula.stockMate.symbol.dto.SymbolDTO;
+import com.gurula.stockMate.ohlc.IntervalType;
+import com.gurula.stockMate.ohlc.OhlcData;
+import com.gurula.stockMate.ohlc.OhlcRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SymbolServiceImpl implements SymbolService{
     private final SymbolRepository symbolRepository;
+    private final OhlcRepository ohlcRepository;
 
-    public SymbolServiceImpl(SymbolRepository symbolRepository) {
+    public SymbolServiceImpl(SymbolRepository symbolRepository, OhlcRepository ohlcRepository) {
         this.symbolRepository = symbolRepository;
+        this.ohlcRepository = ohlcRepository;
     }
 
     @Override
-    public List<Symbol> getAllSymbols() {
-        return symbolRepository.findAll();
+    public List<SymbolDataDTO> getAllSymbols() {
+        List<Symbol> symbols = symbolRepository.findAll();
+        List<String> symbolIds = symbols.stream().map(Symbol::getId).toList();
+
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDate today = LocalDate.now();
+        LocalDate sevenDaysAgo = today.minusDays(7);
+
+        long startOfSevenDaysAgo = sevenDaysAgo.atStartOfDay(zone).toInstant().toEpochMilli();
+        long startOfTomorrow = today.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli();
+
+        // 查最近7天的OHLC日線資料
+        List<OhlcData> recentData = ohlcRepository.findBySymbolIdInAndIntervalAndTimestampBetween(
+                symbolIds, IntervalType.ONE_DAY, startOfSevenDaysAgo, startOfTomorrow);
+
+        // 按 symbolId 分組
+        Map<String, List<OhlcData>> groupedBySymbol = recentData.stream()
+                .collect(Collectors.groupingBy(OhlcData::getSymbolId));
+
+        List<SymbolDataDTO> result = new ArrayList<>();
+        for (Symbol symbol : symbols) {
+            String symbolId = symbol.getId();
+            List<OhlcData> dataList = groupedBySymbol.get(symbolId);
+
+            if (dataList == null || dataList.size() < 2) {
+                // 沒有足夠資料，跳過
+                continue;
+            }
+
+            // timestamp倒序排序 (最新在前)
+            dataList.sort((a, b) -> Long.compare(b.getTimestamp(), a.getTimestamp()));
+
+            BigDecimal todayClose = BigDecimal.valueOf(dataList.get(0).getClose())
+                    .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal prevClose = BigDecimal.valueOf(dataList.get(1).getClose());
+
+            BigDecimal change = todayClose.subtract(prevClose).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal changePercent = change.divide(prevClose, 6, RoundingMode.HALF_UP)
+                    .multiply(new BigDecimal("100"))
+                    .setScale(2, RoundingMode.HALF_UP);
+
+            SymbolDataDTO dto = new SymbolDataDTO();
+            dto.setName(symbol.getName());
+            dto.setClose(todayClose.doubleValue());
+            dto.setChange(change.doubleValue());
+            dto.setChangePercent(changePercent.doubleValue());
+            dto.setSymbolType(symbol.getSymbolType());
+            dto.setSymbol(symbol.getSymbol());
+
+            result.add(dto);
+        }
+
+        return result;
     }
 
     @Override

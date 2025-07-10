@@ -8,4 +8,6 @@ public enum SymbolType {
     OPTION,    // 選擇權
     CRYPTO,    // 加密貨幣
     FOREX,     // 外匯
+    COMMODITY,    // 原物料
+    BOND_YIELD    // 債券殖利率
 }

@@ -1,7 +1,6 @@
 package com.gurula.stockMate.symbol;
 
 import com.gurula.stockMate.exception.Result;
-import com.gurula.stockMate.symbol.dto.SymbolDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +21,8 @@ public class SymbolController {
 
     @GetMapping
     public ResponseEntity<?> getAllSymbols() {
-        List<Symbol> symbols = symbolService.getAllSymbols();
-        return ResponseEntity.ok(symbols);
+        List<SymbolDataDTO> symbolData = symbolService.getAllSymbols();
+        return ResponseEntity.ok(symbolData);
     }
 
 
