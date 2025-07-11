@@ -1,0 +1,124 @@
+.hidden {
+  display: none !important;
+}
+
+#container {
+  height: 90vh;
+}
+.text-success-deep {
+  color: #006400 !important; /* 深綠色 (DarkGreen) */
+}
+.sma-checkbox {
+  accent-color: transparent; /* 讓打勾時不要有預設藍色 */
+  cursor: pointer;
+}
+
+.draw-icon-button {
+  display: inline-block;
+  padding: 4px;
+  border-radius: 4px;
+}
+.draw-icon-button:hover {
+  background-color: #E0E0E0;
+}
+.draw-icon-button img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  color: #000 !important;
+}
+
+.pcr-selection {
+  display: none !important;
+}
+
+.highcharts-menu-wrapper ul {
+  position: absolute;
+  top: 60px;
+  /* bottom: 230px; */
+  list-style: none;
+  background: white; /* 背景色，依需求可調 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* 選擇性陰影 */
+}
+.highcharts-toggle-toolbar.highcharts-arrow-left { /* 控制 gui 出現隱藏按鈕 */
+  display: none !important;
+}
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tab-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tab-pane {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* CKEditor 編輯區撐滿 */
+.ck-content{
+    color: #000;
+    min-height: 683px;
+    max-height: 683px;
+    overflow-y: auto;
+}
+
+.dropdown-item.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.icon-hover {
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.icon-hover:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 你可改成主題色或白色半透明 */
+}
+
+.scrollable-list {
+    min-height: 8rem;
+    max-height: 8rem;
+    overflow-y: scroll;
+}
+
+.progressing-li {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    #d0e7ff 25%,
+    #a0c4ff 50%,
+    #d0e7ff 75%
+  );
+  background-size: 200% 100%;
+  animation: progressMove 2s linear infinite;
+}
+
+@keyframes progressMove {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 避免編輯刪除 popup 擋到 k bar */
+.highcharts-popup {
+  right: 0px !important;
+  top: 0px !important;
+  z-index: 10;
+}
