@@ -10,7 +10,7 @@ import java.util.List;
 public interface LayoutService {
     List<LayoutSummaryDTO> getAllLayouts(String memberId);
 
-    List<LayoutSummaryDTO> search(String memberId, String name, String symbol, String symbolName);
+    List<LayoutSummaryDTO> search(String memberId, String keyword);
 
     Result<Layout, String> save(LayoutDTO layoutDTO);
 

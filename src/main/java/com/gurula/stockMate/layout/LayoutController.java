@@ -12,9 +12,11 @@ import com.gurula.stockMate.symbol.Symbol;
 import com.gurula.stockMate.symbol.SymbolService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,14 +44,26 @@ public class LayoutController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchLayouts(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String symbol,
-            @RequestParam(required = false) String symbolName
-    ) {
+    public ResponseEntity<?> searchLayouts(@RequestParam(required = false) String keyword) {
         final Member member = MemberContext.getMember();
-        List<LayoutSummaryDTO> layouts = layoutService.search(member.getId(), name, symbol, symbolName);
+        List<LayoutSummaryDTO> layouts = layoutService.search(member.getId(), keyword);
         return ResponseEntity.ok(layouts);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody LayoutDTO layoutDTO) {
+        final Member member = MemberContext.getMember();
+        final String symbolName = layoutDTO.getSymbol();
+        final String interval = layoutDTO.getInterval();
+        final Result<Layout, String> result = layoutService.constructNewLayout(member.getId(), symbolName, interval);
+
+        if (result.isOk()) {
+            Layout layout = result.unwrap();
+            return ResponseEntity.ok(layout.getId());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", result.unwrapErr()));
+        }
     }
 
     @GetMapping("/enter")
@@ -57,13 +71,12 @@ public class LayoutController {
             @RequestParam(required = false) String id,
             @RequestParam(required = false) String symbolName
     ) {
-        System.out.println("id = " + id);
-        System.out.println("symbolName = " + symbolName);
+
         String interval = "1d";
         final Member member = MemberContext.getMember();
         Result<Layout, String> result = null;
         if (StringUtils.isNotBlank(id)) {
-            // 有傳 id，直接根據 id查找 layout，並且用 memberId驗證是否為該會員
+            // 有傳 id，直接根據 id 查找 layout，並且用 memberId驗證是否為該會員
             result = layoutService.findByIdAndMemberId(id, member.getId());
 
             if (result.isErr()) {
@@ -159,18 +172,30 @@ public class LayoutController {
     public ResponseEntity<?> delete(@PathVariable(name = "id") String id) {
         final Member member = MemberContext.getMember();
         Result<String, String> result = layoutService.delete(id);
+
+        Map<String, Object> response = new HashMap<>();
+
         if (result.isOk()) {
-            return ResponseEntity.ok(result.unwrap());
+            response.put("message", result.unwrap());
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
         } else {
             String errorMessage = result.unwrapErr();
+            response.put("error", errorMessage);
 
             if (errorMessage.equals("找不到對應的 Layout 資料")) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(Map.of("error", errorMessage));
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(response);
             }
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", errorMessage));
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
         }
     }
 }

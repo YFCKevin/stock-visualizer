@@ -11,4 +11,6 @@ public interface LayoutRepository extends MongoRepository<Layout, String> {
     List<Layout> findBySymbolId(String symbolId);
 
     Optional<Layout> findByIdAndMemberId(String layoutId, String memberId);
+
+    List<Layout> findByIdInAndMemberId(List<String> layoutIds, String memberId);
 }

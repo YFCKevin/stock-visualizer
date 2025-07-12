@@ -7,6 +7,8 @@ public class LayoutSummaryDTO {
     private String name;
     private String desc;
     private String symbolId;
+    private String symbol;      // 股票代號
+    private String symbolName;  // 中文
     private long createAt;
     private long updateAt;
 
@@ -79,5 +81,21 @@ public class LayoutSummaryDTO {
 
     public void setUpdateAt(long updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getSymbolName() {
+        return symbolName;
+    }
+
+    public void setSymbolName(String symbolName) {
+        this.symbolName = symbolName;
     }
 }

@@ -19,10 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -54,7 +52,7 @@ public class LayoutServiceImpl implements LayoutService{
     }
 
     @Override
-    public List<LayoutSummaryDTO> search(String memberId, String name, String symbol, String symbolName) {
+    public List<LayoutSummaryDTO> search(String memberId, String keyword) {
         List<AggregationOperation> pipeline = new ArrayList<>();
 
         pipeline.add(Aggregation.addFields()
@@ -76,16 +74,14 @@ public class LayoutServiceImpl implements LayoutService{
             criteriaList.add(Criteria.where("memberId").is(memberId));
         }
 
-        if (StringUtils.isNotBlank(name)) {
-            criteriaList.add(Criteria.where("name").regex(Pattern.compile(Pattern.quote(name), Pattern.CASE_INSENSITIVE)));
-        }
-
-        if (StringUtils.isNotBlank(symbol)) {
-            criteriaList.add(Criteria.where("symbolDoc.symbol").regex(Pattern.compile(Pattern.quote(symbol), Pattern.CASE_INSENSITIVE)));
-        }
-
-        if (StringUtils.isNotBlank(symbolName)) {
-            criteriaList.add(Criteria.where("symbolDoc.name").regex(Pattern.compile(Pattern.quote(symbolName), Pattern.CASE_INSENSITIVE)));
+        if (StringUtils.isNotBlank(keyword)) {
+            Pattern pattern = Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE);
+            Criteria keywordCriteria = new Criteria().orOperator(
+                    Criteria.where("name").regex(pattern),
+                    Criteria.where("symbolDoc.symbol").regex(pattern),
+                    Criteria.where("symbolDoc.name").regex(pattern)
+            );
+            criteriaList.add(keywordCriteria);
         }
 
         if (!criteriaList.isEmpty()) {
@@ -96,8 +92,21 @@ public class LayoutServiceImpl implements LayoutService{
 
         AggregationResults<Layout> results = mongoTemplate.aggregate(aggregation, "layout", Layout.class);
 
+        final List<Layout> layouts = results.getMappedResults();
+        final Set<String> symbolSet = layouts.stream().map(Layout::getSymbolId).collect(Collectors.toSet());
+        final Map<String, Symbol> symbolMap = symbolRepository.findByIdIn(symbolSet).stream().collect(Collectors.toMap(Symbol::getId, Function.identity()));
+
         return results.getMappedResults().stream()
-                .map(LayoutSummaryDTO::construct)
+                .map(layout -> {
+                    LayoutSummaryDTO dto = new LayoutSummaryDTO();
+                    dto = LayoutSummaryDTO.construct(layout);
+                    if (symbolMap.containsKey(layout.getSymbolId())) {
+                        final Symbol s = symbolMap.get(layout.getSymbolId());
+                        dto.setSymbol(s.getSymbol());
+                        dto.setSymbolName(s.getName());
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -126,10 +135,14 @@ public class LayoutServiceImpl implements LayoutService{
 
             Layout layout = optionalLayout.get();
 
+            System.out.println("layoutDTO = " + layoutDTO);
+
             if (StringUtils.isNotBlank(layoutDTO.getName()))
                 layout.setName(layoutDTO.getName());
             if (StringUtils.isNotBlank(layoutDTO.getDesc()))
                 layout.setDesc(layoutDTO.getDesc());
+            if (StringUtils.isNotBlank(layoutDTO.getInterval()))
+                layout.setInterval(IntervalType.fromValue(layoutDTO.getInterval()));
 
             if (layoutDTO.getUserSettings() != null && !layoutDTO.getUserSettings().isEmpty())
                 layout.setUserSettings(layoutDTO.getUserSettings());

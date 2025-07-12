@@ -132,4 +132,19 @@ public class LayoutDTO {
         layout.setSymbolId(symbol.getId());
         return layout;
     }
+
+    @Override
+    public String toString() {
+        return "LayoutDTO{" +
+                "id='" + id + '\'' +
+                ", memberId='" + memberId + '\'' +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", interval='" + interval + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", symbolId='" + symbolId + '\'' +
+                ", createAt='" + createAt + '\'' +
+                ", updateAt='" + updateAt + '\'' +
+                '}';
+    }
 }
