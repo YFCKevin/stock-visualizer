@@ -198,4 +198,19 @@ public class LayoutController {
                     .body(response);
         }
     }
+
+
+    @PostMapping("/copy/{layoutId}")
+    public ResponseEntity<?> copy(@PathVariable(name = "layoutId") String layoutId) {
+        final Member member = MemberContext.getMember();
+        Result<Layout, String> result = layoutService.copyLayout(layoutId, member.getId());
+
+        if (result.isOk()) {
+            Layout layout = result.unwrap();
+            return ResponseEntity.ok(layout.getId());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", result.unwrapErr()));
+        }
+    }
 }

@@ -135,8 +135,6 @@ public class LayoutServiceImpl implements LayoutService{
 
             Layout layout = optionalLayout.get();
 
-            System.out.println("layoutDTO = " + layoutDTO);
-
             if (StringUtils.isNotBlank(layoutDTO.getName()))
                 layout.setName(layoutDTO.getName());
             if (StringUtils.isNotBlank(layoutDTO.getDesc()))
@@ -227,6 +225,20 @@ public class LayoutServiceImpl implements LayoutService{
                             layout.getUpdateAt() > 0 ? layout.getUpdateAt() : layout.getCreateAt()
                     ));
             return Result.ok(latestLayout.get());
+        }
+    }
+
+    @Override
+    public Result<Layout, String> copyLayout(String layoutId, String memberId) {
+        final Optional<Layout> opt = layoutRepository.findById(layoutId);
+        if (opt.isEmpty()) {
+            return Result.err("找不到對應的 Layout 資料");
+        } else {
+            final Layout layout = opt.get();
+            layout.setId(null);
+            layout.setMemberId(memberId);
+            final Layout saved = layoutRepository.save(layout);
+            return Result.ok(saved);
         }
     }
 }

@@ -25,4 +25,6 @@ public interface LayoutService {
     Result<Layout, String> findByIdAndMemberId(String layoutId, String memberId);
 
     Result<Layout, String> findLatestBySymbol(String symbolName, String memberId);
+
+    Result<Layout, String> copyLayout(String layoutId, String memberId);
 }
