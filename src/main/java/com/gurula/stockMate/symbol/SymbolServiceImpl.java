@@ -60,7 +60,9 @@ public class SymbolServiceImpl implements SymbolService{
             // timestamp倒序排序 (最新在前)
             dataList.sort((a, b) -> Long.compare(b.getTimestamp(), a.getTimestamp()));
 
-            BigDecimal todayClose = BigDecimal.valueOf(dataList.get(0).getClose())
+            OhlcData latest = dataList.get(0);
+
+            BigDecimal todayClose = BigDecimal.valueOf(latest.getClose())
                     .setScale(2, RoundingMode.HALF_UP);
             BigDecimal prevClose = BigDecimal.valueOf(dataList.get(1).getClose());
 
@@ -70,12 +72,14 @@ public class SymbolServiceImpl implements SymbolService{
                     .setScale(2, RoundingMode.HALF_UP);
 
             SymbolDataDTO dto = new SymbolDataDTO();
+            dto.setDate(latest.getDate());
             dto.setName(symbol.getName());
             dto.setClose(todayClose.doubleValue());
             dto.setChange(change.doubleValue());
             dto.setChangePercent(changePercent.doubleValue());
             dto.setSymbolType(symbol.getSymbolType());
             dto.setSymbol(symbol.getSymbol());
+            dto.setSymbolTypeLabel(symbol.getSymbolType().getName());
 
             result.add(dto);
         }

@@ -1,12 +1,22 @@
 package com.gurula.stockMate.symbol;
 
 public class SymbolDataDTO {
+    private String date;
     private String symbol;
     private String name;
     private double close;
     private double change;
     private double changePercent;
     private SymbolType symbolType;
+    private String symbolTypeLabel;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getSymbol() {
         return symbol;
@@ -54,5 +64,13 @@ public class SymbolDataDTO {
 
     public void setChangePercent(double changePercent) {
         this.changePercent = changePercent;
+    }
+
+    public String getSymbolTypeLabel() {
+        return symbolTypeLabel;
+    }
+
+    public void setSymbolTypeLabel(String symbolTypeLabel) {
+        this.symbolTypeLabel = symbolTypeLabel;
     }
 }
