@@ -82,7 +82,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public Result<String, String> delete(String noteId, String memberId) {
-        return noteRepository.findById(noteId)
+        return noteRepository.findByIdAndMemberId(noteId, memberId)
                 .map(note -> {
                     noteRepository.deleteById(noteId);
                     return Result.<String, String>ok("ok");
@@ -100,5 +100,23 @@ public class NoteServiceImpl implements NoteService {
         Query query = new Query(criteria);
 
         return mongoTemplate.find(query, Note.class);
+    }
+
+    @Override
+    @Transactional
+    public Result<Note, String> editTitle(NoteDTO noteDTO) {
+        try {
+            final Optional<Note> opt = noteRepository.findByIdAndMemberId(noteDTO.getId(), noteDTO.getMemberId());
+            if (opt.isEmpty()) {
+                return Result.err("找不到對應的 Note 資料");
+            } else {
+                final Note note = opt.get();
+                note.setTitle(noteDTO.getTitle());
+                final Note saved = noteRepository.save(note);
+                return Result.ok(saved);
+            }
+        } catch (Exception e) {
+            return Result.err("儲存失敗：" + e.getMessage());
+        }
     }
 }

@@ -16,4 +16,6 @@ public interface NoteService {
     Result<String, String> delete(String noteId, String memberId);
 
     List<Note> search(String searchText);
+
+    Result<Note, String> editTitle(NoteDTO noteDTO);
 }
