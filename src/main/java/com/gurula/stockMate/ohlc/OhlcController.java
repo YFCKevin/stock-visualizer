@@ -1,15 +1,14 @@
 package com.gurula.stockMate.ohlc;
 
+import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.symbol.Symbol;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/ohlc")
@@ -34,5 +33,16 @@ public class OhlcController {
     }
 
 
+    @PostMapping("/aggregate")
+    public ResponseEntity<?> generateAggregatedOhlcData() {
+        final Member member = MemberContext.getMember();
+        Result<String, String> result = ohlcService.generateLatestWeeklyAndMonthly();
 
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", result.unwrapErr()));
+        }
+    }
 }

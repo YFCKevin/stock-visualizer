@@ -30,6 +30,7 @@ public class OhlcData {
         dto.setVolume(this.volume);
         dto.setTimestamp(this.timestamp);
         dto.setInterval(this.interval);
+        dto.setDate(this.date);
         return dto;
     }
 

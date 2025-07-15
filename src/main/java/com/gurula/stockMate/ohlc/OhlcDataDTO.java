@@ -2,6 +2,7 @@ package com.gurula.stockMate.ohlc;
 
 public class OhlcDataDTO {
     private String id;
+    private String date;
     private double open;
     private double high;
     private double low;
@@ -90,5 +91,13 @@ public class OhlcDataDTO {
 
     public void setSymbolName(String symbolName) {
         this.symbolName = symbolName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
