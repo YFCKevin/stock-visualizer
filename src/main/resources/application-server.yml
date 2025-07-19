@@ -1,0 +1,60 @@
+server:
+  port: 8087
+  servlet:
+    contextPath: /stock
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  resources:
+    static-locations: file:/opt/stock/static/
+  data:
+    mongodb:
+      uri: mongodb+srv://${db-username}:${mongo-db-password}@gurula.y2btcof.mongodb.net/?retryWrites=true&w=majority&appName=gurula
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: https://gurula.cc/stock/login/oauth2/code/google
+            client-id: ${google-client-id}
+            client-secret: ${google-client-secret}
+            scope:
+              - email
+              - profile
+          line:
+            client-id: ${line-client-id}
+            client-secret: ${line-client-secret}
+            redirect-uri: https://gurula.cc/stock/callback
+            scope:
+              - openid
+              - profile
+            authorization-grant-type: authorization_code
+        provider:
+          line:
+            authorization-uri: https://access.line.me/oauth2/v2.1/authorize
+            token-uri: https://api.line.me/oauth2/v2.1/token
+            user-info-uri: https://api.line.me/v2/profile
+            user-name-attribute: userId
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: INFO
+
+config:
+  globalDomain: https://gurula.cc/stock/
+  picSavePath: /opt/stock/image/
+  picShowPath: https://gurula.cc/stock/uploads/
+  jsonPath: /opt/stock/static/data/
