@@ -4,7 +4,7 @@
 
 <!--    <property name="log.path" value="/opt/stockView" />-->
     <property name="log.path" value="/Users/chenyifan/Documents/workspace-fan/stockMate" />
-    <property name="log.name" value="stockView" />
+    <property name="log.name" value="stock" />
 
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
