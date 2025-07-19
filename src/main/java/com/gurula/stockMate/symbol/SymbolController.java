@@ -3,7 +3,6 @@ package com.gurula.stockMate.symbol;
 import com.gurula.stockMate.exception.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +26,6 @@ public class SymbolController {
 
 
     @PostMapping("/save")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> save(@RequestBody List<SymbolDTO> symbolDTOList) {
         Result<String, String> result = symbolService.saveAll(symbolDTOList);
         if (result.isOk()) {
@@ -40,7 +38,6 @@ public class SymbolController {
 
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") String id) {
         Result<String, String> result = symbolService.delete(id);
         if (result.isOk()) {
