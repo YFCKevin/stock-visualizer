@@ -2,6 +2,7 @@ package com.gurula.stockMate.member;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,16 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Optional<Member> findById(String memberId) {
         return memberRepository.findById(memberId);
+    }
+
+    @Override
+    public List<MemberShortDTO> findAll() {
+        List<Member> members = this.memberRepository.findAll();
+        return members.stream().map(member -> {
+            MemberShortDTO dto = new MemberShortDTO();
+            dto.setName(member.getName());
+            dto.setId(member.getId());
+            return dto;
+        }).toList();
     }
 }
