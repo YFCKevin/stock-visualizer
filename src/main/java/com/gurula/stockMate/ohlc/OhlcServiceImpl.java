@@ -48,6 +48,9 @@ public class OhlcServiceImpl implements OhlcService{
                 .toList();
 
         ZoneId zoneId = ZoneId.of("Asia/Taipei");
+        LocalDate now = LocalDate.now(zoneId);
+        LocalDate weekStart = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate monthStart = now.withDayOfMonth(1);
 
         for (String symbolId : symbolIds) {
             try {
@@ -58,24 +61,16 @@ public class OhlcServiceImpl implements OhlcService{
                     continue;
                 }
 
-                OhlcData latestDaily = dailyData.get(dailyData.size() - 1);
-                if (latestDaily.getDate() == null || latestDaily.getDate().isEmpty()) {
-                    continue;
-                }
+                System.out.println("==========");
+                System.out.println("Symbol ID: " + symbolId);
+                System.out.println("週線資料範圍: " + weekStart + " ~ " + weekStart.plusDays(6));
+                System.out.println("月線資料範圍: " + monthStart + " ~ " + monthStart.withDayOfMonth(monthStart.lengthOfMonth()));
 
-                LocalDate date;
-                try {
-                    date = LocalDate.parse(latestDaily.getDate());
-                } catch (DateTimeParseException e) {
-                    return Result.err("日期格式錯誤: " + latestDaily.getDate() + " for symbolId=" + symbolId);
-                }
+                Optional<OhlcData> existingWeekly = ohlcRepository.findBySymbolIdAndIntervalAndDate(
+                        symbolId, IntervalType.ONE_WEEK, weekStart.toString());
 
-                LocalDate weekStart = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-                LocalDate monthStart = date.withDayOfMonth(1);
-
-                Optional<OhlcData> existingWeekly = ohlcRepository.findBySymbolIdAndIntervalAndDate(symbolId, IntervalType.ONE_WEEK, weekStart.toString());
-
-                Optional<OhlcData> existingMonthly = ohlcRepository.findBySymbolIdAndIntervalAndDate(symbolId, IntervalType.ONE_MONTH, monthStart.toString());
+                Optional<OhlcData> existingMonthly = ohlcRepository.findBySymbolIdAndIntervalAndDate(
+                        symbolId, IntervalType.ONE_MONTH, monthStart.toString());
 
                 List<OhlcData> weekData = dailyData.stream()
                         .filter(d -> {
