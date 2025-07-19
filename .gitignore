@@ -64,3 +64,7 @@ gurula.jks
 stockView.log
 todo.txt
 HELP.md
+
+backup/
+data/
+stock.log
