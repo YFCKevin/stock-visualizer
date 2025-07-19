@@ -2,12 +2,13 @@ pipeline {
     agent any
 
     environment {
+        GOOGLE_APPLICATION_CREDENTIALS = 'gcp-key.json'
+        GCP_CREDENTIALS = credentials('gcp-sa-key') // Jenkins 裡 GCP 金鑰憑證 ID
         PROJECT_ID = 'gurula-465111'
         REGION = 'asia-east1'
         REPO_NAME = 'gurula'
         IMAGE_NAME = 'stock-api'
-        GOOGLE_APPLICATION_CREDENTIALS = 'gcp-key.json'
-        GCP_CREDENTIALS = credentials('gcp-sa-key')
+        SERVICE_NAME = 'stock-api'
     }
 
     stages {
@@ -17,9 +18,9 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
+        stage('Maven Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -34,13 +35,27 @@ pipeline {
             }
         }
 
+        stage('Docker Build') {
+            steps {
+                sh '''
+                docker build -t $IMAGE_NAME .
+                docker tag $IMAGE_NAME $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
+                '''
+            }
+        }
+
         stage('Push to Artifact Registry') {
             steps {
                 sh '''
-                docker tag $IMAGE_NAME $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
                 docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME
                 '''
             }
+        }
+    }
+
+    post {
+        cleanup {
+            sh 'rm -f $GOOGLE_APPLICATION_CREDENTIALS'
         }
     }
 }
