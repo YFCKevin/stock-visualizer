@@ -3,6 +3,7 @@ package com.gurula.stockMate.layout.dto;
 import com.gurula.stockMate.ohlc.IntervalType;
 import com.gurula.stockMate.layout.Layout;
 import com.gurula.stockMate.ohlc.OhlcDataDTO;
+import com.gurula.stockMate.study.VersionType;
 import com.gurula.stockMate.symbol.Symbol;
 
 import java.time.Instant;
@@ -21,6 +22,7 @@ public class LayoutDTO {
     private String symbol;
     private String symbolId;
     private Map<String, Object> userSettings = new HashMap<>();
+    private VersionType versionType;
     private List<OhlcDataDTO> ohlcDataDTOList;
     private String createAt;
     private String updateAt;
@@ -119,6 +121,14 @@ public class LayoutDTO {
 
     public void setOhlcDataDTOList(List<OhlcDataDTO> ohlcDataDTOList) {
         this.ohlcDataDTOList = ohlcDataDTOList;
+    }
+
+    public VersionType getVersionType() {
+        return versionType;
+    }
+
+    public void setVersionType(VersionType versionType) {
+        this.versionType = versionType;
     }
 
     public Layout toEntity(Symbol symbol) {

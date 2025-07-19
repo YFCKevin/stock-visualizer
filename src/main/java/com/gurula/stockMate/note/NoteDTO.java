@@ -1,5 +1,7 @@
 package com.gurula.stockMate.note;
 
+import com.gurula.stockMate.study.VersionType;
+
 import java.util.List;
 
 public class NoteDTO {
@@ -9,6 +11,8 @@ public class NoteDTO {
     private String title;   // 標題
     private String content; // 內容
     private List<String> tags;  // 標籤（例如 ["投資", "技術分析"]）
+    private VersionType versionType;
+    private String layoutName;
     private long createdAt;
     private long updatedAt;
 
@@ -74,6 +78,22 @@ public class NoteDTO {
 
     public void setUpdatedAt(long updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public VersionType getVersionType() {
+        return versionType;
+    }
+
+    public void setVersionType(VersionType versionType) {
+        this.versionType = versionType;
+    }
+
+    public String getLayoutName() {
+        return layoutName;
+    }
+
+    public void setLayoutName(String layoutName) {
+        this.layoutName = layoutName;
     }
 
     protected Note toEntity() {
