@@ -1,7 +1,6 @@
 package com.gurula.stockMate.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,9 +17,32 @@ public class ConfigProperties {
     private String tokenUri;
     @Value("${spring.security.oauth2.client.provider.line.user-info-uri}")
     private String userInfoUri;
+    @Value("${config.picSavePath}")
+    private String picSavePath;
+    @Value("${config.picShowPath}")
+    private String picShowPath;
+
+    public ConfigProperties() {
+    }
+
+    public String getPicSavePath() {
+        return this.picSavePath;
+    }
+
+    public void setPicSavePath(String picSavePath) {
+        this.picSavePath = picSavePath;
+    }
+
+    public String getPicShowPath() {
+        return this.picShowPath;
+    }
+
+    public void setPicShowPath(String picShowPath) {
+        this.picShowPath = picShowPath;
+    }
 
     public String getClientId() {
-        return clientId;
+        return this.clientId;
     }
 
     public void setClientId(String clientId) {
@@ -28,7 +50,7 @@ public class ConfigProperties {
     }
 
     public String getClientSecret() {
-        return clientSecret;
+        return this.clientSecret;
     }
 
     public void setClientSecret(String clientSecret) {
@@ -36,7 +58,7 @@ public class ConfigProperties {
     }
 
     public String getTokenUri() {
-        return tokenUri;
+        return this.tokenUri;
     }
 
     public void setTokenUri(String tokenUri) {
@@ -44,7 +66,7 @@ public class ConfigProperties {
     }
 
     public String getUserInfoUri() {
-        return userInfoUri;
+        return this.userInfoUri;
     }
 
     public void setUserInfoUri(String userInfoUri) {
@@ -52,7 +74,7 @@ public class ConfigProperties {
     }
 
     public String getMongodbUri() {
-        return mongodbUri;
+        return this.mongodbUri;
     }
 
     public void setMongodbUri(String mongodbUri) {
@@ -60,7 +82,7 @@ public class ConfigProperties {
     }
 
     public String getGlobalDomain() {
-        return globalDomain;
+        return this.globalDomain;
     }
 
     public void setGlobalDomain(String globalDomain) {

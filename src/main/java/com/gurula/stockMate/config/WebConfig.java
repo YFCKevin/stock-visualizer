@@ -11,14 +11,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     private final LoginInterceptor loginInterceptor;
+    private final ConfigProperties configProperties;
 
-    public WebConfig(LoginInterceptor loginInterceptor) {
+    public WebConfig(LoginInterceptor loginInterceptor, ConfigProperties configProperties) {
         this.loginInterceptor = loginInterceptor;
+        this.configProperties = configProperties;
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/stock/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/uploads/**").addResourceLocations("file:" + this.configProperties.getPicSavePath());
     }
 
     @Override
