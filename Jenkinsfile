@@ -52,6 +52,18 @@ pipeline {
                 '''
             }
         }
+
+        stage('Deploy to Cloud Run') {
+            steps {
+                sh '''
+                gcloud run deploy $SERVICE_NAME \
+                  --image $REGION-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$IMAGE_NAME \
+                  --platform managed \
+                  --region $REGION \
+                  --allow-unauthenticated
+                '''
+            }
+        }
     }
 
     post {
