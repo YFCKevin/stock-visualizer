@@ -4,21 +4,21 @@ import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.ohlc.IntervalType;
 import com.gurula.stockMate.ohlc.OhlcData;
 import com.gurula.stockMate.ohlc.OhlcRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class SymbolServiceImpl implements SymbolService{
+public class SymbolServiceImpl implements SymbolService {
     private final SymbolRepository symbolRepository;
     private final OhlcRepository ohlcRepository;
 
@@ -52,36 +52,32 @@ public class SymbolServiceImpl implements SymbolService{
             String symbolId = symbol.getId();
             List<OhlcData> dataList = groupedBySymbol.get(symbolId);
 
-            if (dataList == null || dataList.size() < 2) {
-                // 沒有足夠資料，跳過
-                continue;
+            if (dataList != null && dataList.size() >= 2) {
+                // 按時間倒序排序，取最新兩筆
+                dataList.sort((a, b) -> Long.compare(b.getTimestamp(), a.getTimestamp()));
+                OhlcData latest = dataList.get(0);
+                OhlcData previous = dataList.get(1);
+
+                BigDecimal todayClose = BigDecimal.valueOf(latest.getClose()).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal prevClose = BigDecimal.valueOf(previous.getClose());
+                BigDecimal change = todayClose.subtract(prevClose).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal changePercent = change.divide(prevClose, 6, RoundingMode.HALF_UP)
+                        .multiply(new BigDecimal("100"))
+                        .setScale(2, RoundingMode.HALF_UP);
+
+                SymbolDataDTO dto = new SymbolDataDTO();
+                dto.setDate(latest.getDate());
+                dto.setName(symbol.getName());
+                dto.setClose(todayClose.doubleValue());
+                dto.setChange(change.doubleValue());
+                dto.setChangePercent(changePercent.doubleValue());
+                dto.setSymbolType(symbol.getSymbolType());
+                dto.setSymbol(symbol.getSymbol());
+                dto.setSymbolTypeLabel(symbol.getSymbolType().getName());
+                dto.setVolume(latest.getVolume());
+
+                result.add(dto);
             }
-
-            // timestamp倒序排序 (最新在前)
-            dataList.sort((a, b) -> Long.compare(b.getTimestamp(), a.getTimestamp()));
-
-            OhlcData latest = dataList.get(0);
-
-            BigDecimal todayClose = BigDecimal.valueOf(latest.getClose())
-                    .setScale(2, RoundingMode.HALF_UP);
-            BigDecimal prevClose = BigDecimal.valueOf(dataList.get(1).getClose());
-
-            BigDecimal change = todayClose.subtract(prevClose).setScale(2, RoundingMode.HALF_UP);
-            BigDecimal changePercent = change.divide(prevClose, 6, RoundingMode.HALF_UP)
-                    .multiply(new BigDecimal("100"))
-                    .setScale(2, RoundingMode.HALF_UP);
-
-            SymbolDataDTO dto = new SymbolDataDTO();
-            dto.setDate(latest.getDate());
-            dto.setName(symbol.getName());
-            dto.setClose(todayClose.doubleValue());
-            dto.setChange(change.doubleValue());
-            dto.setChangePercent(changePercent.doubleValue());
-            dto.setSymbolType(symbol.getSymbolType());
-            dto.setSymbol(symbol.getSymbol());
-            dto.setSymbolTypeLabel(symbol.getSymbolType().getName());
-
-            result.add(dto);
         }
 
         return result;

@@ -9,6 +9,7 @@ public class SymbolDataDTO {
     private double changePercent;
     private SymbolType symbolType;
     private String symbolTypeLabel;
+    private double volume;
 
     public String getDate() {
         return date;
@@ -72,5 +73,13 @@ public class SymbolDataDTO {
 
     public void setSymbolTypeLabel(String symbolTypeLabel) {
         this.symbolTypeLabel = symbolTypeLabel;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
     }
 }
