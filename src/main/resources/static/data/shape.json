@@ -1,0 +1,3828 @@
+[
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": false,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": false,
+      "includeInDataExport": true,
+      "overflow": "justify",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "0.7em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -16
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "typeOptions": {
+      "xAxis": 0,
+      "yAxis": 0,
+      "line": {
+        "stroke": "black",
+        "strokeWidth": 2,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        },
+        "type": "path",
+        "className": "highcharts-crooked-lines",
+        "points": [
+          null,
+          null
+        ]
+      },
+      "points": [
+        {
+          "x": 1739909321266.965,
+          "y": 23935.483870967742,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        },
+        {
+          "x": 1739924177375.5662,
+          "y": 21258.06451612903,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        }
+      ]
+    },
+    "langKey": "segment",
+    "type": "crookedLine",
+    "id": "557195b6-d8bd-4f4c-bdf7-d21423ce686c"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": false,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": false,
+      "includeInDataExport": true,
+      "overflow": "justify",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "0.7em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -16
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2,
+      "dashStyle": "Dash"
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "typeOptions": {
+      "xAxis": 0,
+      "yAxis": 0,
+      "line": {
+        "stroke": "black",
+        "strokeWidth": 1,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "dashStyle": "Dash",
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        },
+        "type": "path",
+        "className": "highcharts-crooked-lines",
+        "points": [
+          null,
+          null
+        ]
+      },
+      "points": [
+        {
+          "x": 1740080166515.833,
+          "y": 23935.483870967742,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        },
+        {
+          "x": 1740095022624.4338,
+          "y": 21161.290322580644,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        }
+      ]
+    },
+    "langKey": "segment",
+    "type": "crookedLine",
+    "id": "ef3bb086-c728-4221-bdb5-305879cd2e37"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": false,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": false,
+      "includeInDataExport": true,
+      "overflow": "justify",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "0.7em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -16
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "typeOptions": {
+      "xAxis": 0,
+      "yAxis": 0,
+      "line": {
+        "stroke": "black",
+        "strokeWidth": 1,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 1
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        },
+        "markerEnd": "arrow",
+        "type": "path",
+        "className": "highcharts-crooked-lines",
+        "points": [
+          null,
+          null
+        ]
+      },
+      "points": [
+        {
+          "x": 1740431239819.0012,
+          "y": 21338.709677419356,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        },
+        {
+          "x": 1740438667873.3018,
+          "y": 23935.483870967742,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        }
+      ]
+    },
+    "langKey": "arrowSegment",
+    "type": "crookedLine",
+    "id": "0efd4532-c5f0-44cd-b69a-c8f9745eb8e5"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": false,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": false,
+      "includeInDataExport": true,
+      "overflow": "justify",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "0.7em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -16
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "typeOptions": {
+      "xAxis": 0,
+      "yAxis": 0,
+      "line": {
+        "stroke": "black",
+        "strokeWidth": 2,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        },
+        "type": "path",
+        "className": "highcharts-crooked-lines",
+        "points": [
+          null,
+          null,
+          null
+        ]
+      },
+      "points": [
+        {
+          "x": 1739446827149.3242,
+          "y": 21967.74193548387,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        },
+        {
+          "x": 1739983601809.9526,
+          "y": 22580.645161290322,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        },
+        {
+          "x": 1740394099547.5076,
+          "y": 22129.032258064515,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          }
+        }
+      ]
+    },
+    "langKey": "crooked3",
+    "type": "crookedLine",
+    "id": "2ed02f68-f3cd-4154-bdaf-d3f8deeff7e1"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": true,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": true,
+      "includeInDataExport": true,
+      "overflow": "none",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "0.7em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -5,
+      "type": "rect"
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "typeOptions": {
+      "xAxis": 0,
+      "yAxis": 0,
+      "line": {
+        "stroke": "black",
+        "strokeWidth": 1,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        },
+        "type": "path",
+        "className": "highcharts-crooked-lines",
+        "points": [
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "labels": [
+        "(0)",
+        "(A)",
+        "(B)",
+        "(C)",
+        "(D)",
+        "(E)"
+      ],
+      "points": [
+        {
+          "x": 1739461683257.9165,
+          "y": 22500,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(0)",
+            "width": 27.4296875,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1739976173755.652,
+          "y": 22967.74193548387,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(A)",
+            "width": 27.96875,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1740364387330.3142,
+          "y": 22645.16129032258,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(B)",
+            "width": 27.53125,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1741046986425.338,
+          "y": 23403.225806451614,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(C)",
+            "width": 28.0625,
+            "height": 23.5
+          }
+        }
+      ]
+    },
+    "langKey": "elliott3",
+    "type": "elliottWave",
+    "id": "521b2b73-5288-43c6-ace7-0d98cc7bd575"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": true,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": true,
+      "includeInDataExport": true,
+      "overflow": "none",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "0.7em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -5,
+      "type": "rect"
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "typeOptions": {
+      "xAxis": 0,
+      "yAxis": 0,
+      "line": {
+        "stroke": "black",
+        "strokeWidth": 1,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        },
+        "type": "path",
+        "className": "highcharts-crooked-lines",
+        "points": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "labels": [
+        "(0)",
+        "(A)",
+        "(B)",
+        "(C)",
+        "(D)",
+        "(E)"
+      ],
+      "points": [
+        {
+          "x": 1739431971040.7231,
+          "y": 20935.483870967742,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(0)",
+            "width": 27.4296875,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1739991029864.2532,
+          "y": 21516.129032258064,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(A)",
+            "width": 27.96875,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1740394099547.5076,
+          "y": 21016.129032258064,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(B)",
+            "width": 27.53125,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1740972705882.3503,
+          "y": 21774.1935483871,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(C)",
+            "width": 28.0625,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1741262400000,
+          "y": 21290.322580645163,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(D)",
+            "width": 28.140625,
+            "height": 23.5
+          }
+        },
+        {
+          "x": 1741806602714.929,
+          "y": 22354.83870967742,
+          "xAxis": 0,
+          "yAxis": 0,
+          "controlPoint": {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10
+          },
+          "label": {
+            "align": "center",
+            "allowOverlap": true,
+            "backgroundColor": "white",
+            "borderColor": "#000000",
+            "borderRadius": 3,
+            "borderWidth": 0,
+            "className": "highcharts-no-tooltip",
+            "crop": true,
+            "includeInDataExport": true,
+            "overflow": "none",
+            "padding": 5,
+            "shadow": false,
+            "shape": "callout",
+            "style": {
+              "fontSize": "0.7em",
+              "fontWeight": "bold",
+              "color": "black"
+            },
+            "useHTML": false,
+            "verticalAlign": "bottom",
+            "x": 0,
+            "y": -5,
+            "type": "rect",
+            "controlPointOptions": {
+              "events": {},
+              "style": {
+                "cursor": "pointer",
+                "fill": "#ffffff",
+                "stroke": "#000000",
+                "stroke-width": 2
+              },
+              "height": 10,
+              "symbol": "circle",
+              "visible": false,
+              "width": 10
+            },
+            "text": "(E)",
+            "width": 26.734375,
+            "height": 23.5
+          }
+        }
+      ]
+    },
+    "langKey": "elliott5",
+    "type": "elliottWave",
+    "id": "e4592a6a-4369-4983-8e4c-295490c01fe9"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "langKey": "circle",
+    "type": "basicAnnotation",
+    "shapes": [
+      {
+        "type": "circle",
+        "point": {
+          "x": 1739783044343.8916,
+          "y": 21967.74193548387,
+          "xAxis": 0,
+          "yAxis": 0
+        },
+        "r": 39.62322551230326,
+        "className": " highcharts-basic-shape highcharts-basic-shape",
+        "controlPoints": [
+          {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10,
+            "index": 0
+          }
+        ],
+        "stroke": "black",
+        "strokeWidth": 2,
+        "fill": "none",
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        }
+      }
+    ],
+    "id": "4a710cd7-071a-405f-9e2a-b121e7783d96"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "langKey": "rectangle",
+    "type": "basicAnnotation",
+    "shapes": [
+      {
+        "type": "path",
+        "points": [
+          {
+            "xAxis": 0,
+            "yAxis": 0,
+            "x": 1739736912217.193,
+            "y": 22516.129032258064
+          },
+          {
+            "xAxis": 0,
+            "yAxis": 0,
+            "x": 1740609513122.1697,
+            "y": 22516.129032258064
+          },
+          {
+            "xAxis": 0,
+            "yAxis": 0,
+            "x": 1740609513122.1697,
+            "y": 21467.74193548387
+          },
+          {
+            "xAxis": 0,
+            "yAxis": 0,
+            "x": 1739736912217.193,
+            "y": 21467.74193548387
+          },
+          {
+            "command": "Z"
+          }
+        ],
+        "className": " highcharts-basic-shape highcharts-basic-shape",
+        "controlPoints": [
+          {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "circle",
+            "visible": false,
+            "width": 10,
+            "index": 0
+          }
+        ],
+        "stroke": "black",
+        "strokeWidth": 2,
+        "fill": "none",
+        "r": 0,
+        "snap": 2,
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        }
+      }
+    ],
+    "id": "1d90d832-f5be-4018-9998-f4b9f28fb9c5"
+  },
+  {
+    "visible": true,
+    "animation": {
+      "defer": 0
+    },
+    "crop": true,
+    "draggable": "xy",
+    "labelOptions": {
+      "align": "center",
+      "allowOverlap": false,
+      "backgroundColor": "white",
+      "borderColor": "#000000",
+      "borderRadius": 3,
+      "borderWidth": 0,
+      "className": "highcharts-no-tooltip",
+      "crop": true,
+      "includeInDataExport": true,
+      "overflow": "none",
+      "padding": 5,
+      "shadow": false,
+      "shape": "callout",
+      "style": {
+        "fontSize": "1em",
+        "fontWeight": "bold",
+        "color": "black"
+      },
+      "useHTML": false,
+      "verticalAlign": "bottom",
+      "x": 0,
+      "y": -16,
+      "format": "文字"
+    },
+    "shapeOptions": {
+      "stroke": "black",
+      "strokeWidth": 2,
+      "fill": "none",
+      "r": 0,
+      "snap": 2
+    },
+    "controlPointOptions": {
+      "events": {},
+      "style": {
+        "cursor": "pointer",
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 2
+      },
+      "height": 10,
+      "symbol": "circle",
+      "visible": false,
+      "width": 10
+    },
+    "events": {},
+    "types": {
+      "crookedLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "elliottWave": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "labels": [
+            "(0)",
+            "(A)",
+            "(B)",
+            "(C)",
+            "(D)",
+            "(E)"
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "align": "center",
+          "allowOverlap": true,
+          "crop": true,
+          "overflow": "none",
+          "type": "rect",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "y": -5,
+          "style": {
+            "color": "#333333"
+          }
+        }
+      },
+      "tunnel": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": -2,
+          "heightControlPoint": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "infinityLine": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "timeCycles": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "controlPointOptions": [
+            {
+              "events": {}
+            },
+            {
+              "events": {}
+            }
+          ]
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "fibonacci": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none",
+            "strokeWidth": 1
+          },
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "height": 2,
+          "heightControlPoint": {
+            "events": {}
+          },
+          "reversed": false,
+          "backgroundColors": [
+            "rgba(130, 170, 255, 0.4)",
+            "rgba(139, 191, 216, 0.4)",
+            "rgba(150, 216, 192, 0.4)",
+            "rgba(156, 229, 161, 0.4)",
+            "rgba(162, 241, 130, 0.4)",
+            "rgba(169, 255, 101, 0.4)"
+          ],
+          "lineColor": "#999999",
+          "lineColors": [],
+          "labels": []
+        },
+        "controlPointOptions": {
+          "events": {}
+        },
+        "labelOptions": {
+          "allowOverlap": true,
+          "align": "right",
+          "backgroundColor": "none",
+          "borderWidth": 0,
+          "crop": false,
+          "overflow": "none",
+          "shape": "rect",
+          "style": {
+            "color": "#333333"
+          },
+          "verticalAlign": "middle",
+          "y": 0
+        }
+      },
+      "fibonacciTimeZones": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "stroke": "#333333",
+            "strokeWidth": 1
+          },
+          "controlPointOptions": {
+            "events": {}
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "pitchfork": {
+        "typeOptions": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "line": {
+            "fill": "none"
+          },
+          "innerBackground": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "outerBackground": {
+            "fill": "rgba(156, 229, 161, 0.4)",
+            "strokeWidth": 0
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      },
+      "verticalLine": {
+        "typeOptions": {
+          "yOffset": 10,
+          "label": {
+            "offset": -40,
+            "allowOverlap": true,
+            "backgroundColor": "none",
+            "borderWidth": 0,
+            "crop": true,
+            "overflow": "none",
+            "shape": "rect",
+            "text": "{y:.2f}"
+          },
+          "connector": {
+            "strokeWidth": 1,
+            "markerEnd": "arrow"
+          }
+        },
+        "labelOptions": {
+          "style": {
+            "color": "#333333",
+            "fontSize": "0.7em"
+          }
+        }
+      },
+      "measure": {
+        "typeOptions": {
+          "selectType": "xy",
+          "xAxis": 0,
+          "yAxis": 0,
+          "background": {
+            "fill": "rgba(130, 170, 255, 0.4)",
+            "strokeWidth": 0
+          },
+          "crosshairX": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "crosshairY": {
+            "enabled": true,
+            "zIndex": 6,
+            "dashStyle": "Dash",
+            "markerEnd": "arrow"
+          },
+          "label": {
+            "enabled": true,
+            "style": {
+              "fontSize": "0.7em",
+              "color": "#333333"
+            }
+          }
+        },
+        "controlPointOptions": {
+          "events": {}
+        }
+      }
+    },
+    "zIndex": 6,
+    "langKey": "label",
+    "type": "basicAnnotation",
+    "labels": [
+      {
+        "point": {
+          "xAxis": 0,
+          "yAxis": 0,
+          "x": 1741195547511.313,
+          "y": 22419.354838709678
+        },
+        "controlPoints": [
+          {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "triangle-down",
+            "visible": true,
+            "width": 10,
+            "index": 0
+          },
+          {
+            "events": {},
+            "style": {
+              "cursor": "pointer",
+              "fill": "#ffffff",
+              "stroke": "#000000",
+              "stroke-width": 2
+            },
+            "height": 10,
+            "symbol": "square",
+            "visible": true,
+            "width": 10,
+            "index": 1
+          }
+        ],
+        "align": "center",
+        "allowOverlap": false,
+        "backgroundColor": "white",
+        "borderColor": "#000000",
+        "borderRadius": 3,
+        "borderWidth": 0,
+        "className": "highcharts-no-tooltip",
+        "crop": true,
+        "includeInDataExport": true,
+        "overflow": "none",
+        "padding": 5,
+        "shadow": false,
+        "shape": "callout",
+        "style": {
+          "fontSize": "1em",
+          "fontWeight": "bold",
+          "color": "black"
+        },
+        "useHTML": false,
+        "verticalAlign": "bottom",
+        "x": 0,
+        "y": -16,
+        "format": "文字123",
+        "controlPointOptions": {
+          "events": {},
+          "style": {
+            "cursor": "pointer",
+            "fill": "#ffffff",
+            "stroke": "#000000",
+            "stroke-width": 2
+          },
+          "height": 10,
+          "symbol": "circle",
+          "visible": false,
+          "width": 10
+        }
+      }
+    ],
+    "id": "6dcf0605-a0ae-486a-9495-88102b92c436"
+  }
+]

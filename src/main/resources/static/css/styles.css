@@ -65,7 +65,7 @@
         flex-direction: column;
     }
 
-    /* CKEditor 編輯區撐滿 */
+/* CKEditor 編輯區撐滿 */
 .ck-content{
     color: #000;
     min-height: 683px;
@@ -82,7 +82,6 @@
     width: 32px;
     height: 32px;
     transition: background-color 0.2s;
-    cursor: pointer;
 }
 
 .icon-hover:hover {
@@ -121,4 +120,17 @@
   right: 0px !important;
   top: 0px !important;
   z-index: 10;
+}
+
+.bg-progress-success {
+  background-color: rgb(209 250 229);
+}
+.bg-progress-info {
+  background-color: rgb(219 234 254);
+}
+.text-progress-success {
+  color: rgb(5, 150, 105);
+}
+.text-progress-info {
+  color: rgb(37, 99, 235);
 }
