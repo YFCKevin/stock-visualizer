@@ -54,4 +54,5 @@
   - [pickr](https://github.com/simonwep/pickr)
   - [Sortable](https://github.com/SortableJS/Sortable)
   - [Alpinejs](https://alpinejs.dev/)
+  - [yfinance](https://ranaroussi.github.io/yfinance/)
 
