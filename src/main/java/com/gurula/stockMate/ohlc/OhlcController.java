@@ -33,10 +33,16 @@ public class OhlcController {
     }
 
 
-    @PostMapping("/aggregate")
-    public ResponseEntity<?> generateAggregatedOhlcData() {
+    @PostMapping("/admin/aggregate/{type}")
+    public ResponseEntity<?> generateAggregatedOhlcData(@PathVariable String type, @RequestBody List<String> symbols) {
         final Member member = MemberContext.getMember();
-        Result<String, String> result = ohlcService.generateLatestWeeklyAndMonthly();
+
+        Result<String, String> result = null;
+        if ("latest".equals(type)) {
+            result = ohlcService.generateLatestWeeklyAndMonthly();
+        } else if ("all".equals(type)) {
+            result = ohlcService.generateAllWeeklyAndMonthly(symbols);
+        }
 
         if (result.isOk()) {
             return ResponseEntity.ok(result.unwrap());

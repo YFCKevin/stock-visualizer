@@ -5,18 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.symbol.Symbol;
 import com.gurula.stockMate.symbol.SymbolRepository;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.DayOfWeek;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeParseException;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -123,6 +115,86 @@ public class OhlcServiceImpl implements OhlcService{
 
         return Result.ok("週線/月線資料已更新");
     }
+
+
+    @Override
+    @Transactional
+    public Result<String, String> generateAllWeeklyAndMonthly(List<String> symbols) {
+        ZoneId zoneId = ZoneId.of("Asia/Taipei");
+
+        for (String symbol : symbols) {
+            Optional<Symbol> opt = symbolRepository.findBySymbol(symbol);
+            if (opt.isEmpty()) {
+                System.out.println("找不到 Symbol: " + symbol);
+                continue;
+            }
+
+            String symbolId = opt.get().getId();
+            List<OhlcData> dailyData = ohlcRepository.findBySymbolIdAndIntervalOrderByTimestamp(
+                    symbolId, IntervalType.ONE_DAY);
+
+            if (dailyData == null || dailyData.isEmpty()) {
+                System.out.println("Symbol " + symbol + " 無日線資料");
+                continue;
+            }
+
+            // 聚合週線資料
+            Map<LocalDate, List<OhlcData>> weeklyGroups = new HashMap<>();
+            Map<YearMonth, List<OhlcData>> monthlyGroups = new HashMap<>();
+
+            for (OhlcData data : dailyData) {
+                try {
+                    LocalDate date = LocalDate.parse(data.getDate());
+                    LocalDate weekStart = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                    YearMonth ym = YearMonth.from(date);
+
+                    weeklyGroups.computeIfAbsent(weekStart, k -> new ArrayList<>()).add(data);
+                    monthlyGroups.computeIfAbsent(ym, k -> new ArrayList<>()).add(data);
+                } catch (Exception e) {
+                    System.out.println("日期解析錯誤: " + data.getDate());
+                }
+            }
+
+            // 準備要儲存的週線/月線資料
+            List<OhlcData> toSave = new ArrayList<>();
+
+            // 處理週線
+            for (Map.Entry<LocalDate, List<OhlcData>> entry : weeklyGroups.entrySet()) {
+                LocalDate weekStart = entry.getKey();
+                List<OhlcData> weekData = entry.getValue();
+
+                OhlcData weekly = buildAggregatedOhlc(weekData, symbolId, IntervalType.ONE_WEEK, weekStart, zoneId);
+
+                ohlcRepository.findBySymbolIdAndIntervalAndDate(symbolId, IntervalType.ONE_WEEK, weekStart.toString())
+                        .ifPresent(existing -> weekly.setId(existing.getId()));
+
+                toSave.add(weekly);
+            }
+
+            // 處理月線
+            for (Map.Entry<YearMonth, List<OhlcData>> entry : monthlyGroups.entrySet()) {
+                YearMonth ym = entry.getKey();
+                LocalDate monthStart = ym.atDay(1);
+                List<OhlcData> monthData = entry.getValue();
+
+                OhlcData monthly = buildAggregatedOhlc(monthData, symbolId, IntervalType.ONE_MONTH, monthStart, zoneId);
+
+                ohlcRepository.findBySymbolIdAndIntervalAndDate(symbolId, IntervalType.ONE_MONTH, monthStart.toString())
+                        .ifPresent(existing -> monthly.setId(existing.getId()));
+
+                toSave.add(monthly);
+            }
+
+            if (!toSave.isEmpty()) {
+                System.out.println(toSave.size());
+                ohlcRepository.saveAll(toSave);
+                System.out.println("已儲存 Symbol: " + symbol + " 的週線/月線共 " + toSave.size() + " 筆資料");
+            }
+        }
+
+        return Result.ok("全部週線/月線資料已批量更新完成");
+    }
+
 
     private OhlcData buildAggregatedOhlc(List<OhlcData> group,
                                          String symbolId,
