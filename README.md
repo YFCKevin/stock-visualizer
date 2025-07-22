@@ -51,4 +51,8 @@
   - [fontawesome](https://fontawesome.com/)
   - [Creative Tim](https://www.creative-tim.com/product/soft-ui-dashboard)
   - [Highcharts](https://www.highcharts.com)
+  - [pickr](https://github.com/simonwep/pickr)
+  - [Sortable](https://github.com/SortableJS/Sortable)
+  - [Alpinejs](https://alpinejs.dev/)
+  - [yfinance](https://ranaroussi.github.io/yfinance/)
 
