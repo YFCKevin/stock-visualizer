@@ -1,7 +1,7 @@
 function loadData() {
   return {
-    currentStep: 1,
-    studyId: "686a2e8704f1b409dce58ad8",
+    currentStep: 0,
+    studyId: "687f5e4a200530c908b31fca",
     steps: [],
     contents: [],
     searchContentKeyword: "",
@@ -10,6 +10,7 @@ function loadData() {
     notes: [],
     news: [],
     selectedType: "",
+    editContentId: "",
 
     // ======================== highchart ======================== //
     ohlc: [],
@@ -47,6 +48,7 @@ function loadData() {
     notes: [],
     noteId: "",
     showNote: true,
+    unsavedLabel: false,
 
     // ======================== note ======================== //
 
@@ -60,7 +62,6 @@ function loadData() {
         contentType: "application/json; charset=utf-8",
         success: function (response) {
           _this.member = response;
-          console.log(_this.member);
         },
         error: function (xhr, status, error) {
           if (xhr.status === 401) {
@@ -95,10 +96,7 @@ function loadData() {
           })
 
           // 渲染第一個內容
-          const contentId = _this.contents?.[0]?.id;
-          const type = _this.contents?.[0]?.type;
-          console.log(contentId)
-          _this.viewTargetContent(contentId, type);
+          _this.getTargetContent(_this.contents?.[0]);
 
 
           _this.$nextTick(() => {
@@ -158,10 +156,10 @@ function loadData() {
       });
     },
 
-    viewTargetContent(contentId, type){
+    getTargetContent(targetContent){
       let _this = this;
 
-      const targetContent = this.contents.find(c => c.data?.id === contentId);
+      const contentId = targetContent?.id;
       if (!targetContent) {
         console.warn("找不到對應的內容 ID:", contentId);
         return;
@@ -171,15 +169,10 @@ function loadData() {
 
       switch (contentType) {
         case "LAYOUT":
-          const layoutId = targetContent.data.id;
-          if (layoutId) {
-            const params = new URLSearchParams();
-            params.set("id", layoutId);
-            this.initLayoutAndNote(params);
-          }
+          this.initLayout(targetContent);
           break;
         case "NOTE":
-
+          this.initNote(targetContent);
           break;
         case "NEWS":
 
@@ -188,7 +181,7 @@ function loadData() {
       }
 
       this.currentStep = this.steps.findIndex(s => s.id === contentId);
-      this.selectedType = type;
+      this.selectedType = contentType;
     },
 
     openContentModal(){
@@ -323,33 +316,205 @@ function loadData() {
         .toString()
         .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
     },
+    goToStep(index, step) {
+      switch (step.type) {
+        case 'LAYOUT':
+          this.switchLayout(step.id);
+          break;
+        case 'NOTE':
+          this.switchNote(step.id);
+          break;
+        case 'NEWS':
+          this.switchNews(step.id);
+          break;
+      }
+    },
+    openEditStepTitleModal(contentId) {
+      this.editContentId = contentId;
+      const targetContent = this.steps.find(item => item.id === contentId);
+      $("#studyItemName").val(targetContent.title || "無標題");
+      $("#editStepTitleModal").modal("show");
+    },
+    editStepTitle() {
+      const targetContent = this.contents.find(item => item.id === this.editContentId);
+      let _this = this;
+      let data = {};
+      data.contentId = this.editContentId;
+      data.title = $("#studyItemName").val();
+      data.contentType = targetContent.type;
+      data.versionType = targetContent.data.versionType;
+      $.ajax({
+        url: "study/edit-item-title",
+        type: "patch",
+        dataType: "text",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (response) {
+          const index = _this.steps.findIndex(item => item.id === _this.editContentId);
+          if (index !== -1) {
+            const step = _this.steps[index];
+            _this.steps.splice(index, 1, {
+              ...step,
+              title: response || '無標題'
+            });
+          }
+        },
+        error: function (xhr, status, error) {
+          if (xhr.status === 401) {
+            // 401 Unauthorized
+            window.location.href = "login.html";
+          }
+        },
+      });
+    },
+    openDeleteItemModal(contentId) {
+      const targetContent = this.steps.find(item => item.id === contentId);
+      const title = targetContent ? targetContent.title : '';
+      $("#deleteItemTitle").text(title);
+      $("#deleteItemModal").modal("show");
+    },
+    deleteItem() {
 
+    },
+    selectLayout(layoutId) {
+      let _this = this;
+      let data = {};
+      data.selfId = this.studyId;
+      data.contentId = layoutId;
+      data.contentType = "LAYOUT";
+      data.syncEnabled = false;
+      $.ajax({
+        url: "study/content-import",
+        type: "post",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (response) {
+          _this.steps.push({
+            id: response.id,
+            title: response.title,
+            type: response.type
+          });
+
+          _this.contents.push({
+            id: response.id,
+            type: response.type,
+            data: response.data
+          });
+
+          _this.getTargetContent(_this.contents[_this.contents.length - 1]);
+          $("#searchContentModal").modal("hide");
+        },
+        error: function (xhr, status, error) {
+          if (xhr.status === 401) {
+            // 401 Unauthorized
+            window.location.href = "login.html";
+          }
+        },
+      });
+    },
+    selectNote(noteId) {
+      let _this = this;
+      let data = {};
+      data.selfId = this.studyId;
+      data.contentId = noteId;
+      data.contentType = "NOTE";
+      data.syncEnabled = false;
+      $.ajax({
+        url: "study/content-import",
+        type: "post",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (response) {
+          _this.steps.push({
+            id: response.id,
+            title: response.title,
+            type: response.type
+          });
+
+          _this.contents.push({
+            id: response.id,
+            type: response.type,
+            data: response.data
+          });
+
+          _this.getTargetContent(_this.contents[_this.contents.length - 1]);
+          $("#searchContentModal").modal("hide");
+        },
+        error: function (xhr, status, error) {
+          if (xhr.status === 401) {
+            // 401 Unauthorized
+            window.location.href = "login.html";
+          }
+        },
+      });
+    },
+    selectNews(newsId) {
+      let _this = this;
+      let data = {};
+      data.selfId = this.studyId;
+      data.contentId = newsId;
+      data.contentType = "NEWS";
+      data.syncEnabled = false;
+      $.ajax({
+        url: "study/content-import",
+        type: "post",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (response) {
+          _this.steps.push({
+            id: response.id,
+            title: response.title,
+            type: response.type
+          });
+
+          _this.contents.push({
+            id: response.id,
+            type: response.type,
+            data: response.data
+          });
+
+          _this.getTargetContent(_this.contents[_this.contents.length - 1]);
+          $("#searchContentModal").modal("hide");
+        },
+        error: function (xhr, status, error) {
+          if (xhr.status === 401) {
+            // 401 Unauthorized
+            window.location.href = "login.html";
+          }
+        },
+      });
+    },
 
     // ======================== highchart ======================== //
-    initLayoutAndNote(params) {
+    initLayout(targetContent) {
+      const layoutId = targetContent.data.id;
+      const symbolId = targetContent.data.symbolId;
+      const interval = targetContent.data.interval;
+      const layoutName = targetContent.data.name;
+      const layoutDesc = targetContent.data.desc;
+      const symbolName = targetContent.data.symbol;
+      const userSettings = targetContent.data.userSettings;
+
       let _this = this;
       $.ajax({
-        url: `layout/enter?${params.toString()}`,
+        url: "ohlc/" + symbolName + "/" + interval,
         type: "get",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-          console.log(response);
           _this.ohlc = [];
           _this.volume = [];
-          _this.layoutName = response.name;
-          _this.layoutDesc = response.desc;
-          _this.interval = response.interval;
-          _this.layoutId = response.id;
-          _this.symbolName = response.symbol;
-          _this.userSettings = response.userSettings || {};
-
-//          // 取筆記內容
-//          _this.getNoteData();
-
-          _this.symbolTitle = response.ohlcDataDTOList[0].symbolName;
-
-          response.ohlcDataDTOList.forEach((item) => {
+          _this.layoutName = layoutName;
+          _this.layoutDesc = layoutDesc;
+          _this.interval = interval;
+          _this.layoutId = layoutId;
+          _this.symbolName = symbolName;
+          _this.userSettings = userSettings || {};
+          _this.symbolTitle = response[0].symbolName;
+          response.forEach((item) => {
             const date = item.date;
             const open = item.open;
             const high = item.high;
@@ -408,6 +573,10 @@ function loadData() {
           _this.KIsRise = isRise;
         },
       });
+    },
+    switchLayout(contentId) {
+      const targetContent = this.contents.find(item => item.id === contentId);
+      this.getTargetContent(targetContent);
     },
     addSMA(period, color = "blue") {
       if (chart.get(`sma-${period}`)) return; // 已存在就不加
@@ -1678,27 +1847,45 @@ function loadData() {
     // ======================== highchart ======================== //
 
     // ======================== note ======================== //
-    getNoteData() {
+    switchNote(contentId) {
+      const targetContent = this.contents.find(item => item.id === contentId);
+      this.noteId = targetContent.data.id;
+      this.getTargetContent(targetContent);
+    },
+    initNote(targetContent) {
+      const content = targetContent.data.content || '';
+      const title = targetContent.data.title || "無標題";
+      this.$nextTick(() => {
+        if (typeof initEditor === 'function') {
+          initEditor(content);
+        }
+      });
+    },
+    openEditNoteModal(){
+      $("#editNoteModal").modal("show");
+      const note = this.contents.find((n) => n.data.id === this.noteId);
+      console.log(note)
+      $("#noteName").val(note.title);
+    },
+    editNoteTitle(){
       let _this = this;
+      let data = {};
+      data.id = this.noteId;
+      data.title = $("#noteName").val();
       $.ajax({
-        url: `note/${this.noteId}`,
-        type: "get",
+        url: "note",
+        type: "patch",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
         success: function (response) {
-          console.log(response);
-          _this.note = response.map((note) => {
-            const date = new Date(note.createdAt);
-            const formattedDate = date.toISOString().slice(0, 10); // yyyy-MM-dd
-
-            const title = note.title || "(無標題)";
-
-            return {
-              ...note,
-              info: `${formattedDate} ${title}`,
-            };
-          });
-          window.editor.setData(_this.note.content);
+          console.log(response)
+          const index = _this.notes.findIndex(note => note.id === response.id);
+          if (index !== -1) {
+            _this.notes[index] = response;
+          } else {
+            _this.notes.push(response);
+          }
         },
         error: function (xhr, status, error) {
           if (xhr.status === 401) {

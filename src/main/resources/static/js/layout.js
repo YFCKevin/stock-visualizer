@@ -264,7 +264,12 @@ function loadData() {
           });
           let noteSize = _this.notes.length;
           _this.noteId = _this.notes[noteSize - 1].id;
-          window.editor.setData(_this.notes[noteSize - 1].content);
+
+          _this.$nextTick(() => {
+            if (typeof initEditor === 'function') {
+              initEditor(_this.notes[noteSize - 1].content);
+            }
+          });
         },
         error: function (xhr, status, error) {
           if (xhr.status === 401) {
@@ -2097,7 +2102,7 @@ function loadData() {
       let _this = this;
       this.interval = type;
       $.ajax({
-        url: `ohlc/${this.symbolName}/${this.interval}`,
+        url: `ohlc/by-symbol-name/${this.symbolName}/${this.interval}`,
         type: "get",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
