@@ -66,9 +66,4 @@ public class StudyContentDTO {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    public String toString() {
-        String var10000 = this.title;
-        return "StudyContentDTO{title='" + var10000 + "', comment='" + this.comment + "', id='" + this.id + "', type=" + String.valueOf(this.type) + ", data=" + String.valueOf(this.data) + ", sortOrder=" + this.sortOrder + "}";
-    }
 }

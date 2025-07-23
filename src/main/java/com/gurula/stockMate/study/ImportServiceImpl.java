@@ -3,11 +3,16 @@ package com.gurula.stockMate.study;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.layout.Layout;
 import com.gurula.stockMate.layout.LayoutRepository;
+import com.gurula.stockMate.layout.dto.LayoutDTO;
 import com.gurula.stockMate.news.News;
 import com.gurula.stockMate.news.NewsRepository;
 import com.gurula.stockMate.note.Note;
+import com.gurula.stockMate.note.NoteDTO;
 import com.gurula.stockMate.note.NoteRepository;
 import java.util.Optional;
+
+import com.gurula.stockMate.symbol.Symbol;
+import com.gurula.stockMate.symbol.SymbolRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +28,10 @@ public class ImportServiceImpl implements ImportService {
     private final StudyContentItemRepository studyContentItemRepository;
     private final StudyNoteVersionRepository studyNoteVersionRepository;
     private final StudyLayoutVersionRepository studyLayoutVersionRepository;
+    private final SymbolRepository symbolRepository;
 
-    public ImportServiceImpl(StudyNewsRepository studyNewsRepository, NewsRepository newsRepository, StudyRepository studyRepository, NoteRepository noteRepository, StudyNoteRepository studyNoteRepository, LayoutRepository layoutRepository, StudyLayoutRepository studyLayoutRepository, StudyContentItemRepository studyContentItemRepository, StudyNoteVersionRepository studyNoteVersionRepository, StudyLayoutVersionRepository studyLayoutVersionRepository) {
+    public ImportServiceImpl(StudyNewsRepository studyNewsRepository, NewsRepository newsRepository, StudyRepository studyRepository, NoteRepository noteRepository, StudyNoteRepository studyNoteRepository, LayoutRepository layoutRepository, StudyLayoutRepository studyLayoutRepository, StudyContentItemRepository studyContentItemRepository, StudyNoteVersionRepository studyNoteVersionRepository, StudyLayoutVersionRepository studyLayoutVersionRepository,
+                             SymbolRepository symbolRepository) {
         this.studyNewsRepository = studyNewsRepository;
         this.newsRepository = newsRepository;
         this.studyRepository = studyRepository;
@@ -35,11 +42,12 @@ public class ImportServiceImpl implements ImportService {
         this.studyContentItemRepository = studyContentItemRepository;
         this.studyNoteVersionRepository = studyNoteVersionRepository;
         this.studyLayoutVersionRepository = studyLayoutVersionRepository;
+        this.symbolRepository = symbolRepository;
     }
 
     @Override
     @Transactional
-    public Result<String, String> importNewsToStudy(ImportDTO importDTO, String memberId) {
+    public Result<StudyContentDTO, String> importNewsToStudy(ImportDTO importDTO, String memberId) {
         String studyId = importDTO.getSelfId();
         String newsId = importDTO.getContentId();
 
@@ -58,6 +66,8 @@ public class ImportServiceImpl implements ImportService {
         if (validNews.isEmpty()) {
             return Result.err("Invalid or unauthorized News ID found: " + newsId);
         }
+
+        final News news = validNews.get();
 
         // 檢查是否已經關聯過
         boolean studyNewsExists = studyNewsRepository.findByStudyIdAndNewsId(studyId, newsId).isPresent();
@@ -84,22 +94,28 @@ public class ImportServiceImpl implements ImportService {
         }
 
         // 加入 StudyContentItem 排序關聯
+        StudyContentItem studyContentItem = null;
         if (!studyContentItemExists) {
-            StudyContentItem studyContentItem = new StudyContentItem(studyId, ContentType.NEWS, newsId, nextSortOrder);
+            studyContentItem = new StudyContentItem(studyId, ContentType.NEWS, newsId, nextSortOrder);
             studyContentItemRepository.save(studyContentItem);
             changesMade = true;
         }
 
         if (changesMade) {
-            return Result.ok("News '" + newsId + "' associated and ordered within study successfully.");
+            StudyContentDTO dto = new StudyContentDTO();
+            dto.setTitle(news.getTitle());
+            dto.setType(ContentType.NEWS);
+            dto.setId(studyContentItem.getContentId());
+            dto.setData(news.toDto());
+            return Result.ok(dto);
         } else {
-            return Result.ok("News '" + newsId + "' was already associated and ordered within study. No new changes made.");
+            return Result.ok(new StudyContentDTO());
         }
     }
 
     @Override
     @Transactional
-    public Result<String, String> importNotesToStudy(ImportDTO importDTO, String memberId) {
+    public Result<StudyContentDTO, String> importNotesToStudy(ImportDTO importDTO, String memberId) {
         String studyId = importDTO.getSelfId();
         String noteId = importDTO.getContentId();
         boolean syncEnabled = importDTO.isSyncEnabled();
@@ -137,6 +153,7 @@ public class ImportServiceImpl implements ImportService {
 
         boolean changesMade = false;
 
+        StudyNoteVersion initialVersion = null;
         // 建立 StudyNote 關聯
         if (!studyNoteExists) {
             StudyNote studyNote = new StudyNote();
@@ -148,7 +165,7 @@ public class ImportServiceImpl implements ImportService {
 
             // 若不同步，則儲存初始版本
             if (!syncEnabled) {
-                StudyNoteVersion initialVersion = new StudyNoteVersion();
+                initialVersion = new StudyNoteVersion();
                 initialVersion.setStudyNoteId(studyNote.getId());
                 initialVersion.setTitle(originalNote.getTitle());
                 initialVersion.setContent(originalNote.getContent());
@@ -158,29 +175,42 @@ public class ImportServiceImpl implements ImportService {
 
                 initialVersion = studyNoteVersionRepository.save(initialVersion);
                 studyNote.setCurrentVersionId(initialVersion.getId());
-                studyNoteRepository.save(studyNote); // 更新版本 ID
+                studyNoteRepository.save(studyNote);
             }
         }
 
         // 建立 StudyContentItem 排序關聯
+        StudyContentItem studyContentItem = null;
         if (!studyContentItemExists) {
-            StudyContentItem studyContentItem = new StudyContentItem(
-                    studyId, ContentType.NOTE, noteId, nextSortOrder
+            String contentId = syncEnabled ? noteId : initialVersion.getId();
+            studyContentItem = new StudyContentItem(
+                    studyId, ContentType.NOTE, contentId, nextSortOrder
             );
             studyContentItemRepository.save(studyContentItem);
             changesMade = true;
         }
 
         if (changesMade) {
-            return Result.ok("Note '" + noteId + "' associated and ordered within study successfully.");
+            StudyContentDTO dto = new StudyContentDTO();
+            dto.setTitle(originalNote.getTitle());
+            dto.setType(ContentType.NOTE);
+            dto.setId(studyContentItem.getContentId());
+            if (syncEnabled) {
+                final NoteDTO noteDTO = originalNote.toDto();
+                noteDTO.setVersionType(VersionType.SYNC);
+                dto.setData(noteDTO);
+            } else {
+                dto.setData(initialVersion.toDto());
+            }
+            return Result.ok(dto);
         } else {
-            return Result.ok("Note '" + noteId + "' was already associated and ordered within study. No new changes made.");
+            return Result.ok(new StudyContentDTO());
         }
     }
 
     @Override
     @Transactional
-    public Result<String, String> importLayoutsToStudy(ImportDTO importDTO, String memberId) {
+    public Result<StudyContentDTO, String> importLayoutsToStudy(ImportDTO importDTO, String memberId) {
         String studyId = importDTO.getSelfId();
         String layoutId = importDTO.getContentId();
         boolean syncEnabled = importDTO.isSyncEnabled();
@@ -218,6 +248,7 @@ public class ImportServiceImpl implements ImportService {
 
         boolean changesMade = false;
 
+        StudyLayoutVersion initialVersion = null;
         // 建立 StudyLayout 關聯
         if (!studyLayoutExists) {
             StudyLayout studyLayout = new StudyLayout();
@@ -228,7 +259,7 @@ public class ImportServiceImpl implements ImportService {
 
             // 若不同步，建立初始版本快照
             if (!syncEnabled) {
-                StudyLayoutVersion initialVersion = new StudyLayoutVersion();
+                initialVersion = new StudyLayoutVersion();
                 initialVersion.setStudyLayoutId(studyLayout.getId());
                 initialVersion.setName(originalLayout.getName());
                 initialVersion.setDesc(originalLayout.getDesc());
@@ -237,6 +268,7 @@ public class ImportServiceImpl implements ImportService {
                 initialVersion.setCreatedAt(System.currentTimeMillis());
                 initialVersion.setVersionType(VersionType.SNAPSHOT);
                 initialVersion.setMemberId(memberId);
+                initialVersion.setSymbolId(originalLayout.getSymbolId());
 
                 initialVersion = studyLayoutVersionRepository.save(initialVersion);
                 studyLayout.setCurrentVersionId(initialVersion.getId());
@@ -245,18 +277,36 @@ public class ImportServiceImpl implements ImportService {
         }
 
         // 建立 StudyContentItem 排序
+        StudyContentItem studyContentItem = null;
         if (!studyContentItemExists) {
-            StudyContentItem studyContentItem = new StudyContentItem(
-                    studyId, ContentType.LAYOUT, layoutId, nextSortOrder
+            String contentId = syncEnabled ? layoutId : initialVersion.getId();
+            studyContentItem = new StudyContentItem(
+                    studyId, ContentType.LAYOUT, contentId, nextSortOrder
             );
             studyContentItemRepository.save(studyContentItem);
             changesMade = true;
         }
 
         if (changesMade) {
-            return Result.ok("Layout '" + layoutId + "' associated and ordered within study successfully.");
+            StudyContentDTO dto = new StudyContentDTO();
+            dto.setTitle(originalLayout.getName());
+            dto.setType(ContentType.LAYOUT);
+            dto.setId(studyContentItem.getContentId());
+            final Symbol symbol = symbolRepository.findById(originalLayout.getSymbolId()).get();
+            final LayoutDTO layoutDTO;
+            if (syncEnabled) {
+                layoutDTO = originalLayout.toDto();
+                layoutDTO.setSymbol(symbol.getSymbol());
+                layoutDTO.setVersionType(VersionType.SYNC);
+            } else {
+                layoutDTO = initialVersion.toDto();
+                layoutDTO.setSymbol(symbol.getSymbol());
+            }
+            dto.setData(layoutDTO);
+
+            return Result.ok(dto);
         } else {
-            return Result.ok("Layout '" + layoutId + "' was already associated and ordered within study. No new changes made.");
+            return Result.ok(new StudyContentDTO());
         }
     }
 }
