@@ -170,4 +170,18 @@ public class StudyController {
 
         return ResponseEntity.ok(result);
     }
+
+
+    @DeleteMapping("/content-items")
+    public ResponseEntity<?> removeContentItemFromStudy(@RequestBody RemoveContentItemDTO removeContentItemDTO) {
+        final Member member = MemberContext.getMember();
+        removeContentItemDTO.setMemberId(member.getId());
+        Result<String, String> result = studyService.removeContentItemFromStudy(removeContentItemDTO);
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap());
+        } else {
+            return ResponseEntity.badRequest().body(result.unwrapErr());
+        }
+    }
+
 }

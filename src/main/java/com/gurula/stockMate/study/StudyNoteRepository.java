@@ -8,4 +8,6 @@ public interface StudyNoteRepository extends MongoRepository<StudyNote, String> 
     Optional<StudyNote> findByStudyIdAndNoteId(String studyId, String noteId);
 
     List<StudyNote> findByStudyId(String studyId);
+
+    Optional<StudyNote> findByStudyIdAndCurrentVersionId(String studyId, String contentId);
 }

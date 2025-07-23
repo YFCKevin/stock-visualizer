@@ -28,4 +28,6 @@ public interface StudyService {
     List<News> searchNewsContent(String memberId, String keyword);
 
     Result<String, String> editContentItemTitle(UpdateStudyContentDTO updateStudyContentDTO);
+
+    Result<String, String> removeContentItemFromStudy(RemoveContentItemDTO removeContentItemDTO);
 }

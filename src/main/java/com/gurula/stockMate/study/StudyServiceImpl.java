@@ -44,8 +44,10 @@ public class StudyServiceImpl implements StudyService {
     private final StudyLayoutVersionRepository studyLayoutVersionRepository;
     private final SymbolRepository symbolRepository;
     private final MongoTemplate mongoTemplate;
+    private final StudyNewsRepository studyNewsRepository;
 
-    public StudyServiceImpl(LayoutRepository layoutRepository, StudyLayoutRepository studyLayoutRepository, StudyRepository studyRepository, StudyContentItemRepository studyContentItemRepository, NoteRepository noteRepository, NewsRepository newsRepository, StudyNoteVersionRepository studyNoteVersionRepository, StudyNoteRepository studyNoteRepository, StudyLayoutVersionRepository studyLayoutVersionRepository, SymbolRepository symbolRepository, MongoTemplate mongoTemplate) {
+    public StudyServiceImpl(LayoutRepository layoutRepository, StudyLayoutRepository studyLayoutRepository, StudyRepository studyRepository, StudyContentItemRepository studyContentItemRepository, NoteRepository noteRepository, NewsRepository newsRepository, StudyNoteVersionRepository studyNoteVersionRepository, StudyNoteRepository studyNoteRepository, StudyLayoutVersionRepository studyLayoutVersionRepository, SymbolRepository symbolRepository, MongoTemplate mongoTemplate,
+                            StudyNewsRepository studyNewsRepository) {
         this.layoutRepository = layoutRepository;
         this.studyLayoutRepository = studyLayoutRepository;
         this.studyRepository = studyRepository;
@@ -57,6 +59,7 @@ public class StudyServiceImpl implements StudyService {
         this.studyLayoutVersionRepository = studyLayoutVersionRepository;
         this.symbolRepository = symbolRepository;
         this.mongoTemplate = mongoTemplate;
+        this.studyNewsRepository = studyNewsRepository;
     }
 
     @Override
@@ -143,11 +146,13 @@ public class StudyServiceImpl implements StudyService {
                     dto = origin.toDto();
                     dto.setSymbol(symbolIdToNameMap.get(origin.getSymbolId()));
                     dto.setVersionType(VersionType.SYNC);
+                    dto.setSyncEnabled(true);
                 } else {
                     StudyLayoutVersion ver = layoutVersions.get(sl.getCurrentVersionId());
                     if (ver == null) return Result.err("LayoutVersion not found: " + sl.getCurrentVersionId());
                     dto = ver.toDto();
                     dto.setSymbol(symbolIdToNameMap.get(ver.getSymbolId()));
+                    dto.setSyncEnabled(false);
                 }
                 layoutDTOMap.put(layoutId, dto);
             }
@@ -186,10 +191,12 @@ public class StudyServiceImpl implements StudyService {
                     if (origin == null) return Result.err("Original Note not found: " + noteId);
                     dto = origin.toDto();
                     dto.setVersionType(VersionType.SYNC);
+                    dto.setSyncEnabled(true);
                 } else {
                     StudyNoteVersion ver = noteVersions.get(sn.getCurrentVersionId());
                     if (ver == null) return Result.err("NoteVersion not found: " + sn.getCurrentVersionId());
                     dto = ver.toDto();
+                    dto.setSyncEnabled(false);
                 }
                 noteDTOMap.put(noteId, dto);
             }
@@ -199,7 +206,11 @@ public class StudyServiceImpl implements StudyService {
         Map<String, NewsDTO> newsDTOMap = new HashMap<>();
         if (contentIdsByType.containsKey(ContentType.NEWS)) {
             newsDTOMap = newsRepository.findByIdInAndMemberId(contentIdsByType.get(ContentType.NEWS), memberId).stream()
-                    .map(News::toDto)
+                    .map(news -> {
+                        final NewsDTO dto = news.toDto();
+                        dto.setSyncEnabled(true);
+                        return dto;
+                    })
                     .collect(Collectors.toMap(NewsDTO::getId, Function.identity()));
         }
 
@@ -216,16 +227,19 @@ public class StudyServiceImpl implements StudyService {
                     LayoutDTO layoutDTO = layoutDTOMap.get(item.getContentId());
                     dto.setData(layoutDTO);
                     dto.setTitle(layoutDTO.getName());
+                    dto.setSyncEnabled(layoutDTO.isSyncEnabled());
                 }
                 case NOTE -> {
                     NoteDTO noteDTO = noteDTOMap.get(item.getContentId());
                     dto.setData(noteDTO);
                     dto.setTitle(noteDTO.getTitle());
+                    dto.setSyncEnabled(noteDTO.isSyncEnabled());
                 }
                 case NEWS -> {
                     NewsDTO newsDTO = newsDTOMap.get(item.getContentId());
                     dto.setData(newsDTO);
                     dto.setTitle(newsDTO.getTitle());
+                    dto.setSyncEnabled(newsDTO.isSyncEnabled());
                 }
             }
 
@@ -575,5 +589,74 @@ public class StudyServiceImpl implements StudyService {
             return Result.err("儲存失敗：" + e.getMessage());
         }
 
+    }
+
+    @Override
+    public Result<String, String> removeContentItemFromStudy(RemoveContentItemDTO removeContentItemDTO) {
+        final ContentType contentType = removeContentItemDTO.getContentType();
+        final String memberId = removeContentItemDTO.getMemberId();
+        final String contentId = removeContentItemDTO.getContentId();
+        final boolean syncEnabled = removeContentItemDTO.isSyncEnabled();
+
+        Optional<StudyContentItem> contentItemOptional = studyContentItemRepository.findByContentId(contentId);
+
+        if (contentItemOptional.isEmpty()) {
+            return Result.err("Content item association not found for the given contentId.");
+        }
+
+        final StudyContentItem studyContentItem = contentItemOptional.get();
+        final String studyId = studyContentItem.getStudyId();
+
+        // 2. 驗證 Study 是否存在且屬於 MemberId
+        Optional<Study> studyOptional = studyRepository.findByIdAndMemberId(studyId, memberId);
+        if (studyOptional.isEmpty()) {
+            return Result.err("Study not found or unauthorized for this member.");
+        }
+
+        try {
+            switch (contentType) {
+                case LAYOUT -> {
+                    Optional<StudyLayout> studyLayoutOptional;
+                    if (syncEnabled) {
+                        studyLayoutOptional = studyLayoutRepository.findByStudyIdAndLayoutId(studyId, contentId);
+                    } else {
+                        studyLayoutOptional = studyLayoutRepository.findByStudyIdAndCurrentVersionId(studyId, contentId);
+                    }
+                    if (studyLayoutOptional.isEmpty()) {
+                        return Result.err("Layout not found in the specified study or version mismatch.");
+                    }
+                    studyLayoutRepository.delete(studyLayoutOptional.get());
+                }
+                case NOTE -> {
+                    Optional<StudyNote> studyNoteOptional;
+                    if (syncEnabled) {
+                        studyNoteOptional = studyNoteRepository.findByStudyIdAndNoteId(studyId, contentId);
+                    } else {
+                        studyNoteOptional = studyNoteRepository.findByStudyIdAndCurrentVersionId(studyId, contentId);
+                    }
+                    if (studyNoteOptional.isEmpty()) {
+                        return Result.err("Note not found in the specified study or version mismatch.");
+                    }
+                    studyNoteRepository.delete(studyNoteOptional.get());
+                }
+                case NEWS -> {
+                    Optional<StudyNews> studyNewsOptional = studyNewsRepository.findByStudyIdAndNewsId(studyId, contentId);
+                    if (studyNewsOptional.isEmpty()) {
+                        return Result.err("News item not found in the specified study.");
+                    }
+                    studyNewsRepository.delete(studyNewsOptional.get());
+                }
+                default -> {
+                    return Result.err("Unsupported content type: " + contentType);
+                }
+            }
+
+            studyContentItemRepository.delete(studyContentItem);
+
+            return Result.ok("Content item successfully removed from study.");
+
+        } catch (Exception e) {
+            return Result.err("An error occurred during content item removal: " + e.getMessage());
+        }
     }
 }

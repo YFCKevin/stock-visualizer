@@ -8,4 +8,6 @@ public interface StudyLayoutRepository extends MongoRepository<StudyLayout, Stri
     List<StudyLayout> findByStudyId(String studyId);
 
     Optional<StudyLayout> findByStudyIdAndLayoutId(String studyId, String layoutId);
+
+    Optional<StudyLayout> findByStudyIdAndCurrentVersionId(String studyId, String contentId);
 }

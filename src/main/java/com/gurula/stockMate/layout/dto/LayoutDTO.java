@@ -26,6 +26,7 @@ public class LayoutDTO {
     private List<OhlcDataDTO> ohlcDataDTOList;
     private String createAt;
     private String updateAt;
+    private boolean syncEnabled;
 
     public String getCreateAt() {
         return createAt;
@@ -131,6 +132,14 @@ public class LayoutDTO {
         this.versionType = versionType;
     }
 
+    public boolean isSyncEnabled() {
+        return syncEnabled;
+    }
+
+    public void setSyncEnabled(boolean syncEnabled) {
+        this.syncEnabled = syncEnabled;
+    }
+
     public Layout toEntity(Symbol symbol) {
         Layout layout = new Layout();
         layout.setMemberId(this.memberId);
@@ -141,20 +150,5 @@ public class LayoutDTO {
         layout.setUserSettings(this.userSettings);
         layout.setSymbolId(symbol.getId());
         return layout;
-    }
-
-    @Override
-    public String toString() {
-        return "LayoutDTO{" +
-                "id='" + id + '\'' +
-                ", memberId='" + memberId + '\'' +
-                ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
-                ", interval='" + interval + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", symbolId='" + symbolId + '\'' +
-                ", createAt='" + createAt + '\'' +
-                ", updateAt='" + updateAt + '\'' +
-                '}';
     }
 }

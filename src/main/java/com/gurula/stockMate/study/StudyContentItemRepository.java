@@ -12,4 +12,6 @@ public interface StudyContentItemRepository extends MongoRepository<StudyContent
     List<StudyContentItem> findByStudyIdOrderBySortOrderAsc(String studyId);
 
     Optional<StudyContentItem> findByStudyIdAndContentTypeAndContentId(String studyId, ContentType contentType, String newsId);
+
+    Optional<StudyContentItem> findByContentId(String contentId);
 }

@@ -15,6 +15,7 @@ public class NoteDTO {
     private String layoutName;
     private long createdAt;
     private long updatedAt;
+    private boolean syncEnabled;
 
     public String getId() {
         return id;
@@ -94,6 +95,14 @@ public class NoteDTO {
 
     public void setLayoutName(String layoutName) {
         this.layoutName = layoutName;
+    }
+
+    public boolean isSyncEnabled() {
+        return syncEnabled;
+    }
+
+    public void setSyncEnabled(boolean syncEnabled) {
+        this.syncEnabled = syncEnabled;
     }
 
     protected Note toEntity() {

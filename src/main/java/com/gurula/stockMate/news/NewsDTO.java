@@ -18,6 +18,7 @@ public class NewsDTO {
     private VisibilityType visibility;  // 前端用來傳送用
     private List<String> selectedVisibleMembers;    // RESTRICTED 權限選擇的會員 id
     private List<String> tagLabels;   // 用來顯示 tag 的中文字
+    private boolean syncEnabled;
 
     public List<String> getTagLabels() {
         return tagLabels;
@@ -121,6 +122,14 @@ public class NewsDTO {
 
     public void setVisibility(VisibilityType visibility) {
         this.visibility = visibility;
+    }
+
+    public boolean isSyncEnabled() {
+        return syncEnabled;
+    }
+
+    public void setSyncEnabled(boolean syncEnabled) {
+        this.syncEnabled = syncEnabled;
     }
 
     public News toEntity() {

@@ -11,6 +11,9 @@ function loadData() {
     news: [],
     selectedType: "",
     editContentId: "",
+    delContentId: "",
+    delType: "",
+    delSyncEnabled: false,
 
     // ======================== highchart ======================== //
     ohlc: [],
@@ -77,12 +80,13 @@ function loadData() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-          console.log(response);
+//          console.log(response);
           _this.steps = response.map((step) => {
             return {
               id: step.id,
               title: step.title,
               type: step.type,
+              syncEnabled: step.syncEnabled,
             }
           })
           console.log(_this.steps)
@@ -92,8 +96,10 @@ function loadData() {
               id: content.id,
               type: content.type,
               data: content.data,
+              syncEnabled: content.syncEnabled,
             }
           })
+          console.log(_this.contents)
 
           // 渲染第一個內容
           _this.getTargetContent(_this.contents?.[0]);
@@ -372,9 +378,36 @@ function loadData() {
       const title = targetContent ? targetContent.title : '';
       $("#deleteItemTitle").text(title);
       $("#deleteItemModal").modal("show");
+      this.delContentId = targetContent.id;
+      this.delType = targetContent.type;
+      this.delSyncEnabled = targetContent.syncEnabled;
     },
     deleteItem() {
-
+      let _this = this;
+      let data = {};
+      data.contentId = this.delContentId;
+      data.contentType = this.delType;
+      data.syncEnabled = this.delSyncEnabled;
+      $.ajax({
+        url: "study/content-items",
+        type: "delete",
+        dataType: "text",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function (response) {
+          _this.steps = _this.steps.filter(item => item.id !== _this.delContentId);
+          _this.contents = _this.contents.filter(item => item.id !== _this.delContentId);
+          if (_this.contents.length > 0){
+            _this.getTargetContent(_this.contents[_this.contents.length - 1]);
+          }
+        },
+        error: function (xhr, status, error) {
+          if (xhr.status === 401) {
+            // 401 Unauthorized
+            window.location.href = "login.html";
+          }
+        },
+      });
     },
     selectLayout(layoutId) {
       let _this = this;
@@ -393,13 +426,15 @@ function loadData() {
           _this.steps.push({
             id: response.id,
             title: response.title,
-            type: response.type
+            type: response.type,
+            syncEnabled: response.syncEnabled,
           });
 
           _this.contents.push({
             id: response.id,
             type: response.type,
-            data: response.data
+            data: response.data,
+            syncEnabled: response.syncEnabled,
           });
 
           _this.getTargetContent(_this.contents[_this.contents.length - 1]);
@@ -430,13 +465,15 @@ function loadData() {
           _this.steps.push({
             id: response.id,
             title: response.title,
-            type: response.type
+            type: response.type,
+            syncEnabled: response.syncEnabled,
           });
 
           _this.contents.push({
             id: response.id,
             type: response.type,
-            data: response.data
+            data: response.data,
+            syncEnabled: response.syncEnabled,
           });
 
           _this.getTargetContent(_this.contents[_this.contents.length - 1]);
@@ -467,13 +504,15 @@ function loadData() {
           _this.steps.push({
             id: response.id,
             title: response.title,
-            type: response.type
+            type: response.type,
+            syncEnabled: response.syncEnabled,
           });
 
           _this.contents.push({
             id: response.id,
             type: response.type,
-            data: response.data
+            data: response.data,
+            syncEnabled: response.syncEnabled,
           });
 
           _this.getTargetContent(_this.contents[_this.contents.length - 1]);

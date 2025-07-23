@@ -10,6 +10,7 @@ public class StudyContentDTO {
     private ContentType type;
     private Object data;
     private int sortOrder;
+    private boolean syncEnabled;
 
     public StudyContentDTO() {
     }
@@ -65,5 +66,13 @@ public class StudyContentDTO {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isSyncEnabled() {
+        return syncEnabled;
+    }
+
+    public void setSyncEnabled(boolean syncEnabled) {
+        this.syncEnabled = syncEnabled;
     }
 }
