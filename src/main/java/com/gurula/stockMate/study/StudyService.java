@@ -26,4 +26,6 @@ public interface StudyService {
     List<NoteDTO> searchNoteContent(String memberId, String keyword);
 
     List<News> searchNewsContent(String memberId, String keyword);
+
+    Result<String, String> editContentItemTitle(UpdateStudyContentDTO updateStudyContentDTO);
 }

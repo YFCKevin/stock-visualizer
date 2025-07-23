@@ -8,16 +8,11 @@ import com.gurula.stockMate.news.NewsDTO;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/study"})
@@ -47,14 +42,19 @@ public class StudyController {
     @PostMapping("/content-import")
     public ResponseEntity<?> importContent(@RequestBody ImportDTO importDTO) {
         Member member = MemberContext.getMember();
-        Result<String, String> result = switch (importDTO.getContentType()) {
+        Result<StudyContentDTO, String> result = switch (importDTO.getContentType()) {
             case NEWS -> importService.importNewsToStudy(importDTO, member.getId());
             case LAYOUT -> importService.importLayoutsToStudy(importDTO, member.getId());
             case NOTE -> importService.importNotesToStudy(importDTO, member.getId());
         };
 
         if (result.isOk()) {
-            return ResponseEntity.ok(result.unwrap());
+            final StudyContentDTO dto = result.unwrap();
+            if (StringUtils.isBlank(dto.getId())) {
+                return ResponseEntity.ok("Content was already associated and ordered within study. No new changes made.");
+            } else {
+                return ResponseEntity.ok(result.unwrap());
+            }
         } else {
             String errorMessage = result.unwrapErr();
             if (errorMessage.contains("not found or not owned")) {
@@ -98,6 +98,29 @@ public class StudyController {
         }
     }
 
+
+    @PatchMapping("/edit-item-title")
+    public ResponseEntity<?> editContentItemTitle(@RequestBody UpdateStudyContentDTO updateStudyContentDTO) {
+        final Member member = MemberContext.getMember();
+        updateStudyContentDTO.setMemberId(member.getId());
+
+        final VersionType versionType = updateStudyContentDTO.getVersionType();
+        if (versionType.equals(VersionType.SYNC)) {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(Result.err("Modification of content items in synchronized versions is prohibited."));
+        }
+
+        Result<String, String> result = studyService.editContentItemTitle(updateStudyContentDTO);
+
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap());
+        } else {
+            return ResponseEntity.badRequest().body(result.unwrapErr());
+        }
+
+    }
+
     @GetMapping
     public ResponseEntity<?> studies() {
         Member member = MemberContext.getMember();
@@ -109,11 +132,11 @@ public class StudyController {
     public ResponseEntity<?> getContentsForStudy(@PathVariable String studyId) {
         Member member = MemberContext.getMember();
 
-        try {
-            Result<List<StudyContentDTO>, String> result = studyService.getContentsByStudyId(studyId, member.getId());
+        Result<List<StudyContentDTO>, String> result = studyService.getContentsByStudyId(studyId, member.getId());
+        if (result.isOk()) {
             return ResponseEntity.ok(result.unwrap());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        } else {
+            return ResponseEntity.badRequest().body(result.unwrapErr());
         }
     }
 

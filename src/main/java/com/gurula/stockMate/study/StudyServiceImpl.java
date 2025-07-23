@@ -18,6 +18,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -72,10 +74,24 @@ public class StudyServiceImpl implements StudyService {
 
         // 查詢 StudyNote 和 StudyLayout
         Map<String, StudyLayout> studyLayoutMap = studyLayoutRepository.findByStudyId(studyId).stream()
-                .collect(Collectors.toMap(StudyLayout::getLayoutId, Function.identity()));
+                .collect(Collectors.toMap(
+                        layout -> {
+                            String versionId = layout.getCurrentVersionId();
+                            return (versionId != null && !versionId.isBlank()) ? versionId : layout.getLayoutId();
+                        },
+                        Function.identity(),
+                        (existing, replacement) -> replacement
+                ));
 
         Map<String, StudyNote> studyNoteMap = studyNoteRepository.findByStudyId(studyId).stream()
-                .collect(Collectors.toMap(StudyNote::getNoteId, Function.identity()));
+                .collect(Collectors.toMap(
+                        note -> {
+                            String versionId = note.getCurrentVersionId();
+                            return (versionId != null && !versionId.isBlank()) ? versionId : note.getNoteId();
+                        },
+                        Function.identity(),
+                        (existing, replacement) -> replacement
+                ));
 
         // 將 contentItem 分類
         Map<ContentType, List<String>> contentIdsByType = new EnumMap<>(ContentType.class);
@@ -102,11 +118,21 @@ public class StudyServiceImpl implements StudyService {
                 }
             }
 
-            Map<String, Layout> originalLayouts = layoutRepository.findByIdInAndMemberId(syncLayoutIds, memberId).stream()
+            final List<Layout> oriLayouts = layoutRepository.findByIdInAndMemberId(syncLayoutIds, memberId);
+            Map<String, Layout> originalLayouts = oriLayouts.stream()
                     .collect(Collectors.toMap(Layout::getId, Function.identity()));
 
-            Map<String, StudyLayoutVersion> layoutVersions = studyLayoutVersionRepository.findByIdIn(versionIds).stream()
+            final List<StudyLayoutVersion> snapshotLayouts = studyLayoutVersionRepository.findByIdIn(versionIds);
+            Map<String, StudyLayoutVersion> layoutVersions = snapshotLayouts.stream()
                     .collect(Collectors.toMap(StudyLayoutVersion::getId, Function.identity()));
+
+            Set<String> mergedSymbolIds = Stream.concat(
+                    oriLayouts.stream().map(Layout::getSymbolId),
+                    snapshotLayouts.stream().map(StudyLayoutVersion::getSymbolId)
+            ).collect(Collectors.toSet());
+            final Map<String, String> symbolIdToNameMap = symbolRepository.findByIdIn(mergedSymbolIds).stream()
+                    .collect(Collectors.toMap(Symbol::getId, Symbol::getSymbol));
+
 
             for (String layoutId : layoutIds) {
                 StudyLayout sl = studyLayoutMap.get(layoutId);
@@ -115,14 +141,13 @@ public class StudyServiceImpl implements StudyService {
                     Layout origin = originalLayouts.get(layoutId);
                     if (origin == null) return Result.err("Original Layout not found: " + layoutId);
                     dto = origin.toDto();
+                    dto.setSymbol(symbolIdToNameMap.get(origin.getSymbolId()));
+                    dto.setVersionType(VersionType.SYNC);
                 } else {
                     StudyLayoutVersion ver = layoutVersions.get(sl.getCurrentVersionId());
                     if (ver == null) return Result.err("LayoutVersion not found: " + sl.getCurrentVersionId());
-                    dto = new LayoutDTO();
-                    dto.setId(layoutId);
-                    dto.setName(ver.getName());
-                    dto.setDesc(ver.getDesc());
-                    dto.setVersionType(ver.getVersionType());
+                    dto = ver.toDto();
+                    dto.setSymbol(symbolIdToNameMap.get(ver.getSymbolId()));
                 }
                 layoutDTOMap.put(layoutId, dto);
             }
@@ -160,13 +185,11 @@ public class StudyServiceImpl implements StudyService {
                     Note origin = originalNotes.get(noteId);
                     if (origin == null) return Result.err("Original Note not found: " + noteId);
                     dto = origin.toDto();
+                    dto.setVersionType(VersionType.SYNC);
                 } else {
                     StudyNoteVersion ver = noteVersions.get(sn.getCurrentVersionId());
                     if (ver == null) return Result.err("NoteVersion not found: " + sn.getCurrentVersionId());
-                    dto = new NoteDTO();
-                    dto.setId(noteId);
-                    dto.setTitle(ver.getTitle());
-                    dto.setVersionType(ver.getVersionType());
+                    dto = ver.toDto();
                 }
                 noteDTOMap.put(noteId, dto);
             }
@@ -514,5 +537,43 @@ public class StudyServiceImpl implements StudyService {
 
         Query query = new Query(criteria);
         return mongoTemplate.find(query, News.class);
+    }
+
+    @Override
+    public Result<String, String> editContentItemTitle(UpdateStudyContentDTO updateStudyContentDTO) {
+
+        try {
+            final String contentId = updateStudyContentDTO.getContentId();
+            final String title = updateStudyContentDTO.getTitle();
+            final ContentType contentType = updateStudyContentDTO.getContentType();
+            final String memberId = updateStudyContentDTO.getMemberId();
+
+            switch (contentType) {
+                case LAYOUT -> {
+                    Optional<StudyLayoutVersion> layoutOpt = studyLayoutVersionRepository.findByIdAndMemberId(contentId, memberId);
+                    if (layoutOpt.isPresent()) {
+                        StudyLayoutVersion layout = layoutOpt.get();
+                        layout.setName(title);
+                        studyLayoutVersionRepository.save(layout);
+                    } else {
+                        return Result.err("找不到對應的版面資料");
+                    }
+                }
+                case NOTE -> {
+                    Optional<StudyNoteVersion> noteOpt = studyNoteVersionRepository.findByIdAndMemberId(contentId, memberId);
+                    if (noteOpt.isPresent()) {
+                        StudyNoteVersion note = noteOpt.get();
+                        note.setTitle(title);
+                        studyNoteVersionRepository.save(note);
+                    } else {
+                        return Result.err("找不到對應的筆記資料");
+                    }
+                }
+            }
+            return Result.ok(title);
+        } catch (Exception e) {
+            return Result.err("儲存失敗：" + e.getMessage());
+        }
+
     }
 }

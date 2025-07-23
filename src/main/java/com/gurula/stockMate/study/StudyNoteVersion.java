@@ -1,5 +1,6 @@
 package com.gurula.stockMate.study;
 
+import com.gurula.stockMate.note.NoteDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -71,5 +72,16 @@ public class StudyNoteVersion {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public NoteDTO toDto() {
+        NoteDTO dto = new NoteDTO();
+        dto.setId(this.id);
+        dto.setMemberId(this.memberId);
+        dto.setTitle(this.title);
+        dto.setContent(this.content);
+        dto.setCreatedAt(this.createdAt);
+        dto.setVersionType(this.versionType);
+        return dto;
     }
 }

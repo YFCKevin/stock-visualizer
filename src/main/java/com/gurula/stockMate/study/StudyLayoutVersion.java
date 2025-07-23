@@ -1,5 +1,6 @@
 package com.gurula.stockMate.study;
 
+import com.gurula.stockMate.layout.dto.LayoutDTO;
 import com.gurula.stockMate.ohlc.IntervalType;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class StudyLayoutVersion {
     private IntervalType interval;
     private Map<String, Object> userSettings = new HashMap<>();
     private String memberId;
+    private String symbolId;
     private VersionType versionType;
     private long createdAt;
 
@@ -94,5 +96,27 @@ public class StudyLayoutVersion {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getSymbolId() {
+        return symbolId;
+    }
+
+    public void setSymbolId(String symbolId) {
+        this.symbolId = symbolId;
+    }
+
+    public LayoutDTO toDto() {
+        LayoutDTO dto = new LayoutDTO();
+        dto.setId(this.id);
+        dto.setMemberId(this.memberId);
+        dto.setDesc(this.desc);
+        dto.setName(this.name);
+        dto.setInterval(this.interval.getValue());
+        dto.setSymbolId(this.symbolId);
+        dto.setUserSettings(this.userSettings);
+        dto.setCreateAt(this.getCreatedAt());
+        dto.setVersionType(this.versionType);
+        return dto;
     }
 }
