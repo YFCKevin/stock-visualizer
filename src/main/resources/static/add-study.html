@@ -117,28 +117,28 @@
                                             }"
                                             x-text="step.title && step.title.trim() !== '' ? step.title : '無標題'"
                                     ></div>
-                                </div>
 
-                                <!-- 右側 icon -->
-                                <div class="d-flex align-self-start align-items-center">
-                                    <i
-                                            class="fas fa-edit cursor-pointer ms-2 me-2"
-                                            :class="{
+                                    <!-- 右側 icon -->
+                                    <div class="d-flex align-self-start align-items-center">
+                                        <i
+                                                class="fas fa-edit cursor-pointer ms-2 me-2"
+                                                :class="{
                                               'text-progress-success fw-bold': index < currentStep,
                                               'text-progress-info fw-bold': index === currentStep,
                                               'text-secondary': index > currentStep
                                             }"
-                                            @click="openEditStepTitleModal(step.id)"
-                                    ></i>
-                                    <i
-                                            class="fas fa-trash cursor-pointer"
-                                            :class="{
+                                                @click="openEditStepTitleModal(step.id)"
+                                        ></i>
+                                        <i
+                                                class="fas fa-trash cursor-pointer"
+                                                :class="{
                                               'text-progress-success fw-bold': index < currentStep,
                                               'text-progress-info fw-bold': index === currentStep,
                                               'text-secondary': index > currentStep
                                             }"
-                                            @click="openDeleteItemModal(step.id)"
-                                    ></i>
+                                                @click="openDeleteItemModal(step.id)"
+                                        ></i>
+                                    </div>
                                 </div>
                             </li>
                     </template>

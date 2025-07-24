@@ -10,4 +10,8 @@ public interface NewsService {
     Result<List<News>, String> getAllNewsByDate(long date, String memberId);
 
     Result<String, String> deleteNews(String id, String memberId);
+
+    Result<NewsDTO, String> getNewsById(String newsId, String memberId);
+
+    Result<News, String> edit(NewsDTO newsDTO);
 }

@@ -40,7 +40,27 @@ public class NewsController {
     }
 
 
-    @GetMapping("/{date}")
+    @PatchMapping("/edit")
+    public ResponseEntity<?> edit(@RequestBody NewsDTO newsDTO) {
+        final Member member = MemberContext.getMember();
+        newsDTO.setMemberId(member.getId());
+
+        Result<News, String> result = newsService.edit(newsDTO);
+
+        if (result.isOk()) {
+            News news = result.unwrap();
+            NewsDTO dto = news.toDto();
+            return ResponseEntity.ok(dto);
+        } else {
+            String errorMessage = result.unwrapErr();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", errorMessage));
+        }
+    }
+
+
+    @GetMapping("/date/{date}")
     public ResponseEntity<?> getAllNews(@PathVariable(name = "date") long date) {
         final Member member = MemberContext.getMember();
         Result<List<News>, String> result = newsService.getAllNewsByDate(date, member.getId());
@@ -86,6 +106,22 @@ public class NewsController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(response);
+        }
+    }
+
+
+    @GetMapping("/{newsId}")
+    public ResponseEntity<?> getNewsById(@PathVariable String newsId) {
+        final Member member = MemberContext.getMember();
+        Result<NewsDTO, String> result = newsService.getNewsById(newsId, member.getId());
+
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap());
+        } else {
+            String errorMessage = result.unwrapErr();
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", errorMessage));
         }
     }
 }

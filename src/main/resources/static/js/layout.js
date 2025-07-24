@@ -59,6 +59,7 @@ function loadData() {
     allMembers: [],
     newsDeleteId: '',
     currentNewsDate: '',
+    editNewsId: '',
 
     // rule
     ruleTitle: '',
@@ -275,6 +276,12 @@ function loadData() {
           if (xhr.status === 401) {
             // 401 Unauthorized
             window.location.href = "login.html";
+          } else if (xhr.status === 404){ // 找不到對應的 Note 資料
+            _this.$nextTick(() => {
+              if (typeof initEditor === 'function') {
+                initEditor("");
+              }
+            });
           }
         },
       });
@@ -415,7 +422,7 @@ function loadData() {
     getAllNews(date){
       let _this = this;
       $.ajax({
-        url: "news/" + date,
+        url: "news/date/" + date,
         type: "get",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -453,32 +460,40 @@ function loadData() {
       }
     },
 
-    saveNews(){
+    saveNews() {
       let _this = this;
-      let data = {};
-      data.title = this.newsTitle;
-      data.tags = this.newsTags;
-      data.url = this.newsUrl;
-      data.publishedAt = new Date(this.newsPublishedAt).getTime();
-      data.accessRuleId = this.accessRuleId;
-      console.log(data)
+
+      let data = {
+        id: this.editNewsId,
+        title: this.newsTitle,
+        tags: this.newsTags,
+        url: this.newsUrl,
+        publishedAt: new Date(this.newsPublishedAt).getTime(),
+        accessRuleId: this.accessRuleId
+      };
+
+      // 判斷是否編輯
+      const isEdit = this.editNewsId && this.editNewsId.trim() !== "";
 
       $.ajax({
-        url: "news",
-        type: "post",
+        url: isEdit ? "news/edit" : "news",
+        type: isEdit ? "patch" : "post",
         dataType: "json",
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         success: function (response) {
           console.log(response);
-          if (_this.currentNewsDate != "") {
+
+          if (_this.currentNewsDate !== "") {
             _this.getAllNews(new Date(_this.currentNewsDate).getTime());
           }
+
           $("#addNewsModal").modal("hide");
         },
-      }).catch((xhr) => {
-        console.log(xhr);
-        console.log("系統異常，請稍後再試");
+        error: function (xhr) {
+          console.log(xhr);
+          console.log("系統異常，請稍後再試");
+        }
       });
     },
 
@@ -548,7 +563,7 @@ function loadData() {
     getAllRules(){
       let _this = this;
       // 取得會員的權限列表
-      $.ajax({
+      return $.ajax({
         url: "news/rule",
         type: "get",
         dataType: "json",
@@ -698,7 +713,30 @@ function loadData() {
     },
 
     startEditNews(id){
+      this.editNewsId = id;
+      let _this = this;
+      $.ajax({
+        url: "news/" + this.editNewsId,
+        type: "get",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+          console.log(response);
+          _this.newsTitle = response.title;
+          _this.newsTags = response.tags;
+          _this.newsUrl = response.url;
+          _this.newsPublishedAt = new Date(response.publishedAt).toISOString().slice(0, 10);
 
+          _this.getAllRules().then(() => {
+            _this.accessRuleId = response.accessRuleId;
+            $("#addNewsModal").modal("show");
+          });
+
+        },
+      }).catch((xhr) => {
+        console.log(xhr);
+        console.log("系統異常，請稍後再試");
+      });
     },
 
     deleteNews(){
@@ -2102,7 +2140,7 @@ function loadData() {
       let _this = this;
       this.interval = type;
       $.ajax({
-        url: `ohlc/by-symbol-name/${this.symbolName}/${this.interval}`,
+        url: `ohlc/${this.symbolName}/${this.interval}`,
         type: "get",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
