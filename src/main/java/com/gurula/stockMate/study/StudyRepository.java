@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface StudyRepository extends MongoRepository<Study, String> {
     Optional<Study> findByIdAndMemberId(String id, String memberId);
 
-    List<Study> findByMemberId(String memberId);
+    List<Study> findByMemberIdAndArchiveIsFalse(String memberId);
 }

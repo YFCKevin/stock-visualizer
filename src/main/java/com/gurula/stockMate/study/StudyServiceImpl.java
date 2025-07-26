@@ -251,7 +251,7 @@ public class StudyServiceImpl implements StudyService {
 
     @Override
     public List<Study> findStudies(String memberId) {
-        return this.studyRepository.findByMemberId(memberId);
+        return this.studyRepository.findByMemberIdAndArchiveIsFalse(memberId);
     }
 
     @Override
@@ -657,6 +657,55 @@ public class StudyServiceImpl implements StudyService {
 
         } catch (Exception e) {
             return Result.err("An error occurred during content item removal: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Result<Study, String> findById(String studyId, String memberId) {
+        final Optional<Study> studyOptional = studyRepository.findById(studyId);
+        if (studyOptional.isEmpty()) {
+            return Result.err("Study not found or not owned by member for ID: " + studyId);
+        } else {
+            return Result.ok(studyOptional.get());
+        }
+    }
+
+    @Override
+    public Result<String, String> edit(StudyDTO studyDTO) {
+        try {
+            final String studyId = studyDTO.getId();
+            final Optional<Study> studyOptional = studyRepository.findById(studyId);
+            if (studyOptional.isEmpty()) {
+                return Result.err("Study not found or not owned by member for ID: " + studyId);
+            } else {
+                final Study study = studyOptional.get();
+                if (StringUtils.isNotBlank(studyDTO.getDesc()))
+                    study.setDesc(studyDTO.getDesc());
+                if (StringUtils.isNotBlank(studyDTO.getTitle()))
+                    study.setTitle(studyDTO.getTitle());
+                studyRepository.save(study);
+                return Result.ok("編輯成功");
+            }
+        } catch (Exception e) {
+            return Result.err("儲存失敗：" + e.getMessage());
+        }
+    }
+
+    @Override
+    public Result<String, String> archiveStudy(String studyId, String memberId) {
+        try {
+            final Optional<Study> studyOptional = studyRepository.findByIdAndMemberId(studyId, memberId);
+            if (studyOptional.isEmpty()) {
+                return Result.err("Study not found or not owned by member for ID: " + studyId);
+            }
+
+            final Study study = studyOptional.get();
+            study.setArchive(!study.isArchive());
+            studyRepository.save(study);
+            return Result.ok("封存成功");
+
+        } catch (Exception e) {
+            return Result.err("封存失敗：" + e.getMessage());
         }
     }
 }

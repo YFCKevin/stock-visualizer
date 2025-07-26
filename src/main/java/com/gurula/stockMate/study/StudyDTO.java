@@ -7,6 +7,7 @@ public class StudyDTO {
     private long createdAt;
     private long updatedAt;
     private String memberId;
+    private boolean archive;
 
     public StudyDTO() {
     }
@@ -57,5 +58,13 @@ public class StudyDTO {
 
     public void setMemberId(String memberId) {
         this.memberId = memberId;
+    }
+
+    public boolean isArchive() {
+        return archive;
+    }
+
+    public void setArchive(boolean archive) {
+        this.archive = archive;
     }
 }

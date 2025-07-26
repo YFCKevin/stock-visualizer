@@ -1,7 +1,7 @@
 function loadData() {
   return {
     currentStep: 0,
-    studyId: "687f5e4a200530c908b31fca",
+    studyId: "",
     steps: [],
     contents: [],
     searchContentKeyword: "",
@@ -73,6 +73,9 @@ function loadData() {
           }
         },
       });
+
+      const params = new URLSearchParams(window.location.search);
+      this.studyId = params.get('id');
 
       $.ajax({
         url: "study/" + this.studyId + "/contents",

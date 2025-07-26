@@ -39,6 +39,37 @@ public class StudyController {
         }
     }
 
+
+    @PatchMapping("/edit")
+    public ResponseEntity<?> editStudy(@RequestBody StudyDTO studyDTO) {
+        final Member member = MemberContext.getMember();
+        studyDTO.setMemberId(member.getId());
+
+        Result<String, String> result = studyService.edit(studyDTO);
+
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + result.unwrapErr());
+        }
+    }
+
+
+    @PostMapping("/archive/{studyId}")
+    public ResponseEntity<?> archiveStudy(@PathVariable String studyId) {
+        final Member member = MemberContext.getMember();
+        Result<String, String> result = studyService.archiveStudy(studyId, member.getId());
+
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + result.unwrapErr());
+        }
+    }
+
+
     @PostMapping("/content-import")
     public ResponseEntity<?> importContent(@RequestBody ImportDTO importDTO) {
         Member member = MemberContext.getMember();
@@ -126,6 +157,18 @@ public class StudyController {
         Member member = MemberContext.getMember();
         List<Study> studies = studyService.findStudies(member.getId());
         return ResponseEntity.ok(studies);
+    }
+
+    @GetMapping("/{studyId}")
+    public ResponseEntity<?> getStudyById(@PathVariable String studyId) {
+        final Member member = MemberContext.getMember();
+        Result<Study, String> result = studyService.findById(studyId, member.getId());
+
+        if (result.isOk()) {
+            return ResponseEntity.ok(result.unwrap().toDto());
+        } else {
+            return ResponseEntity.badRequest().body(result.unwrapErr());
+        }
     }
 
     @GetMapping("/{studyId}/contents")

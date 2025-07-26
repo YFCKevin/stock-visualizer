@@ -30,4 +30,10 @@ public interface StudyService {
     Result<String, String> editContentItemTitle(UpdateStudyContentDTO updateStudyContentDTO);
 
     Result<String, String> removeContentItemFromStudy(RemoveContentItemDTO removeContentItemDTO);
+
+    Result<Study, String> findById(String studyId, String memberId);
+
+    Result<String, String> edit(StudyDTO studyDTO);
+
+    Result<String, String> archiveStudy(String studyId, String memberId);
 }

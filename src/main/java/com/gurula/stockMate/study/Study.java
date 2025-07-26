@@ -12,6 +12,7 @@ public class Study {
     private long createdAt;
     private long updatedAt;
     private String memberId;
+    private boolean archive;
 
     public Study() {
     }
@@ -64,6 +65,14 @@ public class Study {
         this.memberId = memberId;
     }
 
+    public boolean isArchive() {
+        return archive;
+    }
+
+    public void setArchive(boolean archive) {
+        this.archive = archive;
+    }
+
     public StudyDTO toDto() {
         StudyDTO dto = new StudyDTO();
         dto.setId(this.id);
@@ -72,6 +81,7 @@ public class Study {
         dto.setDesc(this.desc);
         dto.setCreatedAt(this.createdAt);
         dto.setUpdatedAt(this.updatedAt);
+        dto.setArchive(this.isArchive());
         return dto;
     }
 }
