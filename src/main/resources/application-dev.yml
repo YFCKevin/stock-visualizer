@@ -13,10 +13,11 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   resources:
-    static-locations: file:/Users/chenyifan/Documents/workspace-fan/stockMate/src/main/resources/static/
+    static-locations: classpath:/static/
   data:
     mongodb:
-      uri: mongodb://localhost:27017
+#      uri: mongodb://localhost:27017
+      uri: mongodb+srv://${db-username}:${mongo-db-password}@gurula.y2btcof.mongodb.net/?retryWrites=true&w=majority&appName=gurula
 
   security:
     oauth2:
