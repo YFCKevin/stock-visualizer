@@ -216,7 +216,7 @@ public class LayoutServiceImpl implements LayoutService{
     @Override
     public Result<Layout, String> findLatestBySymbol(String symbolName, String memberId) {
         final Symbol symbol = symbolRepository.findBySymbol(symbolName).get();
-        List<Layout> layouts = layoutRepository.findBySymbolId(symbol.getId());
+        List<Layout> layouts = layoutRepository.findBySymbolIdAndMemberId(symbol.getId(), memberId);
         if (layouts.isEmpty()) {    // 建立新的 Layout
             return this.constructNewLayout(memberId, symbolName, "1d");
         } else {    // 取最新的 Layout
