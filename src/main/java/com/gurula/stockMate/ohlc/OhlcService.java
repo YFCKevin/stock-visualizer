@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface OhlcService {
-    Map<String, Object> loadOhlcData(String symbolName, String interval);
+    List<OhlcDataDTO> loadOhlcData(String symbolName, String interval);
 
     Result<String, String> generateLatestWeeklyAndMonthly();
 

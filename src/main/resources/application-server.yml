@@ -18,6 +18,14 @@ spring:
     mongodb:
       uri: mongodb+srv://${db-username}:${mongo-db-password}@gurula.y2btcof.mongodb.net/?retryWrites=true&w=majority&appName=gurula
 
+  cache:
+    type: redis
+  redis:
+    host: localhost           # Redis 主機 IP 或網域
+    port: 6379                 # Redis 預設端口
+    password: ${db-password}   # 若有設定 Redis 密碼才需要這行
+    ssl: false                 # 通常本地或內部網路不用 SSL
+
   security:
     oauth2:
       client:
@@ -58,3 +66,4 @@ config:
   picSavePath: /opt/stock/image/
   picShowPath: https://gurula.cc/stock/uploads/
   jsonPath: /opt/stock/static/data/
+  ohlcDataStorePath: /opt/data/stock

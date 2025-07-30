@@ -101,10 +101,7 @@ public class LayoutController {
         }
 
         // 取得股市資料
-        Map<String, Object> resultMap = ohlcService.loadOhlcData(symbolName, interval);
-        final Symbol symbol = (Symbol) resultMap.get("symbol");
-        final List<OhlcData> ohlcData = (List<OhlcData>) resultMap.get("ohlcData");
-        final List<OhlcDataDTO> ohlcDataDTOList = ohlcData.stream().map(o -> o.toDto(symbol)).toList();
+        List<OhlcDataDTO> ohlcDataDTOList = ohlcService.loadOhlcData(symbolName, interval);
 
         if (result.isOk()) {
             Layout layout = result.unwrap();

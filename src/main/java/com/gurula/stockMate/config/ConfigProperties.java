@@ -21,6 +21,14 @@ public class ConfigProperties {
     private String picSavePath;
     @Value("${config.picShowPath}")
     private String picShowPath;
+    @Value("${spring.redis.host}")
+    private String redisDomain;
+    @Value("${spring.redis.port}")
+    private int redisPort;
+    @Value("${spring.redis.password}")
+    private String redisPassword;
+    @Value("${config.ohlcDataStorePath}")
+    private String ohlcDataStorePath;
 
     public ConfigProperties() {
     }
@@ -87,5 +95,37 @@ public class ConfigProperties {
 
     public void setGlobalDomain(String globalDomain) {
         this.globalDomain = globalDomain;
+    }
+
+    public String getRedisDomain() {
+        return redisDomain;
+    }
+
+    public void setRedisDomain(String redisDomain) {
+        this.redisDomain = redisDomain;
+    }
+
+    public int getRedisPort() {
+        return redisPort;
+    }
+
+    public void setRedisPort(int redisPort) {
+        this.redisPort = redisPort;
+    }
+
+    public String getRedisPassword() {
+        return redisPassword;
+    }
+
+    public void setRedisPassword(String redisPassword) {
+        this.redisPassword = redisPassword;
+    }
+
+    public String getOhlcDataStorePath() {
+        return ohlcDataStorePath;
+    }
+
+    public void setOhlcDataStorePath(String ohlcDataStorePath) {
+        this.ohlcDataStorePath = ohlcDataStorePath;
     }
 }

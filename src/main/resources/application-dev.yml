@@ -19,12 +19,20 @@ spring:
 #      uri: mongodb://localhost:27017
       uri: mongodb+srv://${db-username}:${mongo-db-password}@gurula.y2btcof.mongodb.net/?retryWrites=true&w=majority&appName=gurula
 
+  cache:
+    type: redis
+  redis:
+    host: localhost           # Redis 主機 IP 或網域
+    port: 6379                 # Redis 預設端口
+    password: ${db-password}   # 若有設定 Redis 密碼才需要這行
+    ssl: false                 # 通常本地或內部網路不用 SSL
+
   security:
     oauth2:
       client:
         registration:
           google:
-            redirect-uri: http://localhost:8086/talkyo/login/oauth2/code/google
+            redirect-uri: http://localhost:8087/stock/login/oauth2/code/google
             client-id: ${google-client-id}
             client-secret: ${google-client-secret}
             scope:
@@ -33,7 +41,7 @@ spring:
           line:
             client-id: ${line-client-id}
             client-secret: ${line-client-secret}
-            redirect-uri: http://localhost:8086/talkyo/callback
+            redirect-uri: http://localhost:8087/stock/callback
             scope:
               - openid
               - profile
@@ -59,3 +67,4 @@ config:
   picSavePath: /Users/chenyifan/Documents/workspace-fan/stockMate/image/
   picShowPath: http://localhost:8087/stock/image/
   jsonPath: /Users/chenyifan/Documents/workspace-fan/stockMate/src/main/resources/static/data/
+  ohlcDataStorePath: /Users/chenyifan/Documents/workspace-fan/webcrawler/stock_data

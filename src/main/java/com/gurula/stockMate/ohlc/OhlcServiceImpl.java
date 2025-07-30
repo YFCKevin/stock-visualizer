@@ -1,7 +1,6 @@
 package com.gurula.stockMate.ohlc;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gurula.stockMate.cache.CacheService;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.symbol.Symbol;
 import com.gurula.stockMate.symbol.SymbolRepository;
@@ -16,21 +15,19 @@ import java.util.*;
 public class OhlcServiceImpl implements OhlcService{
     private final OhlcRepository ohlcRepository;
     private final SymbolRepository symbolRepository;
+    private final CacheService cacheService;
 
-    public OhlcServiceImpl(OhlcRepository ohlcRepository, SymbolRepository symbolRepository) {
+    public OhlcServiceImpl(OhlcRepository ohlcRepository, SymbolRepository symbolRepository, CacheService cacheService) {
         this.ohlcRepository = ohlcRepository;
         this.symbolRepository = symbolRepository;
+        this.cacheService = cacheService;
     }
 
     @Override
-    public Map<String, Object> loadOhlcData(String symbolName, String interval) {
+    public List<OhlcDataDTO> loadOhlcData(String symbolName, String interval) {
         final Symbol symbol = symbolRepository.findBySymbol(symbolName).get();
         final IntervalType intervalType = IntervalType.fromValue(interval);
-        final List<OhlcData> ohlcData = ohlcRepository.findBySymbolIdAndIntervalOrderByTimestamp(symbol.getId(), intervalType).stream().toList();
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("symbol", symbol);
-        resultMap.put("ohlcData", ohlcData);
-        return resultMap;
+        return cacheService.getOhlcData(symbol, intervalType);
     }
 
     @Override
@@ -95,6 +92,7 @@ public class OhlcServiceImpl implements OhlcService{
                             },
                             () -> ohlcRepository.save(weekly)
                     );
+                    cacheService.evictCache(symbolId, IntervalType.ONE_WEEK);
                 }
 
                 if (!monthData.isEmpty()) {
@@ -106,6 +104,7 @@ public class OhlcServiceImpl implements OhlcService{
                             },
                             () -> ohlcRepository.save(monthly)
                     );
+                    cacheService.evictCache(symbolId, IntervalType.ONE_MONTH);
                 }
 
             } catch (Exception e) {

@@ -2,6 +2,8 @@ package com.gurula.stockMate.listener;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gurula.stockMate.cache.CacheService;
+import com.gurula.stockMate.config.ConfigProperties;
 import com.gurula.stockMate.ohlc.IntervalType;
 import com.gurula.stockMate.ohlc.OhlcData;
 import com.gurula.stockMate.ohlc.OhlcRepository;
@@ -13,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.LocalDate;
@@ -25,15 +26,21 @@ import java.util.concurrent.Executors;
 @Service
 public class FileWatcherService {
     private final Logger logger = LoggerFactory.getLogger(FileWatcherService.class);
-    private final Path folderPath = Paths.get("/Users/chenyifan/Documents/workspace-fan/webcrawler/stock_data");
+    private final Path folderPath;
     private WatchService watchService;
     private ExecutorService executor;
     private final OhlcRepository ohlcRepository;
     private final SymbolRepository symbolRepository;
+    private final ConfigProperties configProperties;
+    private final CacheService cacheService;
+    private final Map<Path, LocalDate> processedDateMap = new HashMap<>();
 
-    public FileWatcherService(OhlcRepository ohlcRepository, SymbolRepository symbolRepository) {
+    public FileWatcherService(OhlcRepository ohlcRepository, SymbolRepository symbolRepository, ConfigProperties configProperties, CacheService cacheService) {
         this.ohlcRepository = ohlcRepository;
         this.symbolRepository = symbolRepository;
+        this.configProperties = configProperties;
+        folderPath = Paths.get(configProperties.getOhlcDataStorePath());
+        this.cacheService = cacheService;
     }
 
     @PostConstruct
@@ -89,8 +96,28 @@ public class FileWatcherService {
         }
     }
 
+    private boolean shouldProcess(Path path, LocalDate fileDate) {
+        LocalDate lastProcessedDate = processedDateMap.get(path);
+        if (lastProcessedDate == null || lastProcessedDate.isBefore(fileDate)) {
+            processedDateMap.put(path, fileDate);
+            return true;
+        }
+        return false;
+    }
+
     private void handleCreate(Path filename, Path fullPath) {
         try {
+            List<Map<String, Object>> dataList = readJsonFile(fullPath);
+            if (dataList.isEmpty()) return;
+
+            String dateStr = (String) dataList.get(0).get("Date");
+            LocalDate fileDate = LocalDate.parse(dateStr);
+
+            if (!shouldProcess(fullPath, fileDate)) {
+                logger.info("今天已處理過，忽略重複事件: {}", fullPath);
+                return;
+            }
+
             String symbol = extractSymbolFromFilename(filename);
             Optional<Symbol> symbolOpt = symbolRepository.findBySymbol(symbol);
             if (symbolOpt.isEmpty()) {
@@ -98,7 +125,8 @@ public class FileWatcherService {
                 return;
             }
 
-            List<Map<String, Object>> dataList = readJsonFile(fullPath);
+            final Symbol symbolInfo = symbolOpt.get();
+
             if (dataList.isEmpty()) {
                 logger.warn("新增檔案內容為空: {}", fullPath);
                 return;
@@ -111,6 +139,7 @@ public class FileWatcherService {
 
             ohlcRepository.saveAll(ohlcList);
             logger.info("成功儲存 {} 筆資料: {}", ohlcList.size(), filename);
+            cacheService.evictCache(symbolInfo.getId(), IntervalType.ONE_DAY);
         } catch (Exception e) {
             logger.error("處理新增檔案 {} 發生錯誤: {}", filename, e.getMessage(), e);
         }
@@ -133,9 +162,12 @@ public class FileWatcherService {
                 return;
             }
 
+            final Symbol symbolInfo = symbolOpt.get();
+
             OhlcData ohlcData = toOhlcData(lastItem, symbolOpt.get().getId());
             ohlcRepository.save(ohlcData);
             logger.info("成功更新最新一筆資料: {}", filename);
+            cacheService.evictCache(symbolInfo.getId(), IntervalType.ONE_DAY);
         } catch (Exception e) {
             logger.error("處理修改檔案 {} 發生錯誤: {}", filename, e.getMessage(), e);
         }

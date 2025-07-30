@@ -25,10 +25,7 @@ public class OhlcController {
             @PathVariable(name = "interval") String interval
     ) {
         final Member member = MemberContext.getMember();
-        Map<String, Object> resultMap = ohlcService.loadOhlcData(symbolName, interval);
-        final Symbol symbol = (Symbol) resultMap.get("symbol");
-        final List<OhlcData> ohlcData = (List<OhlcData>) resultMap.get("ohlcData");
-        final List<OhlcDataDTO> ohlcDataDTOList = ohlcData.stream().map(o -> o.toDto(symbol)).toList();
+        List<OhlcDataDTO> ohlcDataDTOList = ohlcService.loadOhlcData(symbolName, interval);
         return ResponseEntity.ok(ohlcDataDTOList);
     }
 
