@@ -28,7 +28,7 @@ public class NoteServiceImpl implements NoteService {
             final Note saved = noteRepository.save(noteDTO.toEntity());
             return Result.ok(saved);
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("儲存失敗：" + e.getMessage(), e);
         }
     }
 
@@ -38,7 +38,7 @@ public class NoteServiceImpl implements NoteService {
         try {
             final Optional<Note> opt = noteRepository.findById(noteDTO.getId());
             if (opt.isEmpty()) {
-                return Result.err("找不到對應的 Note 資料");
+                throw new RuntimeException("找不到對應的 Note 資料");
             } else {
                 final Note note = opt.get();
 
@@ -55,7 +55,7 @@ public class NoteServiceImpl implements NoteService {
                 return Result.ok(saved);
             }
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("儲存失敗：" + e.getMessage(), e);
         }
     }
 
@@ -63,7 +63,7 @@ public class NoteServiceImpl implements NoteService {
     public Result<List<Note>, String> findByLayoutId(String layoutId) {
         List<Note> notes = noteRepository.findByLayoutId(layoutId);
         if (notes.isEmpty()) {
-            return Result.err("找不到對應的 Note 資料");
+            throw new RuntimeException("找不到對應的 Note 資料");
         } else {
             return Result.ok(notes);
         }
@@ -73,7 +73,7 @@ public class NoteServiceImpl implements NoteService {
     public Result<Note, String> findByIdAndMemberId(String noteId, String memberId) {
         Optional<Note> opt = noteRepository.findByIdAndMemberId(noteId, memberId);
         if (opt.isEmpty()) {
-            return Result.err("找不到對應的 Note 資料");
+            throw new RuntimeException("找不到對應的 Note 資料");
         } else {
             return Result.ok(opt.get());
         }
@@ -87,7 +87,7 @@ public class NoteServiceImpl implements NoteService {
                     noteRepository.deleteById(noteId);
                     return Result.<String, String>ok("ok");
                 })
-                .orElseGet(() -> Result.err("找不到對應的 Note 資料"));
+                .orElseThrow(() -> new RuntimeException("找不到對應的 Note 資料"));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class NoteServiceImpl implements NoteService {
         try {
             final Optional<Note> opt = noteRepository.findByIdAndMemberId(noteDTO.getId(), noteDTO.getMemberId());
             if (opt.isEmpty()) {
-                return Result.err("找不到對應的 Note 資料");
+                throw new RuntimeException("找不到對應的 Note 資料");
             } else {
                 final Note note = opt.get();
                 note.setTitle(noteDTO.getTitle());
@@ -116,7 +116,7 @@ public class NoteServiceImpl implements NoteService {
                 return Result.ok(saved);
             }
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("找不到對應的 Note 資料");
         }
     }
 }

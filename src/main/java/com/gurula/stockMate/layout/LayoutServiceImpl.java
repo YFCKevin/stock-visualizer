@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class LayoutServiceImpl implements LayoutService{
+public class LayoutServiceImpl implements LayoutService {
     private final LayoutRepository layoutRepository;
     private final MongoTemplate mongoTemplate;
     private final SymbolRepository symbolRepository;
@@ -118,7 +118,7 @@ public class LayoutServiceImpl implements LayoutService{
             Layout saved = layoutRepository.save(layoutDTO.toEntity(symbol));
             return Result.ok(saved);
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("儲存失敗：" + e.getMessage(), e);
         }
 
     }
@@ -130,7 +130,7 @@ public class LayoutServiceImpl implements LayoutService{
             Optional<Layout> optionalLayout = layoutRepository.findById(layoutDTO.getId());
 
             if (optionalLayout.isEmpty()) {
-                return Result.err("找不到對應的 Layout 資料");
+                throw new RuntimeException("找不到對應的 Layout 資料");
             }
 
             Layout layout = optionalLayout.get();
@@ -151,37 +151,35 @@ public class LayoutServiceImpl implements LayoutService{
             return Result.ok(saved);
 
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("儲存失敗：" + e.getMessage(), e);
         }
     }
 
     @Override
+    @Transactional
     public Result<String, String> delete(String id) {
         try {
             Optional<Layout> optionalLayout = layoutRepository.findById(id);
             if (optionalLayout.isEmpty()) {
-                return Result.err("找不到對應的 Layout 資料");
+                throw new RuntimeException("找不到對應的 Layout 資料");
             } else {
                 layoutRepository.deleteById(id);
                 return Result.ok("ok");
             }
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("儲存失敗：" + e.getMessage(), e);
         }
     }
 
     @Override
     public Result<Layout, String> findById(String id) {
-        try {
-            Optional<Layout> optionalLayout = layoutRepository.findById(id);
-            if (optionalLayout.isEmpty()) {
-                return Result.err("找不到對應的 Layout 資料");
-            } else {
-                return Result.ok(optionalLayout.get());
-            }
-        } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+        Optional<Layout> optionalLayout = layoutRepository.findById(id);
+        if (optionalLayout.isEmpty()) {
+            throw new RuntimeException("找不到對應的 Layout 資料");
+        } else {
+            return Result.ok(optionalLayout.get());
         }
+
     }
 
     @Override
@@ -198,7 +196,7 @@ public class LayoutServiceImpl implements LayoutService{
             final Layout saved = layoutRepository.save(layout);
             return Result.ok(saved);
         } catch (Exception e) {
-            return Result.err("儲存失敗：" + e.getMessage());
+            throw new RuntimeException("儲存失敗：" + e.getMessage(), e);
         }
     }
 
@@ -207,7 +205,7 @@ public class LayoutServiceImpl implements LayoutService{
         Optional<Layout> opt = layoutRepository.findByIdAndMemberId(layoutId, memberId);
         if (opt.isEmpty()) {
             // 可能是 id 錯誤，或 memberId 對不上
-            return Result.err("找不到對應的 Layout 資料");
+            throw new RuntimeException("找不到對應的 Layout 資料");
         } else {
             return Result.ok(opt.get());
         }
@@ -229,10 +227,11 @@ public class LayoutServiceImpl implements LayoutService{
     }
 
     @Override
+    @Transactional
     public Result<Layout, String> copyLayout(String layoutId, String memberId) {
         final Optional<Layout> opt = layoutRepository.findById(layoutId);
         if (opt.isEmpty()) {
-            return Result.err("找不到對應的 Layout 資料");
+            throw new RuntimeException("找不到對應的 Layout 資料");
         } else {
             final Layout layout = opt.get();
             layout.setId(null);

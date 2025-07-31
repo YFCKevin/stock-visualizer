@@ -55,14 +55,19 @@ public class LayoutController {
         final Member member = MemberContext.getMember();
         final String symbolName = layoutDTO.getSymbol();
         final String interval = layoutDTO.getInterval();
-        final Result<Layout, String> result = layoutService.constructNewLayout(member.getId(), symbolName, interval);
 
-        if (result.isOk()) {
-            Layout layout = result.unwrap();
-            return ResponseEntity.ok(layout.getId());
-        } else {
+        try {
+            final Result<Layout, String> result = layoutService.constructNewLayout(member.getId(), symbolName, interval);
+            if (result.isOk()) {
+                Layout layout = result.unwrap();
+                return ResponseEntity.ok(layout.getId());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", result.unwrapErr()));
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", result.unwrapErr()));
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -77,10 +82,11 @@ public class LayoutController {
         Result<Layout, String> result = null;
         if (StringUtils.isNotBlank(id)) {
             // 有傳 id，直接根據 id 查找 layout，並且用 memberId驗證是否為該會員
-            result = layoutService.findByIdAndMemberId(id, member.getId());
 
-            if (result.isErr()) {
-                String errorMessage = result.unwrapErr();
+            try {
+                result = layoutService.findByIdAndMemberId(id, member.getId());
+            } catch (Exception e) {
+                String errorMessage = e.getMessage();
                 if (errorMessage.equals("找不到對應的 Layout 資料")) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body(Map.of("error", errorMessage));
@@ -103,14 +109,19 @@ public class LayoutController {
         // 取得股市資料
         List<OhlcDataDTO> ohlcDataDTOList = ohlcService.loadOhlcData(symbolName, interval);
 
-        if (result.isOk()) {
-            Layout layout = result.unwrap();
-            final LayoutDTO dto = layout.toDto();
-            dto.setOhlcDataDTOList(ohlcDataDTOList);
-            dto.setSymbol(symbolName);
-            return ResponseEntity.ok(dto);
-        } else {
-            String errorMessage = result.unwrapErr();
+        try {
+            if (result.isOk()) {
+                Layout layout = result.unwrap();
+                final LayoutDTO dto = layout.toDto();
+                dto.setOhlcDataDTOList(ohlcDataDTOList);
+                dto.setSymbol(symbolName);
+                return ResponseEntity.ok(dto);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", result.unwrapErr()));
+            }
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
 
             if (errorMessage.equals("找不到對應的 Layout 資料")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -127,17 +138,23 @@ public class LayoutController {
     public ResponseEntity<?> save(@RequestBody LayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
         layoutDTO.setMemberId(member.getId());
-        Result<Layout, String> result = layoutService.save(layoutDTO);
 
-        if (result.isOk()) {
-            Layout layout = result.unwrap();
-            LayoutSummaryDTO dto = LayoutSummaryDTO.construct(layout);
-            return ResponseEntity.ok(dto);
-        } else {
-            String errorMessage = result.unwrapErr();
+        try {
+            Result<Layout, String> result = layoutService.save(layoutDTO);
+            if (result.isOk()) {
+                Layout layout = result.unwrap();
+                LayoutSummaryDTO dto = LayoutSummaryDTO.construct(layout);
+                return ResponseEntity.ok(dto);
+            } else {
+                String errorMessage = result.unwrapErr();
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", errorMessage));
+            }
+        } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", errorMessage));
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -146,40 +163,51 @@ public class LayoutController {
     public ResponseEntity<?> edit(@RequestBody LayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
         layoutDTO.setMemberId(member.getId());
-        Result<Layout, String> result = layoutService.edit(layoutDTO);
-        if (result.isOk()) {
-            Layout layout = result.unwrap();
-            LayoutSummaryDTO dto = LayoutSummaryDTO.construct(layout);
-            return ResponseEntity.ok(dto);
-        } else {
-            String errorMessage = result.unwrapErr();
 
-            if (errorMessage.equals("找不到對應的 Layout 資料")) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        try {
+            Result<Layout, String> result = layoutService.edit(layoutDTO);
+            if (result.isOk()) {
+                Layout layout = result.unwrap();
+                LayoutSummaryDTO dto = LayoutSummaryDTO.construct(layout);
+                return ResponseEntity.ok(dto);
+            } else {
+                String errorMessage = result.unwrapErr();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(Map.of("error", errorMessage));
             }
-
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", errorMessage));
         }
+
+
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") String id) {
         final Member member = MemberContext.getMember();
-        Result<String, String> result = layoutService.delete(id);
-
         Map<String, Object> response = new HashMap<>();
 
-        if (result.isOk()) {
-            response.put("message", result.unwrap());
-            return ResponseEntity
-                    .ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(response);
-        } else {
-            String errorMessage = result.unwrapErr();
+        try {
+            Result<String, String> result = layoutService.delete(id);
+            if (result.isOk()) {
+                response.put("message", result.unwrap());
+                return ResponseEntity
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(response);
+            } else {
+                String errorMessage = result.unwrapErr();
+                response.put("error", errorMessage);
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(response);
+            }
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
             response.put("error", errorMessage);
 
             if (errorMessage.equals("找不到對應的 Layout 資料")) {
@@ -200,14 +228,21 @@ public class LayoutController {
     @PostMapping("/copy/{layoutId}")
     public ResponseEntity<?> copy(@PathVariable(name = "layoutId") String layoutId) {
         final Member member = MemberContext.getMember();
-        Result<Layout, String> result = layoutService.copyLayout(layoutId, member.getId());
 
-        if (result.isOk()) {
-            Layout layout = result.unwrap();
-            return ResponseEntity.ok(layout.getId());
-        } else {
+        try {
+            Result<Layout, String> result = layoutService.copyLayout(layoutId, member.getId());
+            if (result.isOk()) {
+                Layout layout = result.unwrap();
+                return ResponseEntity.ok(layout.getId());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", result.unwrapErr()));
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", result.unwrapErr()));
+                    .body(Map.of("error", e.getMessage()));
         }
+
+
     }
 }
