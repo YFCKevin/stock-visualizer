@@ -63,7 +63,6 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Result<List<StudyContentDTO>, String> getContentsByStudyId(String studyId, String memberId) {
         Optional<Study> studyOpt = studyRepository.findByIdAndMemberId(studyId, memberId);
         if (studyOpt.isEmpty()) {
