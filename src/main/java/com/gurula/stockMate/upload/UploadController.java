@@ -3,6 +3,7 @@ package com.gurula.stockMate.upload;
 import com.gurula.stockMate.config.ConfigProperties;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ public class UploadController {
         this.configProperties = configProperties;
     }
 
+    @Operation(summary = "筆記區塊上傳圖片")
     @PostMapping("/image/upload")
     public ResponseEntity<Map<String, Object>> upload(@RequestParam("uploadFile") MultipartFile file) {
         final Member member = MemberContext.getMember();

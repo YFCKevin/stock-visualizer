@@ -1,5 +1,7 @@
 package com.gurula.stockMate.member;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/member")
+@Tag(name = "Member API", description = "會員")
 public class MemberController {
     private final MemberService memberService;
 
@@ -18,6 +21,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @Operation(summary = "取得會員資料")
     @GetMapping("/info")
     public ResponseEntity<?> info() {
         final Member member = MemberContext.getMember();
@@ -36,6 +40,7 @@ public class MemberController {
         return ResponseEntity.ok(Objects.requireNonNullElseGet(memberDTO, MemberDTO::new));
     }
 
+    @Operation(summary = "取得所有會員資料")
     @GetMapping
     public ResponseEntity<?> getAllMembers() {
         Member member = MemberContext.getMember();

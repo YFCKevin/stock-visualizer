@@ -10,6 +10,10 @@ import com.gurula.stockMate.ohlc.OhlcDataDTO;
 import com.gurula.stockMate.ohlc.OhlcService;
 import com.gurula.stockMate.symbol.Symbol;
 import com.gurula.stockMate.symbol.SymbolService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +27,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/layout")
+@Tag(name = "Layout API", description = "股市版面")
 public class LayoutController {
     private final LayoutService layoutService;
     private final OhlcService ohlcService;
@@ -36,6 +41,7 @@ public class LayoutController {
 
 
     @GetMapping
+    @Operation(summary = "取得該會員的所有股市版面")
     public ResponseEntity<?> getAllLayouts() {
         final Member member = MemberContext.getMember();
         final List<LayoutSummaryDTO> allLayouts = layoutService.getAllLayouts(member.getId());
@@ -44,6 +50,17 @@ public class LayoutController {
 
 
     @GetMapping("/search")
+    @Operation(
+            summary = "搜尋該會員的股市版面",
+            description = "根據關鍵字搜尋該會員所擁有的股市版面。若未提供關鍵字，則回傳該會員的所有版面。",
+            parameters = {
+                    @Parameter(
+                            name = "keyword",
+                            description = "搜尋關鍵字，例如版面名稱、股票代號、股票名稱",
+                            example = "台積電 or 2330.TW"
+                    )
+            }
+    )
     public ResponseEntity<?> searchLayouts(@RequestParam(required = false) String keyword) {
         final Member member = MemberContext.getMember();
         List<LayoutSummaryDTO> layouts = layoutService.search(member.getId(), keyword);
@@ -51,6 +68,7 @@ public class LayoutController {
     }
 
     @PostMapping
+    @Operation(summary = "新增一個股市版面")
     public ResponseEntity<?> create(@RequestBody LayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
         final String symbolName = layoutDTO.getSymbol();
@@ -72,6 +90,25 @@ public class LayoutController {
     }
 
     @GetMapping("/enter")
+    @Operation(
+            summary = "取得股市版面資訊、股價與成交量",
+            parameters = {
+                    @Parameter(
+                            name = "id",
+                            description = "版面 ID，用於指定要查詢的版面",
+                            in = ParameterIn.QUERY,
+                            required = false,
+                            example = "688aed443228c779718db850"
+                    ),
+                    @Parameter(
+                            name = "symbolName",
+                            description = "股票代碼或名稱，例如 '2330.TW'",
+                            in = ParameterIn.QUERY,
+                            required = false,
+                            example = "2330.TW"
+                    )
+            }
+    )
     public ResponseEntity<?> enterLayout(
             @RequestParam(required = false) String id,
             @RequestParam(required = false) String symbolName
@@ -133,7 +170,7 @@ public class LayoutController {
         }
     }
 
-
+    @Operation(summary = "儲存股市版面")
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody LayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
@@ -158,7 +195,7 @@ public class LayoutController {
         }
     }
 
-
+    @Operation(summary = "修改股市版面")
     @PatchMapping("/edit")
     public ResponseEntity<?> edit(@RequestBody LayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
@@ -184,7 +221,7 @@ public class LayoutController {
 
     }
 
-
+    @Operation(summary = "刪除股市版面")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") String id) {
         final Member member = MemberContext.getMember();
@@ -224,7 +261,7 @@ public class LayoutController {
         }
     }
 
-
+    @Operation(summary = "複製股市版面")
     @PostMapping("/copy/{layoutId}")
     public ResponseEntity<?> copy(@PathVariable(name = "layoutId") String layoutId) {
         final Member member = MemberContext.getMember();

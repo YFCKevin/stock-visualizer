@@ -3,6 +3,13 @@ package com.gurula.stockMate.news;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/news")
+@Tag(name = "News API", description = "新聞")
 public class NewsController {
     private final NewsService newsService;
 
@@ -21,8 +29,17 @@ public class NewsController {
         this.newsService = newsService;
     }
 
+    @Operation(
+            summary = "新增一筆新聞",
+            description = "根據傳入的 NewsDTO 新增一筆新聞資料",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "新聞資料",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = NewsDTO.class))
+            )
+    )
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody NewsDTO newsDTO) {
+    public ResponseEntity<?> save(@Valid @RequestBody NewsDTO newsDTO) {
         final Member member = MemberContext.getMember();
         newsDTO.setMemberId(member.getId());
 
@@ -50,6 +67,15 @@ public class NewsController {
     }
 
 
+    @Operation(
+            summary = "修改一筆新聞",
+            description = "根據傳入的 NewsDTO 修改一筆新聞資料",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "新聞資料",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = NewsDTO.class))
+            )
+    )
     @PatchMapping("/edit")
     public ResponseEntity<?> edit(@RequestBody NewsDTO newsDTO) {
         final Member member = MemberContext.getMember();
@@ -76,9 +102,12 @@ public class NewsController {
         }
     }
 
-
+    @Operation(summary = "查詢指定日期的新聞")
     @GetMapping("/date/{date}")
-    public ResponseEntity<?> getAllNews(@PathVariable(name = "date") long date) {
+    public ResponseEntity<?> getAllNews(
+            @Parameter(description = "指定日期的 timestamp（毫秒）", example = "1751932800000")
+            @PathVariable(name = "date") long date
+    ) {
         final Member member = MemberContext.getMember();
 
         try {
@@ -102,6 +131,7 @@ public class NewsController {
     }
 
 
+    @Operation(summary = "刪除新聞")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteNews(@PathVariable(name = "id") String id) {
         final Member member = MemberContext.getMember();
@@ -143,7 +173,7 @@ public class NewsController {
         }
     }
 
-
+    @Operation(summary = "取得單一則新聞資訊")
     @GetMapping("/{newsId}")
     public ResponseEntity<?> getNewsById(@PathVariable String newsId) {
         final Member member = MemberContext.getMember();

@@ -1,6 +1,7 @@
 package com.gurula.stockMate.symbol;
 
 import com.gurula.stockMate.exception.Result;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@Hidden
 @RestController
 @RequestMapping("/symbol")
 public class SymbolController {

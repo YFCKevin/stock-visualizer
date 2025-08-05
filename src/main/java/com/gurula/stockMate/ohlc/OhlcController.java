@@ -4,12 +4,14 @@ import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.symbol.Symbol;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Hidden
 @RestController
 @RequestMapping("/ohlc")
 public class OhlcController {

@@ -9,13 +9,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping({"/study"})
+@RequestMapping("/study")
+@Tag(name = "Study API", description = "研究報告")
 public class StudyController {
     private final ImportService importService;
     private final StudyService studyService;
@@ -25,6 +30,7 @@ public class StudyController {
         this.studyService = studyService;
     }
 
+    @Operation(summary = "新增一筆研究報告標題與描述")
     @PostMapping
     public ResponseEntity<?> writeStudy(@RequestBody StudyDTO studyDTO) {
         Member member = MemberContext.getMember();
@@ -39,7 +45,7 @@ public class StudyController {
         }
     }
 
-
+    @Operation(summary = "修改研究報告標題與描述")
     @PatchMapping("/edit")
     public ResponseEntity<?> editStudy(@RequestBody StudyDTO studyDTO) {
         final Member member = MemberContext.getMember();
@@ -55,7 +61,7 @@ public class StudyController {
         }
     }
 
-
+    @Operation(summary = "封存研究報告")
     @PostMapping("/archive/{studyId}")
     public ResponseEntity<?> archiveStudy(@PathVariable String studyId) {
         final Member member = MemberContext.getMember();
@@ -69,7 +75,7 @@ public class StudyController {
         }
     }
 
-
+    @Operation(summary = "匯入研究報告內容")
     @PostMapping("/content-import")
     public ResponseEntity<?> importContent(@RequestBody ImportDTO importDTO) {
         Member member = MemberContext.getMember();
@@ -104,6 +110,7 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "修改研究報告內容")
     @PutMapping("/edit")
     public ResponseEntity<?> edit(@RequestBody ImportDTO importDTO) {
         Member member = MemberContext.getMember();
@@ -129,7 +136,7 @@ public class StudyController {
         }
     }
 
-
+    @Operation(summary = "修改研究報告內容的標題")
     @PatchMapping("/edit-item-title")
     public ResponseEntity<?> editContentItemTitle(@RequestBody UpdateStudyContentDTO updateStudyContentDTO) {
         final Member member = MemberContext.getMember();
@@ -152,6 +159,7 @@ public class StudyController {
 
     }
 
+    @Operation(summary = "取得該會員所有的研究報告")
     @GetMapping
     public ResponseEntity<?> studies() {
         Member member = MemberContext.getMember();
@@ -159,6 +167,7 @@ public class StudyController {
         return ResponseEntity.ok(studies);
     }
 
+    @Operation(summary = "取得一筆研究報告資訊，用於編輯研究報告之用")
     @GetMapping("/{studyId}")
     public ResponseEntity<?> getStudyById(@PathVariable String studyId) {
         final Member member = MemberContext.getMember();
@@ -171,6 +180,7 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "取得一筆研究報告資訊，用於顯示研究報告內容列表")
     @GetMapping("/{studyId}/contents")
     public ResponseEntity<?> getContentsForStudy(@PathVariable String studyId) {
         Member member = MemberContext.getMember();
@@ -183,6 +193,7 @@ public class StudyController {
         }
     }
 
+    @Operation(summary = "研究報告內容排序")
     @PutMapping("/reorder")
     public ResponseEntity<?> reorderItems(@RequestBody StudyContentReorderDTO dto) {
         Member member = MemberContext.getMember();
@@ -195,6 +206,26 @@ public class StudyController {
         }
     }
 
+    @Operation(
+            summary = "查詢內容",
+            description = "根據內容類型與關鍵字查詢對應的內容清單",
+            parameters = {
+                    @Parameter(
+                            name = "type",
+                            description = "內容類型，例如：LAYOUT、NEWS、NOTE",
+                            required = true,
+                            in = ParameterIn.QUERY,
+                            example = "LAYOUT"
+                    ),
+                    @Parameter(
+                            name = "keyword",
+                            description = "搜尋關鍵字，可選參數，用於模糊搜尋標題或描述",
+                            required = false,
+                            in = ParameterIn.QUERY,
+                            example = "台積電"
+                    )
+            }
+    )
     @GetMapping("/content")
     public ResponseEntity<?> searchContent(@RequestParam ContentType type,
                                            @RequestParam(required = false) String keyword) {
@@ -214,7 +245,7 @@ public class StudyController {
         return ResponseEntity.ok(result);
     }
 
-
+    @Operation(summary = "刪除一筆研究報告內容")
     @DeleteMapping("/content-items")
     public ResponseEntity<?> removeContentItemFromStudy(@RequestBody RemoveContentItemDTO removeContentItemDTO) {
         final Member member = MemberContext.getMember();

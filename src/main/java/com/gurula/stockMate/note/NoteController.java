@@ -3,6 +3,10 @@ package com.gurula.stockMate.note;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/note")
+@Tag(name = "Note API", description = "筆記")
 public class NoteController {
     private final NoteService noteService;
 
@@ -22,6 +27,7 @@ public class NoteController {
         this.noteService = noteService;
     }
 
+    @Operation(summary = "儲存筆記")
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody NoteDTO noteDTO) {
         final Member member = MemberContext.getMember();
@@ -62,6 +68,7 @@ public class NoteController {
      * @param layoutId
      * @return
      */
+    @Operation(summary = "查詢每個版面的所有筆記")
     @GetMapping("/layout/{layoutId}")
     public ResponseEntity<?> findByLayoutId(@PathVariable(name = "layoutId") String layoutId) {
         final Member member = MemberContext.getMember();
@@ -89,7 +96,7 @@ public class NoteController {
         }
     }
 
-
+    @Operation(summary = "查詢一則筆記內容")
     @GetMapping("/{noteId}")
     public ResponseEntity<?> getNoteById(@PathVariable(name = "noteId") String noteId) {
         final Member member = MemberContext.getMember();
@@ -116,7 +123,7 @@ public class NoteController {
         }
     }
 
-
+    @Operation(summary = "刪除筆記")
     @DeleteMapping("/{noteId}")
     public ResponseEntity<?> delete(@PathVariable(name = "noteId") String noteId) {
         final Member member = MemberContext.getMember();
@@ -154,7 +161,7 @@ public class NoteController {
         }
     }
 
-
+    @Operation(summary = "修改筆記標題")
     @PatchMapping
     public ResponseEntity<?> editTitle(@RequestBody NoteDTO noteDTO) {
         final Member member = MemberContext.getMember();
@@ -184,7 +191,19 @@ public class NoteController {
         }
     }
 
-
+    @Operation(
+            summary = "搜尋筆記的標題和內容",
+            description = "根據輸入的關鍵字進行模糊搜尋，回傳符合的結果清單",
+            parameters = {
+                    @Parameter(
+                            name = "searchText",
+                            description = "關鍵字，可用於搜尋標題、內容描述等欄位",
+                            in = ParameterIn.QUERY,
+                            required = false,
+                            example = "台灣加權"
+                    )
+            }
+    )
     @GetMapping("/search")
     public ResponseEntity<?> search(
             @RequestParam(required = false) String searchText

@@ -1,8 +1,12 @@
 package com.gurula.stockMate.study;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class StudyDTO {
     private String id;
+    @Schema(description = "研究報告標題", example = "2025 AI 趨勢研究")
     private String title;
+    @Schema(description = "詳細描述", example = "這份報告分析了 AI 的應用前景...")
     private String desc;
     private long createdAt;
     private long updatedAt;

@@ -6,6 +6,8 @@ import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.note.Note;
 import com.gurula.stockMate.note.NoteDTO;
 import com.gurula.stockMate.oauth.Role;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/news/rule")
+@Tag(name = "News Access Rule API", description = "新聞權限規則")
 public class NewsAccessRuleController {
     private final NewsAccessRuleService newsAccessRuleService;
 
@@ -24,6 +27,7 @@ public class NewsAccessRuleController {
         this.newsAccessRuleService = newsAccessRuleService;
     }
 
+    @Operation(summary = "新增一筆新聞權限規則")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody NewsAccessRuleDTO ruleDTO) {
         final Member member = MemberContext.getMember();
@@ -45,7 +49,7 @@ public class NewsAccessRuleController {
         }
     }
 
-
+    @Operation(summary = "修改一筆新聞權限規則")
     @PutMapping
     public ResponseEntity<?> edit(@RequestBody NewsAccessRuleDTO ruleDTO) {
         final Member member = MemberContext.getMember();
@@ -73,7 +77,7 @@ public class NewsAccessRuleController {
         }
     }
 
-
+    @Operation(summary = "取得該會員的所有新聞權限規則")
     @GetMapping
     public ResponseEntity<?> findAllByMemberId() {
         final Member member = MemberContext.getMember();
@@ -99,6 +103,7 @@ public class NewsAccessRuleController {
     }
 
 
+    @Operation(summary = "取得一筆新聞權限規則")
     @GetMapping("/{ruleId}")
     public ResponseEntity<?> getOne(@PathVariable(name = "ruleId") String ruleId) {
         final Member member = MemberContext.getMember();
@@ -120,7 +125,7 @@ public class NewsAccessRuleController {
         }
     }
 
-
+    @Operation(summary = "刪除一筆新聞權限規則")
     @DeleteMapping("/{ruleId}")
     public ResponseEntity<?> delete(@PathVariable(name = "ruleId") String ruleId) {
         final Member member = MemberContext.getMember();

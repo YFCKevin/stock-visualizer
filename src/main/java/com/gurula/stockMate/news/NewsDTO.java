@@ -1,23 +1,62 @@
 package com.gurula.stockMate.news;
 
 import com.gurula.stockMate.newsAccessRule.VisibilityType;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
 public class NewsDTO {
+    @Schema(description = "新聞 ID")
     private String id;
+
+    @NotBlank
+    @Schema(description = "新聞標題")
     private String title;
+
+    @Schema(description = "新聞內容")
     private String content;
+
+    @NotBlank
+    @Schema(description = "新聞原始連結 URL")
     private String url;
-    private long publishedAt;   // 發布時間
-    private List<MacroFactor> tags; // 閱讀新聞邏輯架構分類
+
+    @NotNull
+    @Min(0)
+    @Schema(description = "發布時間（Unix 時間戳記，毫秒）")
+    private long publishedAt;
+
+    @NotNull(message = "分類不能為空")
+    @Size(min = 1, message = "至少選擇一個分類")
+    @Schema(description = "新聞分類 (如：OIL_PRICE、INFLATION、ECONOMY")
+    private List<MacroFactor> tags;
+
+    @Schema(description = "建立時間（Unix 時間戳記，毫秒）")
     private long createdAt;
+
+    @Schema(description = "建立者會員 ID")
     private String memberId;
-    private String symbolId;    // 股市編號
-    private String accessRuleId;    // 指向的權限規則
-    private VisibilityType visibility;  // 前端用來傳送用
-    private List<String> selectedVisibleMembers;    // RESTRICTED 權限選擇的會員 id
-    private List<String> tagLabels;   // 用來顯示 tag 的中文字
+
+    @NotBlank
+    @Schema(description = "股市標的 ID")
+    private String symbolId;
+
+    @NotBlank
+    @Schema(description = "權限規則 ID")
+    private String accessRuleId;
+
+    @NotNull
+    @Schema(description = "可見性設定（如：PUBLIC、PRIVATE、RESTRICTED）")
+    private VisibilityType visibility;
+
+    @Schema(description = "RESTRICTED 權限下可見會員 ID 清單")
+    private List<String> selectedVisibleMembers;
+
+    @Schema(description = "Tag 的中文標籤，用於顯示用途")
+    private List<String> tagLabels;
+
+    @Schema(description = "是否啟用同步功能")
     private boolean syncEnabled;
 
     public List<String> getTagLabels() {
