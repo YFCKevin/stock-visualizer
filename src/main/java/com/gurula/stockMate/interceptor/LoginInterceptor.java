@@ -36,13 +36,22 @@ public class LoginInterceptor implements HandlerInterceptor{
         String method = request.getMethod();
         logger.info("Request URL: " + requestURI + ", Method: " + method);
 
-        // 從 cookie 中取的 token
+        // 1. 從 Cookie 取得 Bearer Token
         String token = Optional.ofNullable(request.getCookies())
                 .flatMap(cookies -> Arrays.stream(cookies)
                         .filter(cookie -> "JWT_TOKEN".equals(cookie.getName()))
                         .map(Cookie::getValue)
                         .findFirst())
                 .orElse(null);
+
+        // 2. 若 Cookie 沒有，從 Authorization header 嘗試取得 Bearer Token
+        if (token == null) {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
+            }
+        }
+
         System.out.println("token = " + token);
 
         // 取出 token 內的 memberId
