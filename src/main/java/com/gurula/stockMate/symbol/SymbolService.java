@@ -14,4 +14,6 @@ public interface SymbolService {
     Result<String, String> saveAll(List<SymbolDTO> symbolDTOList);
 
     Optional<Symbol> findById(String symbolId);
+
+    List<Symbol> search(String name);
 }

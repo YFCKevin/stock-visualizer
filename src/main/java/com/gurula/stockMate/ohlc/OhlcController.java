@@ -5,15 +5,21 @@ import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.symbol.Symbol;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@Hidden
+import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
+
 @RestController
 @RequestMapping("/ohlc")
+@Tag(name = "OHLC API", description = "股價與成交量資訊")
+@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 public class OhlcController {
     private final OhlcService ohlcService;
 
@@ -21,6 +27,7 @@ public class OhlcController {
         this.ohlcService = ohlcService;
     }
 
+    @Operation(summary = "取得股票的股價與成交量資料")
     @GetMapping("/{symbolName}/{interval}")
     public ResponseEntity<?> loadOhlcData(
             @PathVariable(name = "symbolName") String symbolName,
@@ -31,7 +38,7 @@ public class OhlcController {
         return ResponseEntity.ok(ohlcDataDTOList);
     }
 
-
+    @Hidden
     @PostMapping("/admin/aggregate/{type}")
     public ResponseEntity<?> generateAggregatedOhlcData(@PathVariable String type, @RequestBody List<String> symbols) {
         final Member member = MemberContext.getMember();

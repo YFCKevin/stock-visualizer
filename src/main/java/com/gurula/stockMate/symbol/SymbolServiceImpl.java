@@ -9,11 +9,14 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SymbolServiceImpl implements SymbolService {
     private final SymbolRepository symbolRepository;
     private final OhlcRepository ohlcRepository;
+    private final MongoTemplate mongoTemplate;
 
-    public SymbolServiceImpl(SymbolRepository symbolRepository, OhlcRepository ohlcRepository) {
+    public SymbolServiceImpl(SymbolRepository symbolRepository, OhlcRepository ohlcRepository, MongoTemplate mongoTemplate) {
         this.symbolRepository = symbolRepository;
         this.ohlcRepository = ohlcRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @Override
@@ -109,5 +114,18 @@ public class SymbolServiceImpl implements SymbolService {
     @Override
     public Optional<Symbol> findById(String symbolId) {
         return symbolRepository.findById(symbolId);
+    }
+
+    @Override
+    public List<Symbol> search(String name) {
+        Criteria criteria = new Criteria().orOperator(
+                Criteria.where("symbol").regex(name, "i"),
+                Criteria.where("name").regex(name, "i"),
+                Criteria.where("market").regex(name, "i")
+        );
+
+        Query query = new Query(criteria);
+
+        return mongoTemplate.find(query, Symbol.class);
     }
 }

@@ -13,6 +13,7 @@ import com.gurula.stockMate.symbol.SymbolService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
+
 @RestController
 @RequestMapping("/layout")
 @Tag(name = "Layout API", description = "股市版面")
+@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 public class LayoutController {
     private final LayoutService layoutService;
     private final OhlcService ohlcService;

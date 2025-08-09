@@ -1,6 +1,7 @@
 package com.gurula.stockMate.member;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
+
 @RestController
 @RequestMapping("/member")
 @Tag(name = "Member API", description = "會員")
+@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 public class MemberController {
     private final MemberService memberService;
 

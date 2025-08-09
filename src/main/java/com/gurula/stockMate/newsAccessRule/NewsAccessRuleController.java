@@ -7,6 +7,7 @@ import com.gurula.stockMate.note.Note;
 import com.gurula.stockMate.note.NoteDTO;
 import com.gurula.stockMate.oauth.Role;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,9 +18,12 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
+
 @RestController
 @RequestMapping("/news/rule")
 @Tag(name = "News Access Rule API", description = "新聞權限規則")
+@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 public class NewsAccessRuleController {
     private final NewsAccessRuleService newsAccessRuleService;
 

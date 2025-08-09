@@ -1,12 +1,10 @@
 package com.gurula.stockMate.config;
 
 import com.gurula.stockMate.interceptor.LoginInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -37,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/callback"
                 )
                 .excludePathPatterns("/admin/**")
-                .excludePathPatterns("/css/**", "/js/**", "/img/**", "/images/**", "/webfonts/**", "/fonts/**", "/file/**", "/image/**");
+                .excludePathPatterns("/css/**", "/js/**", "/img/**", "/images/**", "/webfonts/**", "/fonts/**", "/file/**", "/image/**", "/v3/api-docs/**", "/swagger-ui/**");
     }
 
     @Override

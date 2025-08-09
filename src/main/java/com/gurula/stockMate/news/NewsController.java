@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
+
 @RestController
 @RequestMapping("/news")
 @Tag(name = "News API", description = "新聞")
+@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 public class NewsController {
     private final NewsService newsService;
 

@@ -4,6 +4,8 @@ import com.gurula.stockMate.config.ConfigProperties;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
+
 @RestController
+@Tag(name = "Upload Image API", description = "上傳圖片")
+@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 public class UploadController {
     private final ConfigProperties configProperties;
 
