@@ -1,5 +1,6 @@
 package com.gurula.stockMate.note;
 
+import com.gurula.stockMate.note.dto.NoteDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

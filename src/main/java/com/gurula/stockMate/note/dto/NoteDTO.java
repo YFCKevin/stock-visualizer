@@ -1,5 +1,6 @@
-package com.gurula.stockMate.note;
+package com.gurula.stockMate.note.dto;
 
+import com.gurula.stockMate.note.Note;
 import com.gurula.stockMate.study.VersionType;
 
 import java.util.List;

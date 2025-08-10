@@ -1,8 +1,7 @@
 package com.gurula.stockMate.layout;
 
 import com.gurula.stockMate.exception.Result;
-import com.gurula.stockMate.layout.dto.LayoutDTO;
-import com.gurula.stockMate.layout.dto.LayoutSummaryDTO;
+import com.gurula.stockMate.layout.dto.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -12,9 +11,9 @@ public interface LayoutService {
 
     List<LayoutSummaryDTO> search(String memberId, String keyword);
 
-    Result<Layout, String> save(LayoutDTO layoutDTO);
+    Result<Layout, String> save(StoredLayoutDTO layoutDTO);
 
-    Result<Layout, String> edit(LayoutDTO layoutDTO);
+    Result<Layout, String> edit(EditLayoutDTO layoutDTO);
 
     Result<String, String> delete(String id);
 

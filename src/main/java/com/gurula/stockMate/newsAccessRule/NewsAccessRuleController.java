@@ -3,12 +3,15 @@ package com.gurula.stockMate.newsAccessRule;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
-import com.gurula.stockMate.note.Note;
-import com.gurula.stockMate.note.NoteDTO;
+import com.gurula.stockMate.newsAccessRule.dto.CreatedNewsAccessRuleDTO;
+import com.gurula.stockMate.newsAccessRule.dto.EditNewsAccessRuleDTO;
+import com.gurula.stockMate.newsAccessRule.dto.NewsAccessRuleDTO;
 import com.gurula.stockMate.oauth.Role;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +36,7 @@ public class NewsAccessRuleController {
 
     @Operation(summary = "新增一筆新聞權限規則")
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody NewsAccessRuleDTO ruleDTO) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreatedNewsAccessRuleDTO ruleDTO) {
         final Member member = MemberContext.getMember();
         ruleDTO.setCreatedBy(member.getId());
 
@@ -55,7 +58,7 @@ public class NewsAccessRuleController {
 
     @Operation(summary = "修改一筆新聞權限規則")
     @PutMapping
-    public ResponseEntity<?> edit(@RequestBody NewsAccessRuleDTO ruleDTO) {
+    public ResponseEntity<?> edit(@Valid @RequestBody EditNewsAccessRuleDTO ruleDTO) {
         final Member member = MemberContext.getMember();
         ruleDTO.setCreatedBy(member.getId());
 
@@ -109,7 +112,10 @@ public class NewsAccessRuleController {
 
     @Operation(summary = "取得一筆新聞權限規則")
     @GetMapping("/{ruleId}")
-    public ResponseEntity<?> getOne(@PathVariable(name = "ruleId") String ruleId) {
+    public ResponseEntity<?> getOne(
+            @Parameter(description = "要查詢的rule ID")
+            @PathVariable(name = "ruleId") String ruleId
+    ) {
         final Member member = MemberContext.getMember();
 
         Result<NewsAccessRuleDTO, String> result = newsAccessRuleService.findById(ruleId);
@@ -131,7 +137,10 @@ public class NewsAccessRuleController {
 
     @Operation(summary = "刪除一筆新聞權限規則")
     @DeleteMapping("/{ruleId}")
-    public ResponseEntity<?> delete(@PathVariable(name = "ruleId") String ruleId) {
+    public ResponseEntity<?> delete(
+            @Parameter(description = "要刪除的rule ID")
+            @PathVariable(name = "ruleId") String ruleId
+    ) {
         final Member member = MemberContext.getMember();
 
         Result<String, String> result = newsAccessRuleService.deleteRule(member.getId(), ruleId);

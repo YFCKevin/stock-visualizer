@@ -464,13 +464,17 @@ function loadData() {
       let _this = this;
 
       let data = {
-        id: this.editNewsId,
         title: this.newsTitle,
         tags: this.newsTags,
         url: this.newsUrl,
         publishedAt: new Date(this.newsPublishedAt).getTime(),
-        accessRuleId: this.accessRuleId
+        accessRuleId: this.accessRuleId,
+        symbol: this.symbolName
       };
+
+      if (this.editNewsId) {
+        data.id = this.editNewsId;
+      }
 
       // 判斷是否編輯
       const isEdit = this.editNewsId && this.editNewsId.trim() !== "";

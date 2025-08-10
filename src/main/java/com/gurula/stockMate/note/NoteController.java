@@ -3,11 +3,15 @@ package com.gurula.stockMate.note;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
+import com.gurula.stockMate.note.dto.CreatedNoteDTO;
+import com.gurula.stockMate.note.dto.EditTitleNoteDTO;
+import com.gurula.stockMate.note.dto.NoteDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +37,7 @@ public class NoteController {
 
     @Operation(summary = "儲存筆記")
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody NoteDTO noteDTO) {
+    public ResponseEntity<?> save(@Valid @RequestBody CreatedNoteDTO noteDTO) {
         final Member member = MemberContext.getMember();
         noteDTO.setMemberId(member.getId());
 
@@ -74,7 +78,10 @@ public class NoteController {
      */
     @Operation(summary = "查詢每個版面的所有筆記")
     @GetMapping("/layout/{layoutId}")
-    public ResponseEntity<?> findByLayoutId(@PathVariable(name = "layoutId") String layoutId) {
+    public ResponseEntity<?> findByLayoutId(
+            @Parameter(description = "指定的layout ID")
+            @PathVariable(name = "layoutId") String layoutId
+    ) {
         final Member member = MemberContext.getMember();
 
         try {
@@ -102,7 +109,10 @@ public class NoteController {
 
     @Operation(summary = "查詢一則筆記內容")
     @GetMapping("/{noteId}")
-    public ResponseEntity<?> getNoteById(@PathVariable(name = "noteId") String noteId) {
+    public ResponseEntity<?> getNoteById(
+            @Parameter(description = "要查詢的note ID")
+            @PathVariable(name = "noteId") String noteId
+    ) {
         final Member member = MemberContext.getMember();
 
         try {
@@ -129,7 +139,10 @@ public class NoteController {
 
     @Operation(summary = "刪除筆記")
     @DeleteMapping("/{noteId}")
-    public ResponseEntity<?> delete(@PathVariable(name = "noteId") String noteId) {
+    public ResponseEntity<?> delete(
+            @Parameter(description = "要刪除的note ID")
+            @PathVariable(name = "noteId") String noteId
+    ) {
         final Member member = MemberContext.getMember();
         Map<String, Object> response = new HashMap<>();
 
@@ -167,7 +180,7 @@ public class NoteController {
 
     @Operation(summary = "修改筆記標題")
     @PatchMapping
-    public ResponseEntity<?> editTitle(@RequestBody NoteDTO noteDTO) {
+    public ResponseEntity<?> editTitle(@Valid @RequestBody EditTitleNoteDTO noteDTO) {
         final Member member = MemberContext.getMember();
         noteDTO.setMemberId(member.getId());
 

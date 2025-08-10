@@ -1,6 +1,8 @@
 package com.gurula.stockMate.news;
 
 import com.gurula.stockMate.exception.Result;
+import com.gurula.stockMate.news.dto.CreatedNewsDTO;
+import com.gurula.stockMate.news.dto.EditNewsDTO;
 import com.gurula.stockMate.newsAccessRule.NewsAccessRule;
 import com.gurula.stockMate.newsAccessRule.NewsAccessRuleRepository;
 import com.gurula.stockMate.newsAccessRule.VisibilityType;
@@ -27,7 +29,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional
-    public Result<News, String> save(NewsDTO newsDTO) {
+    public Result<News, String> save(CreatedNewsDTO newsDTO) {
         try {
             final News saved = newsRepository.save(newsDTO.toEntity());
             return Result.ok(saved);
@@ -107,7 +109,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Result<News, String> edit(NewsDTO newsDTO) {
+    public Result<News, String> edit(EditNewsDTO newsDTO) {
         try {
             final String newsId = newsDTO.getId();
             final String memberId = newsDTO.getMemberId();

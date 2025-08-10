@@ -3,6 +3,8 @@ package com.gurula.stockMate.news;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
+import com.gurula.stockMate.news.dto.CreatedNewsDTO;
+import com.gurula.stockMate.news.dto.EditNewsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,11 +41,11 @@ public class NewsController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "新聞資料",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = NewsDTO.class))
+                    content = @Content(schema = @Schema(implementation = CreatedNewsDTO.class))
             )
     )
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody NewsDTO newsDTO) {
+    public ResponseEntity<?> save(@Valid @RequestBody CreatedNewsDTO newsDTO) {
         final Member member = MemberContext.getMember();
         newsDTO.setMemberId(member.getId());
 
@@ -77,11 +79,11 @@ public class NewsController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "新聞資料",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = NewsDTO.class))
+                    content = @Content(schema = @Schema(implementation = EditNewsDTO.class))
             )
     )
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit(@RequestBody NewsDTO newsDTO) {
+    public ResponseEntity<?> edit(@RequestBody EditNewsDTO newsDTO) {
         final Member member = MemberContext.getMember();
         newsDTO.setMemberId(member.getId());
 
@@ -137,7 +139,10 @@ public class NewsController {
 
     @Operation(summary = "刪除新聞")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteNews(@PathVariable(name = "id") String id) {
+    public ResponseEntity<?> deleteNews(
+            @Parameter(description = "要刪除的news ID")
+            @PathVariable(name = "id") String id
+    ) {
         final Member member = MemberContext.getMember();
         Map<String, Object> response = new HashMap<>();
 
@@ -179,7 +184,10 @@ public class NewsController {
 
     @Operation(summary = "取得單一則新聞資訊")
     @GetMapping("/{newsId}")
-    public ResponseEntity<?> getNewsById(@PathVariable String newsId) {
+    public ResponseEntity<?> getNewsById(
+            @Parameter(description = "要查詢的news ID")
+            @PathVariable String newsId
+    ) {
         final Member member = MemberContext.getMember();
 
         try {

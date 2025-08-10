@@ -1,22 +1,22 @@
-package com.gurula.stockMate.newsAccessRule;
+package com.gurula.stockMate.newsAccessRule.dto;
 
-import com.gurula.stockMate.newsAccessRule.dto.NewsAccessRuleDTO;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.gurula.stockMate.member.Member;
+import com.gurula.stockMate.newsAccessRule.NewsAccessRule;
+import com.gurula.stockMate.newsAccessRule.VisibilityType;
 
+import java.util.List;
 import java.util.Set;
 
-@Document(collection = "news_access_rule")
-public class NewsAccessRule {
-    @Id
+public class NewsAccessRuleDTO {
     private String id;
     private String ruleName;                      // 權限規則名稱，如「只給好友看」、「所有人可見」
     private VisibilityType visibility;            // PUBLIC, PRIVATE, RESTRICTED, GROUP
     private Set<String> visibleToMemberIds;      // visibility = RESTRICTED 時使用
     private Set<String> visibleToGroupIds;       // 支援群組
     private Set<String> visibleToRoleIds;        // 支援角色
-    private String createdBy;                     // memberId
+    private String createdBy;                    // memberId
     private long createdAt;
+    private List<Member> visibleToMember;        // 用來前端顯示會員資料
 
     public String getId() {
         return id;
@@ -82,16 +82,24 @@ public class NewsAccessRule {
         this.createdAt = createdAt;
     }
 
-    public NewsAccessRuleDTO toDto() {
-        NewsAccessRuleDTO dto = new NewsAccessRuleDTO();
-        dto.setId(this.id);
-        dto.setRuleName(this.ruleName);
-        dto.setVisibility(this.visibility);
-        dto.setVisibleToMemberIds(this.visibleToMemberIds);
-        dto.setVisibleToGroupIds(this.visibleToGroupIds);
-        dto.setVisibleToRoleIds(this.visibleToRoleIds);
-        dto.setCreatedBy(this.createdBy);
-        dto.setCreatedAt(this.createdAt);
-        return dto;
+    public List<Member> getVisibleToMember() {
+        return visibleToMember;
+    }
+
+    public void setVisibleToMember(List<Member> visibleToMember) {
+        this.visibleToMember = visibleToMember;
+    }
+
+    protected NewsAccessRule toEntity() {
+        NewsAccessRule entity = new NewsAccessRule();
+        entity.setId(this.id);
+        entity.setRuleName(this.ruleName);
+        entity.setVisibility(this.visibility);
+        entity.setVisibleToMemberIds(this.visibleToMemberIds);
+        entity.setVisibleToGroupIds(this.visibleToGroupIds);
+        entity.setVisibleToRoleIds(this.visibleToRoleIds);
+        entity.setCreatedBy(this.createdBy);
+        entity.setCreatedAt(System.currentTimeMillis());
+        return entity;
     }
 }

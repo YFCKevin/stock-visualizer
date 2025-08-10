@@ -1,8 +1,7 @@
 package com.gurula.stockMate.layout;
 
 import com.gurula.stockMate.exception.Result;
-import com.gurula.stockMate.layout.dto.LayoutDTO;
-import com.gurula.stockMate.layout.dto.LayoutSummaryDTO;
+import com.gurula.stockMate.layout.dto.*;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.ohlc.OhlcData;
@@ -15,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -73,7 +73,7 @@ public class LayoutController {
 
     @PostMapping
     @Operation(summary = "新增一個股市版面")
-    public ResponseEntity<?> create(@RequestBody LayoutDTO layoutDTO) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreatedLayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
         final String symbolName = layoutDTO.getSymbol();
         final String interval = layoutDTO.getInterval();
@@ -176,7 +176,7 @@ public class LayoutController {
 
     @Operation(summary = "儲存股市版面")
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody LayoutDTO layoutDTO) {
+    public ResponseEntity<?> save(@Valid @RequestBody StoredLayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
         layoutDTO.setMemberId(member.getId());
 
@@ -201,7 +201,7 @@ public class LayoutController {
 
     @Operation(summary = "修改股市版面")
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit(@RequestBody LayoutDTO layoutDTO) {
+    public ResponseEntity<?> edit(@Valid @RequestBody EditLayoutDTO layoutDTO) {
         final Member member = MemberContext.getMember();
         layoutDTO.setMemberId(member.getId());
 
@@ -227,7 +227,10 @@ public class LayoutController {
 
     @Operation(summary = "刪除股市版面")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") String id) {
+    public ResponseEntity<?> delete(
+            @Parameter(description = "要刪除的layout ID")
+            @PathVariable(name = "id") String id
+    ) {
         final Member member = MemberContext.getMember();
         Map<String, Object> response = new HashMap<>();
 
@@ -267,7 +270,10 @@ public class LayoutController {
 
     @Operation(summary = "複製股市版面")
     @PostMapping("/copy/{layoutId}")
-    public ResponseEntity<?> copy(@PathVariable(name = "layoutId") String layoutId) {
+    public ResponseEntity<?> copy(
+            @Parameter(description = "要複製的layout ID")
+            @PathVariable(name = "layoutId") String layoutId
+    ) {
         final Member member = MemberContext.getMember();
 
         try {

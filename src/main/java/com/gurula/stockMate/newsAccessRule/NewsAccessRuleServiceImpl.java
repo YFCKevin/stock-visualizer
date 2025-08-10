@@ -3,6 +3,9 @@ package com.gurula.stockMate.newsAccessRule;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.member.Member;
 import com.gurula.stockMate.member.MemberRepository;
+import com.gurula.stockMate.newsAccessRule.dto.CreatedNewsAccessRuleDTO;
+import com.gurula.stockMate.newsAccessRule.dto.EditNewsAccessRuleDTO;
+import com.gurula.stockMate.newsAccessRule.dto.NewsAccessRuleDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +24,7 @@ public class NewsAccessRuleServiceImpl implements NewsAccessRuleService {
     }
 
     @Override
-    public Result<NewsAccessRuleDTO, String> save(NewsAccessRuleDTO ruleDTO) {
+    public Result<NewsAccessRuleDTO, String> save(CreatedNewsAccessRuleDTO ruleDTO) {
         try {
             final NewsAccessRule rule = ruleDTO.toEntity();
             final NewsAccessRule saved = newsAccessRuleRepository.save(rule);
@@ -98,7 +101,7 @@ public class NewsAccessRuleServiceImpl implements NewsAccessRuleService {
     }
 
     @Override
-    public Result<NewsAccessRuleDTO, String> edit(NewsAccessRuleDTO ruleDTO) {
+    public Result<NewsAccessRuleDTO, String> edit(EditNewsAccessRuleDTO ruleDTO) {
         try {
             Optional<NewsAccessRule> optionalRule = newsAccessRuleRepository.findById(ruleDTO.getId());
 

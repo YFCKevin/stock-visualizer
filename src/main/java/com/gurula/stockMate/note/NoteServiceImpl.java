@@ -1,6 +1,8 @@
 package com.gurula.stockMate.note;
 
 import com.gurula.stockMate.exception.Result;
+import com.gurula.stockMate.note.dto.CreatedNoteDTO;
+import com.gurula.stockMate.note.dto.EditTitleNoteDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @Transactional
-    public Result<Note, String> save(NoteDTO noteDTO) {
+    public Result<Note, String> save(CreatedNoteDTO noteDTO) {
         try {
             final Note saved = noteRepository.save(noteDTO.toEntity());
             return Result.ok(saved);
@@ -34,7 +36,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @Transactional
-    public Result<Note, String> edit(NoteDTO noteDTO) {
+    public Result<Note, String> edit(CreatedNoteDTO noteDTO) {
         try {
             final Optional<Note> opt = noteRepository.findById(noteDTO.getId());
             if (opt.isEmpty()) {
@@ -104,7 +106,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     @Transactional
-    public Result<Note, String> editTitle(NoteDTO noteDTO) {
+    public Result<Note, String> editTitle(EditTitleNoteDTO noteDTO) {
         try {
             final Optional<Note> opt = noteRepository.findByIdAndMemberId(noteDTO.getId(), noteDTO.getMemberId());
             if (opt.isEmpty()) {
@@ -112,6 +114,7 @@ public class NoteServiceImpl implements NoteService {
             } else {
                 final Note note = opt.get();
                 note.setTitle(noteDTO.getTitle());
+                note.setUpdatedAt(System.currentTimeMillis());
                 final Note saved = noteRepository.save(note);
                 return Result.ok(saved);
             }

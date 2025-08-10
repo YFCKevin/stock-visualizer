@@ -1,10 +1,9 @@
 package com.gurula.stockMate.layout;
 
 import cn.hutool.core.lang.Opt;
+import com.gurula.stockMate.layout.dto.*;
 import com.gurula.stockMate.ohlc.IntervalType;
 import com.gurula.stockMate.exception.Result;
-import com.gurula.stockMate.layout.dto.LayoutDTO;
-import com.gurula.stockMate.layout.dto.LayoutSummaryDTO;
 import com.gurula.stockMate.symbol.Symbol;
 import com.gurula.stockMate.symbol.SymbolRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -112,7 +111,7 @@ public class LayoutServiceImpl implements LayoutService {
 
     @Override
     @Transactional
-    public Result<Layout, String> save(LayoutDTO layoutDTO) {
+    public Result<Layout, String> save(StoredLayoutDTO layoutDTO) {
         try {
             final Symbol symbol = symbolRepository.findBySymbol(layoutDTO.getSymbol()).get();
             Layout saved = layoutRepository.save(layoutDTO.toEntity(symbol));
@@ -125,7 +124,7 @@ public class LayoutServiceImpl implements LayoutService {
 
     @Override
     @Transactional
-    public Result<Layout, String> edit(LayoutDTO layoutDTO) {
+    public Result<Layout, String> edit(EditLayoutDTO layoutDTO) {
         try {
             Optional<Layout> optionalLayout = layoutRepository.findById(layoutDTO.getId());
 

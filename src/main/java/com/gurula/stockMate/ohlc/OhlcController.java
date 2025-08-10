@@ -6,6 +6,7 @@ import com.gurula.stockMate.member.MemberContext;
 import com.gurula.stockMate.symbol.Symbol;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,9 @@ public class OhlcController {
     @Operation(summary = "取得股票的股價與成交量資料")
     @GetMapping("/{symbolName}/{interval}")
     public ResponseEntity<?> loadOhlcData(
+            @Parameter(description = "股票代號", example = "2317.TW", required = true)
             @PathVariable(name = "symbolName") String symbolName,
+            @Parameter(description = "股票圖表的時間週期（日、週、月等）", example = "1d", required = true)
             @PathVariable(name = "interval") String interval
     ) {
         final Member member = MemberContext.getMember();
