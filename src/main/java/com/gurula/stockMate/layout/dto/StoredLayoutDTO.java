@@ -6,9 +6,6 @@ import com.gurula.stockMate.symbol.Symbol;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,18 +18,18 @@ public class StoredLayoutDTO {
     @Schema(description = "版面配置描述", example = "這是我的自訂股票儀表板")
     private String desc;
 
-    @NotBlank
+    @NotBlank(message = "版面名稱不得為空")
     @Schema(description = "版面名稱", example = "我的投資儀表板", required = true)
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "股票圖表的時間週期不得為空")
     @Schema(description = "股票圖表的時間週期（日、週、月等）", example = "1d", required = true)
     private String interval;
 
     @Schema(description = "使用者的自訂設定")
     private Map<String, Object> userSettings = new HashMap<>();
 
-    @NotBlank
+    @NotBlank(message = "股票 ID 不得為空")
     @Schema(description = "股票 ID", required = true)
     private String symbol;
 

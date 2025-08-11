@@ -9,11 +9,11 @@ import com.gurula.stockMate.news.News;
 import com.gurula.stockMate.news.NewsDTO;
 import com.gurula.stockMate.news.NewsRepository;
 import com.gurula.stockMate.note.Note;
-import com.gurula.stockMate.note.NoteDTO;
+import com.gurula.stockMate.note.dto.NoteDTO;
 import com.gurula.stockMate.note.NoteRepository;
 import com.gurula.stockMate.symbol.Symbol;
 import com.gurula.stockMate.symbol.SymbolRepository;
-import java.io.PrintStream;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;

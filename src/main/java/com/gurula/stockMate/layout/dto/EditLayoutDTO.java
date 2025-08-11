@@ -1,6 +1,7 @@
 package com.gurula.stockMate.layout.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -11,6 +12,7 @@ import java.util.Map;
 @Schema(description = "使用者修改的版面配置資料")
 public class EditLayoutDTO {
 
+    @NotBlank(message = "layout ID 不得為空")
     @Schema(description = "layout ID")
     private String id;
 

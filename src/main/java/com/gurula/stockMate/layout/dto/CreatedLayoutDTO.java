@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 @Schema(description = "使用者建立的版面配置資料")
 public class CreatedLayoutDTO {
 
-    @NotBlank
+    @NotBlank(message = "股票圖表的時間週期不得為空")
     @Schema(description = "股票圖表的時間週期（日、週、月等）", example = "1d", required = true)
     private String interval;
 
-    @NotBlank
+    @NotBlank(message = "股票代號不得為空")
     @Schema(description = "股票代號", required = true)
     private String symbol;
 

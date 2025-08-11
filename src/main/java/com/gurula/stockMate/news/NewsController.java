@@ -83,7 +83,7 @@ public class NewsController {
             )
     )
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit(@RequestBody EditNewsDTO newsDTO) {
+    public ResponseEntity<?> edit(@Valid @RequestBody EditNewsDTO newsDTO) {
         final Member member = MemberContext.getMember();
         newsDTO.setMemberId(member.getId());
 

@@ -14,6 +14,9 @@ import java.util.Set;
 @ValidVisibility
 @Schema(description = "使用者修改的新聞權限規則配置資料")
 public class EditNewsAccessRuleDTO {
+
+    @NotBlank(message = "權限規則 ID 不能為空")
+    @Schema(description = "要修改的權限規則 ID", required = true)
     private String id;
     @NotBlank(message = "權限規則名稱不能為空")
     @Schema(description = "權限規則名稱", example = "只給好友看", required = true)

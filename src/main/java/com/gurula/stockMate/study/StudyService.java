@@ -3,7 +3,7 @@ package com.gurula.stockMate.study;
 import com.gurula.stockMate.exception.Result;
 import com.gurula.stockMate.layout.dto.LayoutSummaryDTO;
 import com.gurula.stockMate.news.News;
-import com.gurula.stockMate.note.NoteDTO;
+import com.gurula.stockMate.note.dto.NoteDTO;
 import java.util.List;
 
 public interface StudyService {
