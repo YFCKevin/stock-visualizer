@@ -11,4 +11,6 @@ public interface NoteRepository extends MongoRepository<Note, String> {
     List<Note> findByIdInAndMemberId(List<String> noteIds, String memberId);
 
     Optional<Note> findByIdAndMemberId(String noteId, String memberId);
+
+    List<Note> findByMemberId(String memberId);
 }

@@ -12,4 +12,6 @@ public interface NewsRepository extends MongoRepository<News, String> {
     Optional<News> findByIdAndMemberId(String newsId, String memberId);
 
     List<News> findByPublishedAt(long date);
+
+    List<News> findByMemberId(String memberId);
 }

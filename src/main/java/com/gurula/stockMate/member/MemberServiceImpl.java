@@ -1,5 +1,9 @@
 package com.gurula.stockMate.member;
 
+import com.gurula.stockMate.news.News;
+import com.gurula.stockMate.news.NewsRepository;
+import com.gurula.stockMate.note.Note;
+import com.gurula.stockMate.note.NoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +12,15 @@ import java.util.Optional;
 @Service
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
+    private final NoteRepository noteRepository;
+    private final NewsRepository newsRepository;
 
-    public MemberServiceImpl(MemberRepository memberRepository) {
+    public MemberServiceImpl(MemberRepository memberRepository,
+                             NoteRepository noteRepository,
+                             NewsRepository newsRepository) {
         this.memberRepository = memberRepository;
+        this.noteRepository = noteRepository;
+        this.newsRepository = newsRepository;
     }
 
     @Override
@@ -42,5 +52,15 @@ public class MemberServiceImpl implements MemberService{
             dto.setId(member.getId());
             return dto;
         }).toList();
+    }
+
+    @Override
+    public List<Note> getNotes(String memberId) {
+        return noteRepository.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<News> getNews(String memberId) {
+        return newsRepository.findByMemberId(memberId);
     }
 }

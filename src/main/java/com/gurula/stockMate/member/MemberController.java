@@ -1,5 +1,10 @@
 package com.gurula.stockMate.member;
 
+import com.gurula.stockMate.member.dto.MemberDTO;
+import com.gurula.stockMate.news.News;
+import com.gurula.stockMate.news.NewsDTO;
+import com.gurula.stockMate.note.Note;
+import com.gurula.stockMate.note.dto.NoteDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static com.gurula.stockMate.config.OpenApiConfig.SECURITY_SCHEME_NAME;
 
@@ -51,5 +55,23 @@ public class MemberController {
         List<MemberShortDTO> members = this.memberService.findAll();
         members = members.stream().filter(m -> !m.getId().equals(member.getId())).toList();
         return ResponseEntity.ok(members);
+    }
+
+    @Operation(summary = "取得會員的所有筆記")
+    @GetMapping("/notes")
+    public ResponseEntity<?> getAllNotes() {
+        final Member member = MemberContext.getMember();
+        List<Note> notes = memberService.getNotes(member.getId());
+        final List<NoteDTO> noteDTOList = notes.stream().map(Note::toDto).toList();
+        return ResponseEntity.ok(noteDTOList);
+    }
+
+    @Operation(summary = "取得會員的所有新聞")
+    @GetMapping("/news")
+    public ResponseEntity<?> getAllNews() {
+        final Member member = MemberContext.getMember();
+        List<News> news = memberService.getNews(member.getId());
+        final List<NewsDTO> newsDTOList = news.stream().map(News::toDto).toList();
+        return ResponseEntity.ok(newsDTOList);
     }
 }

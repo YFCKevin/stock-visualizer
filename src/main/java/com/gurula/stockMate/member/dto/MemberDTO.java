@@ -1,5 +1,6 @@
-package com.gurula.stockMate.member;
+package com.gurula.stockMate.member.dto;
 
+import com.gurula.stockMate.member.Provider;
 import com.gurula.stockMate.oauth.Role;
 
 import java.util.List;
