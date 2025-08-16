@@ -1,11 +1,12 @@
 server:
-  port: 8087
+#  port: 8087
   servlet:
     contextPath: /stock
     encoding:
       charset: UTF-8
       enabled: true
       force: true
+  forward-headers-strategy: framework
 spring:
   servlet:
     multipart:
@@ -16,7 +17,7 @@ spring:
     static-locations: file:/opt/stock/static/
   data:
     mongodb:
-      uri: mongodb+srv://${db-username}:${mongo-db-password}@gurula.y2btcof.mongodb.net/?retryWrites=true&w=majority&appName=gurula
+      uri: mongodb+srv://${db-username}:${mongo-db-password}@cluster0.ch4qx5m.mongodb.net/?retryWrites=true&w=majority&appName=gurula
 
   cache:
     type: redis
@@ -51,6 +52,12 @@ spring:
             token-uri: https://api.line.me/oauth2/v2.1/token
             user-info-uri: https://api.line.me/v2/profile
             user-name-attribute: userId
+
+springdoc:
+  swagger-ui:
+    url: /v3/api-docs
+  server:
+    url: https://gurula.cc
 
 logging:
   level:
